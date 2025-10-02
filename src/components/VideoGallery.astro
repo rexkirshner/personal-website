@@ -20,20 +20,20 @@ const sortedVideos = [...videos].sort((a, b) => b.order - a.order);
 
 <div class="video-gallery">
   <!-- Tab Navigation -->
-  <div class="flex justify-center gap-4 mb-8 border-b border-gray-200">
-    <button class="tab-button active px-6 py-3 font-semibold border-b-2 border-blue-600 text-blue-600" data-tab="featured">
+  <div class="flex flex-wrap justify-center gap-2 sm:gap-4 mb-8 border-b border-gray-200">
+    <button class="tab-button active px-3 sm:px-6 py-3 font-semibold border-b-2 border-blue-600 text-blue-600 text-sm sm:text-base" data-tab="featured">
       Featured
     </button>
-    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900" data-tab="stories">
+    <button class="tab-button px-3 sm:px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 text-sm sm:text-base" data-tab="stories">
       Stories
     </button>
-    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900" data-tab="year-reviews">
+    <button class="tab-button px-3 sm:px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 text-sm sm:text-base" data-tab="year-reviews">
       Year in Review
     </button>
-    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900" data-tab="running">
+    <button class="tab-button px-3 sm:px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 text-sm sm:text-base" data-tab="running">
       Running
     </button>
-    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900" data-tab="all">
+    <button class="tab-button px-3 sm:px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 text-sm sm:text-base" data-tab="all">
       All Videos
     </button>
   </div>
