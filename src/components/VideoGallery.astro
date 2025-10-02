@@ -20,20 +20,32 @@ const sortedVideos = [...videos].sort((a, b) => b.order - a.order);
 
 <div class="video-gallery">
   <!-- Tab Navigation -->
-  <div class="flex flex-wrap justify-center gap-2 sm:gap-4 mb-8 border-b border-gray-200">
-    <button class="tab-button active px-3 sm:px-6 py-3 font-semibold border-b-2 border-blue-600 text-blue-600 text-sm sm:text-base" data-tab="featured">
+  <!-- Mobile: Dropdown selector -->
+  <div class="md:hidden mb-8">
+    <select class="tab-select w-full px-4 py-3 font-semibold border border-gray-300 rounded-lg bg-white text-gray-900">
+      <option value="featured">Featured</option>
+      <option value="stories">Stories</option>
+      <option value="year-reviews">Year in Review</option>
+      <option value="running">Running</option>
+      <option value="all">All Videos</option>
+    </select>
+  </div>
+
+  <!-- Desktop: Tab buttons -->
+  <div class="hidden md:flex justify-center gap-4 mb-8 border-b border-gray-200">
+    <button class="tab-button active px-6 py-3 font-semibold border-b-2 border-blue-600 text-blue-600" data-tab="featured">
       Featured
     </button>
-    <button class="tab-button px-3 sm:px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 text-sm sm:text-base" data-tab="stories">
+    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900" data-tab="stories">
       Stories
     </button>
-    <button class="tab-button px-3 sm:px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 text-sm sm:text-base" data-tab="year-reviews">
+    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900" data-tab="year-reviews">
       Year in Review
     </button>
-    <button class="tab-button px-3 sm:px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 text-sm sm:text-base" data-tab="running">
+    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900" data-tab="running">
       Running
     </button>
-    <button class="tab-button px-3 sm:px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 text-sm sm:text-base" data-tab="all">
+    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900" data-tab="all">
       All Videos
     </button>
   </div>
@@ -286,7 +298,8 @@ const sortedVideos = [...videos].sort((a, b) => b.order - a.order);
   });
 
   // Tab filtering
-  const tabButtons = document.querySelectorAll('.tab-button');
+  const tabButtons = document.querySelectorAll('.video-gallery .tab-button');
+  const tabSelect = document.querySelector('.video-gallery .tab-select');
   const videoCards = document.querySelectorAll('.video-card');
 
   function filterVideos(category) {
@@ -298,29 +311,46 @@ const sortedVideos = [...videos].sort((a, b) => b.order - a.order);
         card.style.display = 'none';
       }
     });
+
+    // Update grid layout based on tab
+    const videoGrid = document.getElementById('video-grid');
+    if (videoGrid) {
+      videoGrid.dataset.currentTab = category;
+    }
   }
 
+  function switchTab(category) {
+    // Update button styles (desktop)
+    tabButtons.forEach(btn => {
+      btn.classList.remove('active', 'border-blue-600', 'text-blue-600');
+      btn.classList.add('border-transparent', 'text-gray-600');
+    });
+    const activeButton = document.querySelector(`.video-gallery .tab-button[data-tab="${category}"]`);
+    if (activeButton) {
+      activeButton.classList.add('active', 'border-blue-600', 'text-blue-600');
+      activeButton.classList.remove('border-transparent', 'text-gray-600');
+    }
+
+    // Filter videos
+    filterVideos(category);
+  }
+
+  // Desktop: Tab button clicks
   tabButtons.forEach(button => {
     button.addEventListener('click', () => {
-      // Update active tab styling
-      tabButtons.forEach(btn => {
-        btn.classList.remove('active', 'border-blue-600', 'text-blue-600');
-        btn.classList.add('border-transparent', 'text-gray-600');
-      });
-      button.classList.add('active', 'border-blue-600', 'text-blue-600');
-      button.classList.remove('border-transparent', 'text-gray-600');
-
-      // Filter videos
       const category = button.dataset.tab;
-      filterVideos(category);
-
-      // Update grid layout based on tab
-      const videoGrid = document.getElementById('video-grid');
-      if (videoGrid) {
-        videoGrid.dataset.currentTab = category;
-      }
+      switchTab(category);
+      // Update dropdown to match (in case user resizes window)
+      if (tabSelect) tabSelect.value = category;
     });
   });
+
+  // Mobile: Dropdown change
+  if (tabSelect) {
+    tabSelect.addEventListener('change', (e) => {
+      switchTab(e.target.value);
+    });
+  }
 
   // Show "featured" tab by default
   filterVideos('featured');

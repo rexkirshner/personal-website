@@ -148,14 +148,6 @@
       map.on('mouseleave', 'location-markers', () => {
         map.getCanvas().style.cursor = '';
       });
-
-      // Fit to bounds
-      if (data.bbox) {
-        map.fitBounds(data.bbox as [number, number, number, number], {
-          padding: 40,
-          duration: 0
-        });
-      }
     });
 
     // Store map reference for resize handling

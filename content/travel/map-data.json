@@ -14,10 +14,10 @@
     177.4162,
     69.6489
   ],
-  "defaultZoom": 2,
+  "defaultZoom": 1.2,
   "defaultCenter": [
-    9.022549999999995,
-    11.887369999999997
+    -70,
+    30
   ],
   "attribution": "Map data © OpenStreetMap contributors",
   "locations": [

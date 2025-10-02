@@ -40,7 +40,19 @@ const formatMiles = (miles: number) => {
 
 <div class="running-stats">
   <!--tabs Navigation -->
-  <div class="flex justify-center gap-4 mb-8 border-b border-gray-200 flex-wrap">
+  <!-- Mobile: Dropdown selector -->
+  <div class="md:hidden mb-8">
+    <select class="tab-select w-full px-4 py-3 font-semibold border border-gray-300 rounded-lg bg-white text-gray-900">
+      <option value="overview">Overview</option>
+      <option value="countries">By Country</option>
+      <option value="states">US States</option>
+      <option value="home-travel">Home vs Travel</option>
+      <option value="timeline">Timeline</option>
+    </select>
+  </div>
+
+  <!-- Desktop: Tab buttons -->
+  <div class="hidden md:flex justify-center gap-4 mb-8 border-b border-gray-200">
     <button class="tab-button active px-6 py-3 font-semibold border-b-2 border-blue-600 text-blue-600" data-tab="overview">
       Overview
     </button>
@@ -275,28 +287,46 @@ const formatMiles = (miles: number) => {
 
 <script>
   const tabButtons = document.querySelectorAll('.running-stats .tab-button');
+  const tabSelect = document.querySelector('.running-stats .tab-select');
   const tabContents = document.querySelectorAll('.running-stats .tab-content');
 
+  // Function to switch tabs
+  const switchTab = (targetTab) => {
+    // Update button styles (desktop)
+    tabButtons.forEach(btn => {
+      btn.classList.remove('active', 'border-blue-600', 'text-blue-600');
+      btn.classList.add('border-transparent', 'text-gray-600');
+    });
+    const activeButton = document.querySelector(`.running-stats .tab-button[data-tab="${targetTab}"]`);
+    if (activeButton) {
+      activeButton.classList.add('active', 'border-blue-600', 'text-blue-600');
+      activeButton.classList.remove('border-transparent', 'text-gray-600');
+    }
+
+    // Show/hide tab content
+    tabContents.forEach(content => {
+      if (content.id === `${targetTab}-tab`) {
+        content.classList.remove('hidden');
+      } else {
+        content.classList.add('hidden');
+      }
+    });
+  };
+
+  // Desktop: Tab button clicks
   tabButtons.forEach(button => {
     button.addEventListener('click', () => {
       const targetTab = button.dataset.tab;
-
-      // Update button styles
-      tabButtons.forEach(btn => {
-        btn.classList.remove('active', 'border-blue-600', 'text-blue-600');
-        btn.classList.add('border-transparent', 'text-gray-600');
-      });
-      button.classList.add('active', 'border-blue-600', 'text-blue-600');
-      button.classList.remove('border-transparent', 'text-gray-600');
-
-      // Show/hide tabs
-      tabContents.forEach(content => {
-        if (content.id === `${targetTab}-tab`) {
-          content.classList.remove('hidden');
-        } else {
-          content.classList.add('hidden');
-        }
-      });
+      switchTab(targetTab);
+      // Update dropdown to match (in case user resizes window)
+      if (tabSelect) tabSelect.value = targetTab;
     });
   });
+
+  // Mobile: Dropdown change
+  if (tabSelect) {
+    tabSelect.addEventListener('change', (e) => {
+      switchTab(e.target.value);
+    });
+  }
 </script>
