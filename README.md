@@ -381,3 +381,4 @@ For issues or questions, check:
 **Built with:** Astro v5 • Tailwind CSS v4 • Sharp • IPFS • ENS
 
 **Last Updated:** October 2025
+
