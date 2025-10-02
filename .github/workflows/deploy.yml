@@ -34,42 +34,32 @@ jobs:
           pinata-api-key: ${{ secrets.PINATA_API_KEY }}
           pinata-secret-api-key: ${{ secrets.PINATA_SECRET_KEY }}
 
-      - name: Pin to Web3.Storage
-        id: web3storage
-        run: |
-          npm install -g @web3-storage/w3cli
-          echo "${{ secrets.WEB3_STORAGE_TOKEN }}" | w3 token
-          CID=$(w3 up ./dist --json | jq -r '.root."/"')
-          echo "cid=$CID" >> $GITHUB_OUTPUT
-        env:
-          WEB3_STORAGE_TOKEN: ${{ secrets.WEB3_STORAGE_TOKEN }}
-
-      - name: Output CIDs
+      - name: Output CID
         run: |
           echo "🎉 Deployment successful!"
           echo ""
-          echo "📦 Pinata CID: ${{ steps.pinata.outputs.hash }}"
-          echo "📦 Web3.Storage CID: ${{ steps.web3storage.outputs.cid }}"
+          echo "📦 IPFS CID: ${{ steps.pinata.outputs.hash }}"
           echo ""
           echo "🌐 Access via:"
           echo "  - https://ipfs.io/ipfs/${{ steps.pinata.outputs.hash }}"
           echo "  - https://gateway.pinata.cloud/ipfs/${{ steps.pinata.outputs.hash }}"
-          echo "  - https://${{ steps.pinata.outputs.hash }}.ipfs.w3s.link"
+          echo "  - https://${{ steps.pinata.outputs.hash }}.ipfs.dweb.link"
           echo ""
           echo "🔗 Update your ENS contenthash with: ipfs://${{ steps.pinata.outputs.hash }}"
+          echo "🔗 Update your DNS _dnslink TXT record to: dnslink=/ipfs/${{ steps.pinata.outputs.hash }}"
 
       - name: Create deployment summary
         run: |
           echo "## 🚀 IPFS Deployment Complete" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### CIDs" >> $GITHUB_STEP_SUMMARY
-          echo "- **Pinata**: \`${{ steps.pinata.outputs.hash }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- **Web3.Storage**: \`${{ steps.web3storage.outputs.cid }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "### CID" >> $GITHUB_STEP_SUMMARY
+          echo "\`${{ steps.pinata.outputs.hash }}\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Access URLs" >> $GITHUB_STEP_SUMMARY
           echo "- [IPFS.io Gateway](https://ipfs.io/ipfs/${{ steps.pinata.outputs.hash }})" >> $GITHUB_STEP_SUMMARY
           echo "- [Pinata Gateway](https://gateway.pinata.cloud/ipfs/${{ steps.pinata.outputs.hash }})" >> $GITHUB_STEP_SUMMARY
-          echo "- [Web3.Storage Gateway](https://${{ steps.pinata.outputs.hash }}.ipfs.w3s.link)" >> $GITHUB_STEP_SUMMARY
+          echo "- [Dweb.link Gateway](https://${{ steps.pinata.outputs.hash }}.ipfs.dweb.link)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Next Steps" >> $GITHUB_STEP_SUMMARY
-          echo "Update ENS contenthash to: \`ipfs://${{ steps.pinata.outputs.hash }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "1. **ENS**: Update contenthash to \`ipfs://${{ steps.pinata.outputs.hash }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "2. **DNS**: Update _dnslink TXT record to \`dnslink=/ipfs/${{ steps.pinata.outputs.hash }}\`" >> $GITHUB_STEP_SUMMARY
