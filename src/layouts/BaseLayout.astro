@@ -21,7 +21,9 @@ import siteMetadata from '../../content/site/meta.json';
 // Construct full URLs for SEO
 const canonicalURL = canonical || new URL(Astro.url.pathname, 'https://rexkirshner.com').toString();
 const ogImageURL = ogImage || siteMetadata.ogImage;
-const fullOgImageURL = ogImageURL.startsWith('http') ? ogImageURL : `https://rexkirshner.com${ogImageURL}`;
+// Use current site URL for OG image to work across all domains (.eth.limo, rexkirshner.com, etc.)
+const siteURL = new URL(Astro.url).origin;
+const fullOgImageURL = ogImageURL.startsWith('http') ? ogImageURL : `${siteURL}${ogImageURL}`;
 ---
 
 <!doctype html>
