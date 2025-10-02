@@ -1,0 +1,31 @@
+[
+  {
+    "id": "inevitable-ethereum",
+    "title": "Inevitable Ethereum Wiki",
+    "type": "Educational Resource",
+    "description": "Wiki explaining crypto and finance — technical, historical, and more. Built for any audience, no background knowledge required.",
+    "link": "https://inevitableeth.com",
+    "image": "/images/ethereum/inevitable ethereum wiki cover.webp",
+    "creator": "Jacob & Rex Kirshner"
+  },
+  {
+    "id": "strange-water",
+    "title": "Strange Water Podcast",
+    "type": "Podcast",
+    "tagline": "Survival is the ability to swim in strange water",
+    "quoteSource": "Frank Herbert (Dune)",
+    "description": "Conversations about Ethereum. No structure, no script, just whatever is interesting.",
+    "platform": "Spotify/Anchor",
+    "link": "https://strangewater.xyz",
+    "image": "/images/ethereum/strange water podcast cover.webp"
+  },
+  {
+    "id": "expansion-podcast",
+    "title": "Expansion Podcast",
+    "type": "Podcast",
+    "description": "I launched Expansion for Blockworks to discuss the modular blockchain industry. Hosted for the first 6 months.",
+    "platform": "Apple Podcasts",
+    "link": "https://podcasts.apple.com/us/podcast/expansion/id1750005751",
+    "image": "/images/ethereum/expansion podcast cover.webp"
+  }
+]

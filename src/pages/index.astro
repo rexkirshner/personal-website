@@ -1,16 +1,378 @@
 ---
-
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PhotoGallery from '../components/PhotoGallery.astro';
+import VideoGallery from '../components/VideoGallery.astro';
+import RunningStats from '../components/RunningStats.astro';
+import TravelMap from '../components/TravelMap.astro';
+import siteMetadata from '../../content/site/meta.json';
+import ethereumProjects from '../../content/ethereum/projects.json';
+import videos from '../../content/videos/videos.json';
+import photos from '../../content/photography/photos.json';
+import runningStats from '../../content/running/stats.json';
+import profilePics from '../../content/site/profile-pics.json';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title={siteMetadata.title} description={siteMetadata.description}>
+  <!-- About Section -->
+  <section id="home" class="py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-5xl md:text-6xl font-bold mb-12 text-center">Rex Kirshner</h1>
+
+      <!-- Profile Image + Bio -->
+      <div class="flex flex-col md:flex-row gap-8 mb-12 items-start">
+        <!-- Profile Image Carousel -->
+        <div class="flex-shrink-0 w-full md:w-64">
+          <div id="profile-carousel" class="relative aspect-[4/5] rounded-lg overflow-hidden shadow-lg">
+            {profilePics.map((pic, index) => (
+              <img
+                src={pic.src}
+                srcset={pic.srcset}
+                sizes="(max-width: 768px) 100vw, 256px"
+                alt={`Rex Kirshner profile ${index + 1}`}
+                class="profile-image absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
+                style={index === 0 ? 'opacity: 1' : 'opacity: 0'}
+                loading={index === 0 ? 'eager' : 'lazy'}
+                fetchpriority={index === 0 ? 'high' : 'auto'}
+                decoding="async"
+              />
+            ))}
+          </div>
+        </div>
+
+        <!-- Bio Text -->
+        <div class="flex-1">
+          <p class="text-lg text-gray-700 leading-relaxed">
+            I travel. I take photos and videos. I run. I believe great stories happen to those who can tell them.
+          </p>
+          <p class="text-lg text-gray-700 leading-relaxed mt-6">
+            I'm a researcher, content creator, and contributor. Building off an education in computer science and
+            a background in corporate finance, I've created educational resources about Ethereum, host podcasts,
+            and built communities around decentralized technology.
+          </p>
+          <p class="text-lg text-gray-700 leading-relaxed mt-6">
+            I also believe that Ethereum is the world computer—a globally shared piece of technology that will make
+            the world more open, fair, and trustworthy.
+          </p>
+        </div>
+      </div>
+
+      <!-- Social Links -->
+      <div class="mt-12">
+        <h3 class="text-2xl font-bold mb-6 text-center">Connect</h3>
+        <div class="flex justify-center gap-6 flex-wrap">
+          <!-- Email -->
+          <a
+            href={`mailto:${siteMetadata.social.email}`}
+            class="flex flex-col items-center gap-2 p-4 rounded-lg hover:bg-gray-50 transition-colors group"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg class="w-8 h-8 text-gray-700 group-hover:text-gray-900" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+            </svg>
+            <span class="text-sm font-medium text-gray-700 group-hover:text-gray-900">Email</span>
+          </a>
+
+          <!-- Twitter -->
+          <a
+            href={siteMetadata.social.twitter}
+            class="flex flex-col items-center gap-2 p-4 rounded-lg hover:bg-gray-50 transition-colors group"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg class="w-8 h-8 text-gray-700 group-hover:text-gray-900" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+            <span class="text-sm font-medium text-gray-700 group-hover:text-gray-900">Twitter</span>
+          </a>
+
+          <!-- LinkedIn -->
+          <a
+            href={siteMetadata.social.linkedin}
+            class="flex flex-col items-center gap-2 p-4 rounded-lg hover:bg-gray-50 transition-colors group"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg class="w-8 h-8 text-gray-700 group-hover:text-gray-900" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+            <span class="text-sm font-medium text-gray-700 group-hover:text-gray-900">LinkedIn</span>
+          </a>
+
+          <!-- Telegram -->
+          <a
+            href={siteMetadata.social.telegram}
+            class="flex flex-col items-center gap-2 p-4 rounded-lg hover:bg-gray-50 transition-colors group"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg class="w-8 h-8 text-gray-700 group-hover:text-gray-900" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+            </svg>
+            <span class="text-sm font-medium text-gray-700 group-hover:text-gray-900">Telegram</span>
+          </a>
+
+          <!-- Discord -->
+          <a
+            href={siteMetadata.social.discord}
+            class="flex flex-col items-center gap-2 p-4 rounded-lg hover:bg-gray-50 transition-colors group"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg class="w-8 h-8 text-gray-700 group-hover:text-gray-900" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+            </svg>
+            <span class="text-sm font-medium text-gray-700 group-hover:text-gray-900">Discord</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script define:vars={{ profilePicsCount: profilePics.length }}>
+    // Profile carousel auto-rotation - defer until after page load
+    window.addEventListener('load', () => {
+      let currentProfileIndex = 0;
+      const profileImages = document.querySelectorAll('.profile-image');
+      const rotationInterval = 10000; // 10 seconds
+
+      function rotateProfile() {
+        // Fade out current image
+        profileImages[currentProfileIndex].style.opacity = '0';
+
+        // Move to next image
+        currentProfileIndex = (currentProfileIndex + 1) % profilePicsCount;
+
+        // Fade in next image
+        profileImages[currentProfileIndex].style.opacity = '1';
+      }
+
+      // Start rotation
+      setInterval(rotateProfile, rotationInterval);
+    });
+  </script>
+
+  <script>
+    // Travel map toggle with lazy loading
+    const travelMapToggle = document.getElementById('travel-map-toggle');
+    const travelMapContainer = document.getElementById('travel-map-container');
+    const travelMapIcon = document.getElementById('travel-map-icon');
+    let mapInitialized = false;
+
+    travelMapToggle?.addEventListener('click', async () => {
+      const isHidden = travelMapContainer?.classList.contains('hidden');
+
+      if (isHidden) {
+        travelMapContainer?.classList.remove('hidden');
+        travelMapIcon?.classList.add('rotate-180');
+
+        // Initialize map on first open
+        if (!mapInitialized) {
+          const initMap = (window as any).__initTravelMap;
+          if (initMap) {
+            await initMap();
+            mapInitialized = true;
+          }
+        }
+      } else {
+        travelMapContainer?.classList.add('hidden');
+        travelMapIcon?.classList.remove('rotate-180');
+      }
+    });
+  </script>
+
+  <!-- Creative Section -->
+  <section id="creative" class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-4xl font-bold mb-12 text-center">Creative</h2>
+
+      <!-- Introduction -->
+      <div class="max-w-3xl mx-auto mb-12 text-center">
+        <p class="text-lg text-gray-700 leading-relaxed">
+          Photos and videos let us travel back in time. They let us re-experience the best moments of life.
+          I capture everything on my iPhone (and occasionally a GoPro or drone).
+        </p>
+      </div>
+
+      <!-- Travel Map (Collapsible) -->
+      <div class="mb-20">
+        <button
+          id="travel-map-toggle"
+          class="mx-auto flex items-center gap-2 px-6 py-3 bg-white hover:bg-gray-100 rounded-lg transition-colors font-semibold text-gray-900 shadow-md"
+        >
+          <span>View Travel Map</span>
+          <svg id="travel-map-icon" class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div id="travel-map-container" class="hidden mt-6">
+          <TravelMap />
+        </div>
+      </div>
+
+      <!-- Videos Subsection -->
+      <div class="mb-20">
+        <h3 class="text-3xl font-bold mb-8 text-center">Videos</h3>
+        <VideoGallery videos={videos} />
+      </div>
+
+      <!-- Photography Subsection -->
+      <div>
+        <h3 class="text-3xl font-bold mb-8 text-center">Photography</h3>
+        <PhotoGallery photos={photos} />
+      </div>
+    </div>
+  </section>
+
+  <!-- Ethereum Section -->
+  <section id="ethereum" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-4xl font-bold mb-12 text-center">Ethereum Projects</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {ethereumProjects.map((project) => (
+          <div class="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
+            {project.image && (
+              <img
+                src={project.image}
+                alt={project.title}
+                class="w-full aspect-square object-cover rounded-lg mb-4"
+                loading="lazy"
+                decoding="async"
+              />
+            )}
+            <h3 class="text-2xl font-bold mb-2">{project.title}</h3>
+            <p class="text-sm text-gray-500 mb-3">{project.type}</p>
+            {project.tagline && (
+              <p class="text-sm italic text-gray-600 mb-3">"{project.tagline}"</p>
+            )}
+            <p class="text-gray-700 mb-4">{project.description}</p>
+            {project.link && (
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-blue-600 hover:text-blue-800 font-semibold inline-flex items-center"
+              >
+                Learn More →
+              </a>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Running Section -->
+  <section id="running" class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-4xl font-bold mb-12 text-center">Running Journey</h2>
+
+      <!-- Featured Video -->
+      <div class="max-w-4xl mx-auto mb-12">
+        <div class="relative cursor-pointer group rounded-lg overflow-hidden shadow-lg" id="running-featured-video">
+          <img
+            src="https://i.vimeocdn.com/video/1932272672-659d787503c99fb0d96d1a56a77a2fcba2f211206e15602245de5c45165d44b8-d_1280"
+            alt="15k Miles"
+            class="w-full aspect-video object-cover"
+            loading="eager"
+          />
+          <div class="absolute inset-0 bg-transparent group-hover:bg-black/40 transition-all flex items-center justify-center">
+            <div class="w-20 h-20 bg-white/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              <svg class="w-10 h-10 text-gray-900 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Narrative -->
+      <div class="prose prose-lg max-w-3xl mx-auto mb-12">
+        <p class="text-lg text-gray-700 leading-relaxed">
+          In November 2016, as I was packing up to head home from work, I downloaded Couch to 5K and resolved to get started that night. Six months later I'd lost 100 pounds and finished a half marathon. Six months after that, I ran the New York Marathon in 3:35.
+        </p>
+        <p class="text-lg text-gray-700 leading-relaxed mt-6">
+          Since that first run in 2016, I've logged thousands of miles across 42+ countries. These days I make a point of running long distances wherever I am. I've experienced everywhere in a completely new way.
+        </p>
+        <p class="text-lg text-gray-700 leading-relaxed mt-6">
+          Each mile tells a story.
+        </p>
+      </div>
+
+      <!-- Running Stats Component -->
+      <RunningStats stats={runningStats} />
+    </div>
+  </section>
+
+  <!-- Running Video Modal -->
+  <dialog id="running-video-modal" class="video-modal-dialog">
+    <div class="modal-container">
+      <button
+        id="running-video-close"
+        class="close-button"
+        aria-label="Close video"
+      >
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <div class="video-content">
+        <h3 id="running-video-title" class="text-2xl font-bold text-white mb-4">15k Miles</h3>
+        <div id="running-video-embed"></div>
+        <p id="running-video-description" class="text-white/80 mt-4">A commemoration of 15k total miles run</p>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    const runningFeaturedVideo = document.getElementById('running-featured-video');
+    const runningModal = document.getElementById('running-video-modal');
+    const runningCloseButton = document.getElementById('running-video-close');
+    const runningEmbedContainer = document.getElementById('running-video-embed');
+
+    function openRunningVideo() {
+      if (runningEmbedContainer) {
+        runningEmbedContainer.innerHTML = `
+          <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #000; border-radius: 0.5rem; min-width: 600px;">
+            <iframe
+              src="https://player.vimeo.com/video/1014193043?autoplay=1&badge=0&autopause=0"
+              frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+              title="15k Miles"
+              style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+            ></iframe>
+          </div>
+        `;
+      }
+      runningModal?.showModal();
+    }
+
+    function closeRunningVideo() {
+      if (runningEmbedContainer) {
+        runningEmbedContainer.innerHTML = '';
+      }
+      runningModal?.close();
+    }
+
+    runningFeaturedVideo?.addEventListener('click', openRunningVideo);
+    runningCloseButton?.addEventListener('click', closeRunningVideo);
+
+    runningModal?.addEventListener('click', (e) => {
+      if (e.target === runningModal) {
+        closeRunningVideo();
+      }
+    });
+
+    runningModal?.addEventListener('cancel', (e) => {
+      e.preventDefault();
+      closeRunningVideo();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (runningModal?.open && e.key === 'Escape') {
+        closeRunningVideo();
+      }
+    });
+  </script>
+</BaseLayout>

@@ -1,0 +1,302 @@
+---
+interface Stats {
+  timePeriod: { start: string; end: string };
+  totals: {
+    miles: number;
+    runs: number;
+    countries: number;
+    avgDistance: number;
+    longestRun: number;
+    homeMiles: number;
+    travelMiles: number;
+    outdoorMiles: number;
+    treadmillMiles: number;
+  };
+  byCountry: Array<{ country: string; miles: number }>;
+  byState: Array<{ state: string; miles: number }>;
+  byYear: Array<{ year: string; miles: number }>;
+  homeLocations: Array<{ location: string; miles: number }>;
+  stravaLinks: { profile: string; heatmap: string };
+}
+
+interface Props {
+  stats: Stats;
+}
+
+const { stats } = Astro.props;
+const maxCountryMiles = Math.max(...stats.byCountry.map(c => c.miles));
+const maxStateMiles = Math.max(...stats.byState.map(s => s.miles));
+const maxYearMiles = Math.max(...stats.byYear.map(y => y.miles));
+const maxHomeMiles = Math.max(...stats.homeLocations.map(h => h.miles));
+
+// Format miles: no decimals if >= 50, otherwise show 2 decimals
+const formatMiles = (miles: number) => {
+  if (miles >= 50) {
+    return Math.round(miles).toLocaleString();
+  }
+  return miles.toFixed(2);
+};
+---
+
+<div class="running-stats">
+  <!--tabs Navigation -->
+  <div class="flex justify-center gap-4 mb-8 border-b border-gray-200 flex-wrap">
+    <button class="tab-button active px-6 py-3 font-semibold border-b-2 border-blue-600 text-blue-600" data-tab="overview">
+      Overview
+    </button>
+    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900" data-tab="countries">
+      By Country
+    </button>
+    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900" data-tab="states">
+      US States
+    </button>
+    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900" data-tab="home-travel">
+      Home vs Travel
+    </button>
+    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900" data-tab="timeline">
+      Timeline
+    </button>
+  </div>
+
+  <!-- Overview Tab -->
+  <div id="overview-tab" class="tab-content">
+    <p class="text-center text-sm text-gray-600 italic mb-6">As of September 30, 2025</p>
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div class="bg-white p-6 rounded-lg shadow-md text-center">
+        <p class="text-4xl font-bold text-gray-900">{Math.round(stats.totals.miles).toLocaleString()}</p>
+        <p class="text-gray-600 mt-2">Total Miles</p>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-md text-center">
+        <p class="text-4xl font-bold text-gray-900">{stats.totals.runs.toLocaleString()}</p>
+        <p class="text-gray-600 mt-2">Total Runs</p>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-md text-center">
+        <p class="text-4xl font-bold text-gray-900">{stats.totals.countries}</p>
+        <p class="text-gray-600 mt-2">Countries</p>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-md text-center">
+        <p class="text-4xl font-bold text-gray-900">{stats.totals.avgDistance.toFixed(2)}</p>
+        <p class="text-gray-600 mt-2">Avg Miles/Run</p>
+      </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h4 class="text-xl font-bold mb-4">Home vs Travel</h4>
+        <div class="space-y-3">
+          <div>
+            <div class="flex justify-between mb-1">
+              <span class="font-semibold">Home</span>
+              <span class="text-gray-600">{formatMiles(stats.totals.homeMiles)} miles</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+              <div class="bg-blue-600 h-3 rounded-full" style={`width: ${(stats.totals.homeMiles / stats.totals.miles) * 100}%`}></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between mb-1">
+              <span class="font-semibold">Travel</span>
+              <span class="text-gray-600">{formatMiles(stats.totals.travelMiles)} miles</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+              <div class="bg-green-600 h-3 rounded-full" style={`width: ${(stats.totals.travelMiles / stats.totals.miles) * 100}%`}></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h4 class="text-xl font-bold mb-4">Outdoor vs Treadmill</h4>
+        <div class="space-y-3">
+          <div>
+            <div class="flex justify-between mb-1">
+              <span class="font-semibold">Outdoor</span>
+              <span class="text-gray-600">{formatMiles(stats.totals.outdoorMiles)} miles</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+              <div class="bg-orange-600 h-3 rounded-full" style={`width: ${(stats.totals.outdoorMiles / stats.totals.miles) * 100}%`}></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between mb-1">
+              <span class="font-semibold">Treadmill</span>
+              <span class="text-gray-600">{formatMiles(stats.totals.treadmillMiles)} miles</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+              <div class="bg-gray-600 h-3 rounded-full" style={`width: ${(stats.totals.treadmillMiles / stats.totals.miles) * 100}%`}></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- By Country Tab -->
+  <div id="countries-tab" class="tab-content hidden">
+    <p class="text-center text-sm text-gray-600 italic mb-6">As of September 30, 2025</p>
+    <div class="bg-white p-6 rounded-lg shadow-md">
+      <h4 class="text-2xl font-bold mb-4">Miles by Country</h4>
+      <p class="text-sm text-gray-600 italic mb-6">USA miles do not include miles run at home</p>
+      <div class="space-y-4">
+        {stats.byCountry.slice(0, 10).map((item) => (
+          <div>
+            <div class="flex justify-between mb-2">
+              <span class="font-semibold">{item.country}</span>
+              <span class="text-gray-600">{formatMiles(item.miles)} miles</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+              <div class="bg-blue-600 h-2 rounded-full" style={`width: ${(item.miles / maxCountryMiles) * 100}%`}></div>
+            </div>
+          </div>
+        ))}
+      </div>
+      {stats.byCountry.length > 10 && (
+        <div class="mt-6 pt-6 border-t border-gray-200">
+          <p class="text-gray-700">
+            <span class="font-semibold">Other: </span>
+            {stats.byCountry.slice(10).map((item, index) => (
+              <span>
+                {item.country} ({Math.round(item.miles)}){index < stats.byCountry.slice(10).length - 1 ? ', ' : ''}
+              </span>
+            ))}
+          </p>
+        </div>
+      )}
+    </div>
+  </div>
+
+  <!-- By State Tab -->
+  <div id="states-tab" class="tab-content hidden">
+    <p class="text-center text-sm text-gray-600 italic mb-6">As of September 30, 2025</p>
+    <div class="bg-white p-6 rounded-lg shadow-md">
+      <h4 class="text-2xl font-bold mb-4">Miles by US State</h4>
+      <p class="text-sm text-gray-600 italic mb-6">California and New York miles do not include miles run at home</p>
+      <div class="space-y-4">
+        {stats.byState.slice(0, 10).map((item) => (
+          <div>
+            <div class="flex justify-between mb-2">
+              <span class="font-semibold">{item.state}</span>
+              <span class="text-gray-600">{formatMiles(item.miles)} miles</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+              <div class="bg-green-600 h-2 rounded-full" style={`width: ${(item.miles / maxStateMiles) * 100}%`}></div>
+            </div>
+          </div>
+        ))}
+      </div>
+      {stats.byState.length > 10 && (
+        <div class="mt-6 pt-6 border-t border-gray-200">
+          <p class="text-gray-700">
+            <span class="font-semibold">Other: </span>
+            {stats.byState.slice(10).map((item, index) => (
+              <span>
+                {item.state} ({Math.round(item.miles)}){index < stats.byState.slice(10).length - 1 ? ', ' : ''}
+              </span>
+            ))}
+          </p>
+        </div>
+      )}
+    </div>
+  </div>
+
+  <!-- Home vs Travel Tab -->
+  <div id="home-travel-tab" class="tab-content hidden">
+    <p class="text-center text-sm text-gray-600 italic mb-6">As of September 30, 2025</p>
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h4 class="text-2xl font-bold mb-6">Home Locations</h4>
+        <div class="space-y-4">
+          {stats.homeLocations.map((item) => (
+            <div>
+              <div class="flex justify-between mb-2">
+                <span class="font-semibold">{item.location}</span>
+                <span class="text-gray-600">{formatMiles(item.miles)} miles</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-3">
+                <div class="bg-blue-600 h-3 rounded-full" style={`width: ${(item.miles / maxHomeMiles) * 100}%`}></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h4 class="text-2xl font-bold mb-6">Summary</h4>
+        <div class="space-y-4">
+          <div class="p-4 bg-blue-50 rounded-lg">
+            <p class="text-3xl font-bold text-blue-900">{formatMiles(stats.totals.homeMiles)}</p>
+            <p class="text-blue-700">Total Home Miles</p>
+            <p class="text-sm text-blue-600 mt-1">{((stats.totals.homeMiles / stats.totals.miles) * 100).toFixed(1)}% of total</p>
+          </div>
+          <div class="p-4 bg-green-50 rounded-lg">
+            <p class="text-3xl font-bold text-green-900">{formatMiles(stats.totals.travelMiles)}</p>
+            <p class="text-green-700">Total Travel Miles</p>
+            <p class="text-sm text-green-600 mt-1">{((stats.totals.travelMiles / stats.totals.miles) * 100).toFixed(1)}% of total</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline Tab -->
+  <div id="timeline-tab" class="tab-content hidden">
+    <p class="text-center text-sm text-gray-600 italic mb-6">As of September 30, 2025</p>
+    <div class="bg-white p-6 rounded-lg shadow-md">
+      <h4 class="text-2xl font-bold mb-6">Miles by Year</h4>
+      <div class="space-y-4">
+        {stats.byYear.map((item) => (
+          <div>
+            <div class="flex justify-between mb-2">
+              <span class="font-semibold">{item.year}</span>
+              <span class="text-gray-600">{formatMiles(item.miles)} miles</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+              <div class="bg-orange-600 h-3 rounded-full" style={`width: ${(item.miles / maxYearMiles) * 100}%`}></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Strava Link -->
+  <div class="mt-12 text-center">
+    <a
+      href={stats.stravaLinks.profile}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-block px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+    >
+      View on Strava
+    </a>
+  </div>
+</div>
+
+<script>
+  const tabButtons = document.querySelectorAll('.running-stats .tab-button');
+  const tabContents = document.querySelectorAll('.running-stats .tab-content');
+
+  tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const targetTab = button.dataset.tab;
+
+      // Update button styles
+      tabButtons.forEach(btn => {
+        btn.classList.remove('active', 'border-blue-600', 'text-blue-600');
+        btn.classList.add('border-transparent', 'text-gray-600');
+      });
+      button.classList.add('active', 'border-blue-600', 'text-blue-600');
+      button.classList.remove('border-transparent', 'text-gray-600');
+
+      // Show/hide tabs
+      tabContents.forEach(content => {
+        if (content.id === `${targetTab}-tab`) {
+          content.classList.remove('hidden');
+        } else {
+          content.classList.add('hidden');
+        }
+      });
+    });
+  });
+</script>

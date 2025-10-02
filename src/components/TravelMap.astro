@@ -1,0 +1,180 @@
+---
+// No imports in frontmatter - we'll lazy load everything
+---
+
+<div id="travel-map" class="w-full h-[600px] rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
+  <p class="text-gray-500">Loading map...</p>
+</div>
+
+<script>
+  // Export function to be called when user opens the map
+  async function initMap() {
+    // Dynamically import map library and data only when needed
+    const [maplibregl, mapDataModule] = await Promise.all([
+      import('maplibre-gl'),
+      import('../../content/travel/map-data.json')
+    ]);
+
+    // Import CSS
+    await import('maplibre-gl/dist/maplibre-gl.css');
+
+    const data = mapDataModule.default;
+    const mapContainer = document.getElementById('travel-map');
+    if (!mapContainer || mapContainer.dataset.initialized) return;
+
+    // Clear loading message
+    mapContainer.innerHTML = '';
+    mapContainer.classList.remove('flex', 'items-center', 'justify-center', 'bg-gray-100');
+
+    // Create map with OpenStreetMap raster tiles
+    const map = new maplibregl.default.Map({
+      container: 'travel-map',
+      style: {
+        version: 8,
+        sources: {
+          'osm': {
+            type: 'raster',
+            tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+            tileSize: 256,
+            attribution: '© OpenStreetMap contributors'
+          }
+        },
+        layers: [
+          {
+            id: 'osm-tiles',
+            type: 'raster',
+            source: 'osm',
+            minzoom: 0,
+            maxzoom: 19
+          }
+        ]
+      },
+      center: data.defaultCenter as [number, number],
+      zoom: data.defaultZoom,
+      attributionControl: true
+    });
+
+    mapContainer.dataset.initialized = 'true';
+
+    map.on('load', () => {
+      // Add flight paths
+      if (data.paths && data.paths.length > 0) {
+        map.addSource('flight-paths', {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: data.paths.map((path, idx) => ({
+              type: 'Feature',
+              id: idx,
+              geometry: {
+                type: 'LineString',
+                coordinates: path.coords
+              },
+              properties: {}
+            }))
+          }
+        });
+
+        map.addLayer({
+          id: 'flight-paths-layer',
+          type: 'line',
+          source: 'flight-paths',
+          paint: {
+            'line-color': '#818181',
+            'line-width': 2,
+            'line-opacity': 0.5
+          }
+        });
+      }
+
+      // Add location markers
+      map.addSource('locations', {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: data.locations.map(loc => ({
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [loc.lng, loc.lat]
+            },
+            properties: {
+              name: loc.name,
+              date: loc.date,
+              year: loc.year,
+              country: loc.country
+            }
+          }))
+        }
+      });
+
+      map.addLayer({
+        id: 'location-markers',
+        type: 'circle',
+        source: 'locations',
+        paint: {
+          'circle-radius': 4,
+          'circle-color': '#e74c3c',
+          'circle-stroke-width': 1,
+          'circle-stroke-color': '#fff'
+        }
+      });
+
+      // Add popups on click
+      map.on('click', 'location-markers', (e) => {
+        if (!e.features || e.features.length === 0) return;
+
+        const feature = e.features[0];
+        const props = feature.properties;
+        const coordinates = (feature.geometry as any).coordinates.slice();
+
+        const popupContent = `
+          <div class="font-sans">
+            <h3 class="font-bold text-sm">${props.name}</h3>
+          </div>
+        `;
+
+        new maplibregl.default.Popup({ offset: 8 })
+          .setLngLat(coordinates as [number, number])
+          .setHTML(popupContent)
+          .addTo(map);
+      });
+
+      // Change cursor on hover
+      map.on('mouseenter', 'location-markers', () => {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+
+      map.on('mouseleave', 'location-markers', () => {
+        map.getCanvas().style.cursor = '';
+      });
+
+      // Fit to bounds
+      if (data.bbox) {
+        map.fitBounds(data.bbox as [number, number, number, number], {
+          padding: 40,
+          duration: 0
+        });
+      }
+    });
+
+    // Store map reference for resize handling
+    (window as any).__travelMap = map;
+
+    // Handle resize when container visibility changes
+    const observer = new MutationObserver(() => {
+      const mapContainer = document.getElementById('travel-map');
+      if (mapContainer && mapContainer.offsetParent !== null) {
+        setTimeout(() => map.resize(), 100);
+      }
+    });
+
+    const travelMapContainer = document.getElementById('travel-map-container');
+    if (travelMapContainer) {
+      observer.observe(travelMapContainer, { attributes: true, attributeFilter: ['class'] });
+    }
+  }
+
+  // Expose initMap to global scope so it can be called from index.astro
+  (window as any).__initTravelMap = initMap;
+</script>

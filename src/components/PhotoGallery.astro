@@ -1,0 +1,529 @@
+---
+interface Photo {
+  id: string;
+  title: string;
+  location: string;
+  thumbnailUrl: string;
+  originalUrl: string;
+  alt: string;
+  width: number;
+  height: number;
+  featured: boolean;
+  categories: string[];
+}
+
+interface Props {
+  photos: Photo[];
+}
+
+const { photos } = Astro.props;
+const featuredPhotos = photos.filter(p => p.featured);
+---
+
+<div class="photo-gallery">
+  <!-- Hero Carousel -->
+  <div class="carousel-container relative overflow-hidden rounded-xl mb-8">
+    <div class="carousel-track flex transition-transform duration-500 ease-in-out">
+      {featuredPhotos.map((photo, index) => (
+        <div class="carousel-slide min-w-full relative">
+          <img
+            src={photo.thumbnailUrl}
+            alt={photo.alt}
+            class="w-full h-[400px] md:h-[500px] object-cover"
+            loading={index === 0 ? 'eager' : 'lazy'}
+            decoding="async"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">
+            <div class="text-white">
+              <h3 class="text-2xl md:text-3xl font-bold mb-2">{photo.location}</h3>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Carousel Controls -->
+    <button
+      id="carousel-prev"
+      class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-3 rounded-full shadow-lg transition-all z-10"
+      aria-label="Previous photo"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+
+    <button
+      id="carousel-next"
+      class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-3 rounded-full shadow-lg transition-all z-10"
+      aria-label="Next photo"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+
+    <!-- Carousel Dots -->
+    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+      {featuredPhotos.map((_, index) => (
+        <button
+          class={`carousel-dot w-2 h-2 rounded-full transition-all ${index === 0 ? 'bg-white w-6' : 'bg-white/50'}`}
+          data-index={index}
+          aria-label={`Go to slide ${index + 1}`}
+        />
+      ))}
+    </div>
+  </div>
+
+  <!-- View All Button -->
+  <div class="text-center mb-8">
+    <button
+      id="toggle-gallery"
+      class="px-8 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors font-semibold inline-flex items-center gap-2"
+    >
+      <span id="toggle-text">View All Photos</span>
+      <svg id="toggle-icon" class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Collapsible Gallery Section -->
+  <div id="full-gallery" class="hidden"></div>
+
+  <!-- Lightbox Dialog -->
+  <dialog id="photo-lightbox" class="photo-lightbox-dialog">
+    <div class="lightbox-container">
+      <!-- Close Button -->
+      <button
+        id="lightbox-close"
+        class="close-button"
+        aria-label="Close lightbox"
+      >
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <!-- Previous Button -->
+      <button
+        id="lightbox-prev"
+        class="nav-button nav-button-prev"
+        aria-label="Previous photo"
+      >
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+
+      <!-- Next Button -->
+      <button
+        id="lightbox-next"
+        class="nav-button nav-button-next"
+        aria-label="Next photo"
+      >
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+
+      <!-- Image Container -->
+      <div class="image-container">
+        <img
+          id="lightbox-image"
+          src=""
+          alt=""
+          class="lightbox-image"
+        />
+        <div class="image-info">
+          <p id="lightbox-location" class="text-white text-lg font-semibold"></p>
+          <p id="lightbox-counter" class="text-white/70 text-sm mt-1"></p>
+        </div>
+      </div>
+    </div>
+  </dialog>
+</div>
+
+<style>
+  .photo-lightbox-dialog {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 9999;
+  }
+
+  .photo-lightbox-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.95);
+  }
+
+  .lightbox-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: background 0.2s;
+  }
+
+  .close-button:hover {
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  .nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    z-index: 10;
+  }
+
+  .nav-button:hover {
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  .nav-button-prev {
+    left: 1rem;
+  }
+
+  .nav-button-next {
+    right: 1rem;
+  }
+
+  .image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 90vw;
+    max-height: 90vh;
+  }
+
+  .lightbox-image {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+  }
+
+  .image-info {
+    margin-top: 1rem;
+    text-align: center;
+  }
+</style>
+
+<script define:vars={{ photos }}>
+  // Carousel logic
+  let currentSlide = 0;
+  const carouselTrack = document.querySelector('.carousel-track');
+  const dots = document.querySelectorAll('.carousel-dot');
+  const totalSlides = dots.length;
+
+  function updateCarousel() {
+    carouselTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+    dots.forEach((dot, index) => {
+      if (index === currentSlide) {
+        dot.classList.add('bg-white', 'w-6');
+        dot.classList.remove('bg-white/50');
+      } else {
+        dot.classList.remove('bg-white', 'w-6');
+        dot.classList.add('bg-white/50');
+      }
+    });
+  }
+
+  document.getElementById('carousel-prev')?.addEventListener('click', () => {
+    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+    updateCarousel();
+  });
+
+  document.getElementById('carousel-next')?.addEventListener('click', () => {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    updateCarousel();
+  });
+
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      currentSlide = index;
+      updateCarousel();
+    });
+  });
+
+  // Auto-advance carousel every 8 seconds, but pause when off-screen
+  let carouselInterval;
+
+  function startCarousel() {
+    carouselInterval = setInterval(() => {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      updateCarousel();
+    }, 8000);
+  }
+
+  function stopCarousel() {
+    if (carouselInterval) {
+      clearInterval(carouselInterval);
+      carouselInterval = null;
+    }
+  }
+
+  // Use Intersection Observer to pause when off-screen
+  const carouselContainer = document.querySelector('.carousel-container');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        startCarousel();
+      } else {
+        stopCarousel();
+      }
+    });
+  }, { threshold: 0.1 });
+
+  if (carouselContainer) {
+    observer.observe(carouselContainer);
+  }
+
+  // Toggle gallery
+  const toggleButton = document.getElementById('toggle-gallery');
+  const toggleText = document.getElementById('toggle-text');
+  const toggleIcon = document.getElementById('toggle-icon');
+  const fullGallery = document.getElementById('full-gallery');
+  let isGalleryOpen = false;
+  let isGalleryRendered = false;
+
+  function renderGallery() {
+    if (isGalleryRendered || !fullGallery) return;
+
+    // Render structure immediately (fast)
+    fullGallery.innerHTML = `
+      <!-- Tab Navigation -->
+      <div class="flex justify-center gap-4 mb-8 border-b border-gray-200 flex-wrap">
+        <button class="tab-button active px-6 py-3 font-semibold border-b-2 border-blue-600 text-blue-600" data-category="all">
+          All
+        </button>
+        <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900" data-category="landscapes">
+          Landscapes
+        </button>
+        <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900" data-category="cities">
+          Cities
+        </button>
+        <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900" data-category="underwater">
+          Underwater
+        </button>
+        <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900" data-category="nature">
+          Nature
+        </button>
+      </div>
+
+      <!-- Photo Grid -->
+      <div id="photo-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+    `;
+
+    isGalleryRendered = true;
+
+    // Render photos progressively in batches
+    const photoGrid = document.getElementById('photo-grid');
+    const batchSize = 8;
+    let currentBatch = 0;
+
+    function renderBatch() {
+      const start = currentBatch * batchSize;
+      const end = Math.min(start + batchSize, photos.length);
+
+      for (let i = start; i < end; i++) {
+        const photo = photos[i];
+        const photoCard = document.createElement('div');
+        photoCard.className = 'photo-card group relative aspect-square overflow-hidden rounded-lg cursor-pointer';
+        photoCard.setAttribute('data-photo-index', i);
+        photoCard.setAttribute('data-categories', photo.categories.join(' '));
+
+        photoCard.innerHTML = `
+          <img
+            src="${photo.thumbnailUrl}"
+            alt="${photo.alt}"
+            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+            loading="lazy"
+            decoding="async"
+          />
+          <div class="absolute inset-0 bg-transparent group-hover:bg-black/30 transition-all flex items-end p-4 pointer-events-none">
+            <p class="text-white opacity-0 group-hover:opacity-100 transition-opacity text-sm font-semibold">
+              ${photo.location}
+            </p>
+          </div>
+        `;
+
+        photoGrid?.appendChild(photoCard);
+      }
+
+      currentBatch++;
+
+      // Render next batch after a short delay
+      if (end < photos.length) {
+        requestAnimationFrame(renderBatch);
+      } else {
+        // All photos rendered, attach event listeners
+        attachGalleryEventListeners();
+      }
+    }
+
+    // Start rendering
+    renderBatch();
+  }
+
+  toggleButton?.addEventListener('click', () => {
+    isGalleryOpen = !isGalleryOpen;
+
+    if (isGalleryOpen) {
+      renderGallery();
+      // Show immediately
+      if (fullGallery) {
+        fullGallery.style.display = 'block';
+        fullGallery.classList.remove('hidden');
+      }
+      if (toggleText) toggleText.textContent = 'Hide Photos';
+      toggleIcon?.classList.add('rotate-180');
+    } else {
+      // Hide immediately without transitions
+      if (fullGallery) {
+        fullGallery.style.display = 'none';
+      }
+      if (toggleText) toggleText.textContent = 'View All Photos';
+      toggleIcon?.classList.remove('rotate-180');
+    }
+  });
+
+  // Attach event listeners to dynamically rendered gallery
+  function attachGalleryEventListeners() {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const photoCards = document.querySelectorAll('.photo-card');
+
+    function filterPhotos(category) {
+      photoCards.forEach(card => {
+        const categories = card.getAttribute('data-categories')?.split(' ') || [];
+        if (categories.includes(category)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Update active tab styling
+        tabButtons.forEach(btn => {
+          btn.classList.remove('active', 'border-blue-600', 'text-blue-600');
+          btn.classList.add('border-transparent', 'text-gray-600');
+        });
+        button.classList.add('active', 'border-blue-600', 'text-blue-600');
+        button.classList.remove('border-transparent', 'text-gray-600');
+
+        // Filter photos
+        const category = button.getAttribute('data-category');
+        if (category) filterPhotos(category);
+      });
+    });
+
+    // Open lightbox when clicking photo cards
+    photoCards.forEach((card) => {
+      card.addEventListener('click', () => {
+        const index = parseInt(card.getAttribute('data-photo-index') || '0');
+        openLightbox(index);
+      });
+    });
+  }
+
+  // Lightbox logic
+  let currentIndex = 0;
+  const modal = document.getElementById('photo-lightbox');
+  const lightboxImage = document.getElementById('lightbox-image');
+  const lightboxLocation = document.getElementById('lightbox-location');
+  const lightboxCounter = document.getElementById('lightbox-counter');
+  const closeButton = document.getElementById('lightbox-close');
+  const prevButton = document.getElementById('lightbox-prev');
+  const nextButton = document.getElementById('lightbox-next');
+
+  function openLightbox(index) {
+    currentIndex = index;
+    updateLightboxContent();
+    modal?.showModal();
+  }
+
+  function updateLightboxContent() {
+    const photo = photos[currentIndex];
+    if (lightboxImage && lightboxLocation && lightboxCounter) {
+      lightboxImage.src = photo.originalUrl;
+      lightboxImage.alt = photo.alt;
+      lightboxLocation.textContent = photo.location;
+      lightboxCounter.textContent = `${currentIndex + 1} / ${photos.length}`;
+    }
+  }
+
+  function closeLightbox() {
+    modal?.close();
+  }
+
+  function showPrev() {
+    currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+    updateLightboxContent();
+  }
+
+  function showNext() {
+    currentIndex = (currentIndex + 1) % photos.length;
+    updateLightboxContent();
+  }
+
+  // Event listeners
+  closeButton?.addEventListener('click', closeLightbox);
+  prevButton?.addEventListener('click', showPrev);
+  nextButton?.addEventListener('click', showNext);
+
+  // Close on backdrop click
+  modal?.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeLightbox();
+    }
+  });
+
+  // Close on ESC key
+  modal?.addEventListener('cancel', (e) => {
+    e.preventDefault();
+    closeLightbox();
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (modal?.open) {
+      if (e.key === 'Escape') {
+        closeLightbox();
+      } else if (e.key === 'ArrowLeft') {
+        showPrev();
+      } else if (e.key === 'ArrowRight') {
+        showNext();
+      }
+    }
+  });
+</script>

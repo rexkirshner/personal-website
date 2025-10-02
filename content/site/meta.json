@@ -1,0 +1,15 @@
+{
+  "title": "Rex Kirshner",
+  "tagline": "Great stories happen to those who can tell them",
+  "description": "I write about Ethereum, take photos, make videos, and run all over the world.",
+  "author": "Rex Kirshner",
+  "social": {
+    "email": "rex@rexkirshner.com",
+    "telegram": "https://t.me/LogarithmicRex",
+    "twitter": "https://twitter.com/LogarithmicRex",
+    "linkedin": "https://www.linkedin.com/in/rexkirshner",
+    "discord": "https://discord.com/users/LogarithmicRex",
+    "strava": "https://www.strava.com/athletes/rexkirshner"
+  },
+  "ogImage": "/images/og-image.jpg"
+}

@@ -6,9 +6,32 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "upload-photos": "node --env-file=.env scripts/upload-photos.js",
+    "generate-photos-json": "node scripts/generate-photos-json.js",
+    "generate-thumbnails": "node scripts/generate-thumbnails.js",
+    "update-photos-json": "node scripts/update-photos-json.js",
+    "add-photo-metadata": "node scripts/add-photo-metadata.js",
+    "process-strava": "node scripts/process-strava-data.js",
+    "update-travel-map": "node scripts/parse-travel-kml.js",
+    "update-travel-map:verbose": "node scripts/parse-travel-kml.js --verbose"
   },
   "dependencies": {
-    "astro": "^5.14.1"
+    "@aws-sdk/client-s3": "^3.899.0",
+    "@mapbox/togeojson": "^0.16.2",
+    "@tailwindcss/vite": "^4.1.13",
+    "@turf/turf": "^7.2.0",
+    "@xmldom/xmldom": "^0.8.11",
+    "astro": "^5.14.1",
+    "maplibre-gl": "^5.8.0",
+    "pmtiles": "^4.3.0",
+    "sharp": "^0.34.4",
+    "supercluster": "^8.0.1",
+    "tailwindcss": "^4.1.13"
+  },
+  "devDependencies": {
+    "@astrojs/partytown": "^2.1.4",
+    "@astrojs/sitemap": "^3.6.0",
+    "wrangler": "^4.40.3"
   }
 }

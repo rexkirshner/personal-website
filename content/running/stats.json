@@ -1,0 +1,405 @@
+{
+  "timePeriod": {
+    "start": "2016-11-01",
+    "end": "2025-10-01"
+  },
+  "totals": {
+    "miles": 17376.57,
+    "runs": 2728,
+    "countries": 43,
+    "avgDistance": 6.37,
+    "longestRun": 26.8,
+    "homeMiles": 14012.66,
+    "travelMiles": 3363.91,
+    "outdoorMiles": 14470.55,
+    "treadmillMiles": 2906.02
+  },
+  "byCountry": [
+    {
+      "country": "USA",
+      "miles": 1991.24
+    },
+    {
+      "country": "Mexico",
+      "miles": 103.16
+    },
+    {
+      "country": "Russia",
+      "miles": 100.73
+    },
+    {
+      "country": "Switzerland",
+      "miles": 98.76
+    },
+    {
+      "country": "Italy",
+      "miles": 80.53
+    },
+    {
+      "country": "Netherlands",
+      "miles": 65
+    },
+    {
+      "country": "Canada",
+      "miles": 64.27
+    },
+    {
+      "country": "Belgium",
+      "miles": 62.48
+    },
+    {
+      "country": "Germany",
+      "miles": 59.45
+    },
+    {
+      "country": "Spain",
+      "miles": 54.18
+    },
+    {
+      "country": "Greece",
+      "miles": 41.71
+    },
+    {
+      "country": "French Polynesia",
+      "miles": 40.5
+    },
+    {
+      "country": "Israel",
+      "miles": 40.4
+    },
+    {
+      "country": "China",
+      "miles": 39.21
+    },
+    {
+      "country": "UK",
+      "miles": 39.12
+    },
+    {
+      "country": "Bermuda",
+      "miles": 34.51
+    },
+    {
+      "country": "Saint Lucia",
+      "miles": 34.1
+    },
+    {
+      "country": "Norway",
+      "miles": 33.9
+    },
+    {
+      "country": "Argentina",
+      "miles": 27.55
+    },
+    {
+      "country": "Costa Rica",
+      "miles": 25.7
+    },
+    {
+      "country": "Colombia",
+      "miles": 25.14
+    },
+    {
+      "country": "Sweden",
+      "miles": 23.54
+    },
+    {
+      "country": "Belize",
+      "miles": 22.93
+    },
+    {
+      "country": "UAE",
+      "miles": 22.92
+    },
+    {
+      "country": "Ecuador",
+      "miles": 21.65
+    },
+    {
+      "country": "Portugal",
+      "miles": 21.05
+    },
+    {
+      "country": "Austria",
+      "miles": 19.57
+    },
+    {
+      "country": "Australia",
+      "miles": 17.96
+    },
+    {
+      "country": "France",
+      "miles": 17.56
+    },
+    {
+      "country": "Dominican Republic",
+      "miles": 17.23
+    },
+    {
+      "country": "Mauritius",
+      "miles": 16.24
+    },
+    {
+      "country": "Denmark",
+      "miles": 13.7
+    },
+    {
+      "country": "Slovakia",
+      "miles": 13.48
+    },
+    {
+      "country": "Poland",
+      "miles": 13.47
+    },
+    {
+      "country": "South Africa",
+      "miles": 11.4
+    },
+    {
+      "country": "Czechia",
+      "miles": 10.55
+    },
+    {
+      "country": "Jordan",
+      "miles": 10.12
+    },
+    {
+      "country": "Hungary",
+      "miles": 6.78
+    },
+    {
+      "country": "St Martin",
+      "miles": 6.44
+    },
+    {
+      "country": "Georgia",
+      "miles": 5.1
+    },
+    {
+      "country": "Peru",
+      "miles": 4.22
+    },
+    {
+      "country": "Turkey",
+      "miles": 3.19
+    },
+    {
+      "country": "St Barth",
+      "miles": 3.17
+    }
+  ],
+  "byState": [
+    {
+      "state": "California",
+      "miles": 604.34
+    },
+    {
+      "state": "Colorado",
+      "miles": 192.21
+    },
+    {
+      "state": "Washington",
+      "miles": 140.28
+    },
+    {
+      "state": "Utah",
+      "miles": 102.94
+    },
+    {
+      "state": "Florida",
+      "miles": 95.73
+    },
+    {
+      "state": "Missouri",
+      "miles": 95.29
+    },
+    {
+      "state": "Texas",
+      "miles": 79.46
+    },
+    {
+      "state": "Hawaii",
+      "miles": 78.8
+    },
+    {
+      "state": "Massachusetts",
+      "miles": 64.86
+    },
+    {
+      "state": "Alaska",
+      "miles": 60.22
+    },
+    {
+      "state": "Wyoming",
+      "miles": 53.68
+    },
+    {
+      "state": "Oregon",
+      "miles": 53.66
+    },
+    {
+      "state": "Illinois",
+      "miles": 32.06
+    },
+    {
+      "state": "Montana",
+      "miles": 24.22
+    },
+    {
+      "state": "Louisiana",
+      "miles": 23.11
+    },
+    {
+      "state": "USVI",
+      "miles": 22.2
+    },
+    {
+      "state": "North Carolina",
+      "miles": 21.48
+    },
+    {
+      "state": "DC",
+      "miles": 20.63
+    },
+    {
+      "state": "Idaho",
+      "miles": 20.48
+    },
+    {
+      "state": "Maine",
+      "miles": 20.22
+    },
+    {
+      "state": "Minnesota",
+      "miles": 19.88
+    },
+    {
+      "state": "Virginia",
+      "miles": 19.67
+    },
+    {
+      "state": "Alabama",
+      "miles": 19.33
+    },
+    {
+      "state": "Puerto Rico",
+      "miles": 17
+    },
+    {
+      "state": "New Hampshire",
+      "miles": 16.36
+    },
+    {
+      "state": "South Carolina",
+      "miles": 14.42
+    },
+    {
+      "state": "Mississippi",
+      "miles": 13.23
+    },
+    {
+      "state": "South Dakota",
+      "miles": 11.61
+    },
+    {
+      "state": "Rhode Island",
+      "miles": 7.2
+    },
+    {
+      "state": "Tennessee",
+      "miles": 7.13
+    },
+    {
+      "state": "New York",
+      "miles": 6.99
+    },
+    {
+      "state": "Michigan",
+      "miles": 6.5
+    },
+    {
+      "state": "Connecticut",
+      "miles": 5.64
+    },
+    {
+      "state": "New Mexico",
+      "miles": 5.49
+    },
+    {
+      "state": "Arizona",
+      "miles": 5.22
+    },
+    {
+      "state": "Georgia",
+      "miles": 4.86
+    },
+    {
+      "state": "Pennsylvania",
+      "miles": 4.84
+    }
+  ],
+  "byYear": [
+    {
+      "year": "2016",
+      "miles": 90.11
+    },
+    {
+      "year": "2017",
+      "miles": 1424.6
+    },
+    {
+      "year": "2018",
+      "miles": 1681.14
+    },
+    {
+      "year": "2019",
+      "miles": 2160.6
+    },
+    {
+      "year": "2020",
+      "miles": 2155.29
+    },
+    {
+      "year": "2021",
+      "miles": 1854.06
+    },
+    {
+      "year": "2022",
+      "miles": 2031.36
+    },
+    {
+      "year": "2023",
+      "miles": 2115.09
+    },
+    {
+      "year": "2024",
+      "miles": 2223.68
+    },
+    {
+      "year": "2025",
+      "miles": 1640.64
+    }
+  ],
+  "homeLocations": [
+    {
+      "location": "Home - MDR",
+      "miles": 7902.58
+    },
+    {
+      "location": "Home - PP",
+      "miles": 3666.84
+    },
+    {
+      "location": "Home - Manhattan",
+      "miles": 1829.3
+    },
+    {
+      "location": "Home - SM",
+      "miles": 613.94
+    }
+  ],
+  "stravaLinks": {
+    "profile": "https://www.strava.com/athletes/19943890",
+    "heatmap": "https://www.strava.com/athletes/19943890/heatmaps/embed"
+  }
+}

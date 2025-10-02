@@ -1,0 +1,8 @@
+# Allow all search engines to index everything
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://rexkirshner.com/sitemap-index.xml
+Sitemap: https://logrex.eth.limo/sitemap-index.xml
+Sitemap: https://rexkirshner.eth.limo/sitemap-index.xml

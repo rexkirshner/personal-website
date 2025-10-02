@@ -1,0 +1,327 @@
+---
+import VimeoEmbed from './VimeoEmbed.astro';
+
+interface Video {
+  id: string;
+  title: string;
+  year: number;
+  vimeoId: string;
+  description: string;
+  thumbnail: string;
+}
+
+interface Props {
+  videos: Video[];
+}
+
+const { videos } = Astro.props;
+const sortedVideos = [...videos].sort((a, b) => b.order - a.order);
+---
+
+<div class="video-gallery">
+  <!-- Tab Navigation -->
+  <div class="flex justify-center gap-4 mb-8 border-b border-gray-200">
+    <button class="tab-button active px-6 py-3 font-semibold border-b-2 border-blue-600 text-blue-600" data-tab="featured">
+      Featured
+    </button>
+    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900" data-tab="stories">
+      Stories
+    </button>
+    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900" data-tab="year-reviews">
+      Year in Review
+    </button>
+    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900" data-tab="running">
+      Running
+    </button>
+    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900" data-tab="all">
+      All Videos
+    </button>
+  </div>
+
+  <!-- Video Grid -->
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="video-grid" data-current-tab="featured">
+    {sortedVideos.map((video, index) => {
+      // Categorize videos
+      let category = 'all';
+
+      // Featured video
+      if (video.title.includes('Palisades')) {
+        category += ' featured';
+      }
+
+      // Year in Review videos
+      if (video.title.toLowerCase().includes('year') || video.title.toLowerCase().includes('review')) {
+        category += ' year-reviews';
+      }
+
+      // Story videos
+      if (video.title.includes('Palisades') || video.title.includes('Wanderlust') ||
+          video.title.includes('Incredible Earth') || video.title.includes('Anheuser-Busch') ||
+          video.title.includes('Quarantina')) {
+        category += ' stories';
+      }
+
+      // Running videos
+      if (video.title.includes('Miles')) {
+        category += ' running';
+      }
+
+      return (
+      <div class={`video-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow ${category.trim()}`} data-category={category.trim()}>
+        <div
+          class="relative cursor-pointer group h-48"
+          data-video-index={index}
+        >
+          <img
+            src={video.thumbnail}
+            alt={video.title}
+            class="w-full h-48 object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+          <!-- Play Button Overlay -->
+          <div class="absolute inset-0 bg-transparent group-hover:bg-black/40 transition-all flex items-center justify-center pointer-events-none">
+            <div class="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              <svg class="w-8 h-8 text-gray-900 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold mb-2">{video.title}</h3>
+          <p class="text-sm text-gray-500 mb-3">{video.year}</p>
+          <p class="text-gray-700 mb-4">{video.description}</p>
+          {video.vimeoId && video.vimeoId !== 'PLACEHOLDER' && (
+            <button
+              class="watch-video-btn text-blue-600 hover:text-blue-800 font-semibold inline-flex items-center"
+              data-video-index={index}
+            >
+              Watch Video →
+            </button>
+          )}
+        </div>
+      </div>
+      );
+    })}
+  </div>
+
+  <!-- Video Modal -->
+  <dialog id="video-modal" class="video-modal-dialog">
+    <div class="modal-container">
+      <button
+        id="video-modal-close"
+        class="close-button"
+        aria-label="Close video"
+      >
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <div class="video-content">
+        <h3 id="video-modal-title" class="text-2xl font-bold text-white mb-4"></h3>
+        <div id="video-embed-container"></div>
+        <p id="video-modal-description" class="text-white/80 mt-4"></p>
+      </div>
+    </div>
+  </dialog>
+</div>
+
+<style is:global>
+  /* Featured tab styling - centered single video */
+  #video-grid[data-current-tab="featured"] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #video-grid[data-current-tab="featured"] .video-card {
+    max-width: 600px;
+    width: 100%;
+  }
+
+  #video-grid[data-current-tab="featured"] .video-card .h-48 {
+    height: 337px !important;
+  }
+
+  .video-modal-dialog {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    margin: 0;
+    padding: 2rem;
+    border: none;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 9999;
+  }
+
+  .video-modal-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.95);
+  }
+
+  .modal-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    box-sizing: border-box;
+  }
+
+  .close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: background 0.2s;
+  }
+
+  .close-button:hover {
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  .video-content {
+    max-width: 1200px;
+    width: 100%;
+  }
+
+  #video-embed-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    background: #000;
+    border-radius: 0.5rem;
+    min-width: 600px;
+  }
+
+  #video-embed-container iframe {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+</style>
+
+<script define:vars={{ videos: sortedVideos }}>
+  const modal = document.getElementById('video-modal');
+  const modalTitle = document.getElementById('video-modal-title');
+  const modalDescription = document.getElementById('video-modal-description');
+  const embedContainer = document.getElementById('video-embed-container');
+  const closeButton = document.getElementById('video-modal-close');
+
+  function openVideoModal(index) {
+    const video = videos[index];
+    if (video.vimeoId === 'PLACEHOLDER') {
+      alert('Video embed coming soon! Please add the Vimeo ID to the videos.json file.');
+      return;
+    }
+
+    if (modalTitle && modalDescription && embedContainer) {
+      modalTitle.textContent = video.title;
+      modalDescription.textContent = video.description;
+
+      // Create Vimeo iframe
+      embedContainer.innerHTML = `
+        <iframe
+          src="https://player.vimeo.com/video/${video.vimeoId}?autoplay=1&badge=0&autopause=0"
+          frameborder="0"
+          allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+          title="${video.title}"
+        ></iframe>
+      `;
+    }
+
+    modal?.showModal();
+  }
+
+  function closeVideoModal() {
+    // Clear iframe to stop video
+    if (embedContainer) {
+      embedContainer.innerHTML = '';
+    }
+    modal?.close();
+  }
+
+  // Event listeners for thumbnails and watch buttons
+  const videoTriggers = document.querySelectorAll('[data-video-index]');
+  videoTriggers.forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const index = parseInt(trigger.getAttribute('data-video-index') || '0');
+      openVideoModal(index);
+    });
+  });
+
+  closeButton?.addEventListener('click', closeVideoModal);
+
+  // Close on backdrop click
+  modal?.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeVideoModal();
+    }
+  });
+
+  // Close on ESC key
+  modal?.addEventListener('cancel', (e) => {
+    e.preventDefault();
+    closeVideoModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (modal?.open && e.key === 'Escape') {
+      closeVideoModal();
+    }
+  });
+
+  // Tab filtering
+  const tabButtons = document.querySelectorAll('.tab-button');
+  const videoCards = document.querySelectorAll('.video-card');
+
+  function filterVideos(category) {
+    videoCards.forEach(card => {
+      const cardCategories = card.dataset.category?.split(' ') || [];
+      if (cardCategories.includes(category)) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Update active tab styling
+      tabButtons.forEach(btn => {
+        btn.classList.remove('active', 'border-blue-600', 'text-blue-600');
+        btn.classList.add('border-transparent', 'text-gray-600');
+      });
+      button.classList.add('active', 'border-blue-600', 'text-blue-600');
+      button.classList.remove('border-transparent', 'text-gray-600');
+
+      // Filter videos
+      const category = button.dataset.tab;
+      filterVideos(category);
+
+      // Update grid layout based on tab
+      const videoGrid = document.getElementById('video-grid');
+      if (videoGrid) {
+        videoGrid.dataset.currentTab = category;
+      }
+    });
+  });
+
+  // Show "featured" tab by default
+  filterVideos('featured');
+</script>
