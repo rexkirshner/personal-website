@@ -1,22 +1,22 @@
 [
   {
     "id": "profile-1",
-    "src": "/images/profile/rex profile pic 1-800w.webp",
-    "srcset": "/images/profile/rex profile pic 1-400w.webp 400w, /images/profile/rex profile pic 1-600w.webp 600w, /images/profile/rex profile pic 1-800w.webp 800w",
+    "src": "/images/profile/rex-profile-pic-1-800w.webp",
+    "srcset": "/images/profile/rex-profile-pic-1-400w.webp 400w, /images/profile/rex-profile-pic-1-600w.webp 600w, /images/profile/rex-profile-pic-1-800w.webp 800w",
     "sizes": "(max-width: 768px) 100vw, 400px",
     "alt": "Rex Kirshner profile photo"
   },
   {
     "id": "profile-2",
-    "src": "/images/profile/rex profile pic 2-800w.webp",
-    "srcset": "/images/profile/rex profile pic 2-400w.webp 400w, /images/profile/rex profile pic 2-600w.webp 600w, /images/profile/rex profile pic 2-800w.webp 800w",
+    "src": "/images/profile/rex-profile-pic-2-800w.webp",
+    "srcset": "/images/profile/rex-profile-pic-2-400w.webp 400w, /images/profile/rex-profile-pic-2-600w.webp 600w, /images/profile/rex-profile-pic-2-800w.webp 800w",
     "sizes": "(max-width: 768px) 100vw, 400px",
     "alt": "Rex Kirshner profile photo"
   },
   {
     "id": "profile-3",
-    "src": "/images/profile/rex profile pic 3-800w.webp",
-    "srcset": "/images/profile/rex profile pic 3-400w.webp 400w, /images/profile/rex profile pic 3-600w.webp 600w, /images/profile/rex profile pic 3-800w.webp 800w",
+    "src": "/images/profile/rex-profile-pic-3-800w.webp",
+    "srcset": "/images/profile/rex-profile-pic-3-400w.webp 400w, /images/profile/rex-profile-pic-3-600w.webp 600w, /images/profile/rex-profile-pic-3-800w.webp 800w",
     "sizes": "(max-width: 768px) 100vw, 400px",
     "alt": "Rex Kirshner profile photo"
   }
