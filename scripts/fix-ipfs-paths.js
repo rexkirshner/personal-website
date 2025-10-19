@@ -46,6 +46,12 @@ htmlFiles.forEach(file => {
     .replace(/href="\/expansion"/g, `href="${prefix}expansion.html"`)
     .replace(/href="\/"/g, `href="${prefix}index.html"`);
 
+  // Fix srcset attributes (which contain multiple URLs)
+  content = content.replace(/srcset="([^"]*)"/g, (match, srcsetValue) => {
+    const fixedSrcset = srcsetValue.replace(/\/images\//g, `${prefix}images/`);
+    return `srcset="${fixedSrcset}"`;
+  });
+
   fs.writeFileSync(filePath, content);
   console.log(`✅ Fixed paths in ${file}`);
 });
