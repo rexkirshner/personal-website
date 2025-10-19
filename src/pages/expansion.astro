@@ -75,8 +75,8 @@ const { episodes } = episodesData;
   .banner-image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: 65% center; /* Keep "Expansion" text visible on mobile */
+    object-fit: cover; /* Always fill the width */
+    object-position: center center; /* Keep image centered at all sizes */
   }
 
   /* Small tablets and up - show more height */
@@ -84,21 +84,12 @@ const { episodes } = episodesData;
     .banner-container {
       height: 250px;
     }
-
-    .banner-image {
-      object-position: center center;
-    }
   }
 
   /* Desktop - show more of the banner */
   @media (min-width: 1024px) {
     .banner-container {
       height: 350px;
-    }
-
-    .banner-image {
-      object-fit: cover; /* Always fill the width, crop if needed */
-      object-position: center center;
     }
   }
 
