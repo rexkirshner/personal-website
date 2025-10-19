@@ -69,16 +69,17 @@ const { episodes } = episodesData;
   /* Banner responsive behavior */
   .banner-container {
     height: 200px; /* Default mobile height */
+    width: 100%;
   }
 
   .banner-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center right; /* Focus on the "Expansion" text on mobile */
+    object-position: 65% center; /* Keep "Expansion" text visible on mobile */
   }
 
-  /* Tablet and up - show more of the banner */
+  /* Small tablets and up - show more height */
   @media (min-width: 640px) {
     .banner-container {
       height: 250px;
@@ -89,24 +90,29 @@ const { episodes } = episodesData;
     }
   }
 
-  /* Desktop - show full banner with aspect ratio preserved */
+  /* Desktop - show more of the banner */
   @media (min-width: 1024px) {
     .banner-container {
-      height: auto;
-      max-height: 400px;
+      height: 350px;
     }
 
     .banner-image {
-      object-fit: contain;
-      background-color: #1a1a2e; /* Dark background to match banner edges */
+      object-fit: cover; /* Always fill the width, crop if needed */
+      object-position: center center;
     }
   }
 
-  /* Extra wide screens - limit maximum width for better viewing */
+  /* Extra wide screens - show even more height */
   @media (min-width: 1536px) {
     .banner-container {
-      max-width: 1536px;
-      margin: 0 auto;
+      height: 400px;
+    }
+  }
+
+  /* Ultra-wide screens - cap the height */
+  @media (min-width: 2000px) {
+    .banner-container {
+      height: 450px;
     }
   }
 </style>
