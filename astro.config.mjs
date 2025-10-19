@@ -7,6 +7,11 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://rexkirshner.com',
+  build: {
+    // Use relative paths for assets to support IPFS deployment
+    // This ensures CSS/JS work on both regular domains and IPFS gateways
+    format: 'file'
+  },
   integrations: [
     sitemap({
       customPages: [
