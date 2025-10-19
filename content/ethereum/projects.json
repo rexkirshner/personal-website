@@ -23,9 +23,9 @@
     "id": "expansion-podcast",
     "title": "Expansion Podcast",
     "type": "Podcast",
-    "description": "I launched Expansion for Blockworks to discuss the modular blockchain industry. Hosted for the first 6 months.",
-    "platform": "Apple Podcasts",
-    "link": "https://podcasts.apple.com/us/podcast/expansion/id1750005751",
+    "description": "I co-hosted the first 36 episodes of Expansion, exploring crypto's modular future and scaling solutions. View all my episodes.",
+    "platform": "YouTube/Apple/Spotify",
+    "link": "/expansion",
     "image": "/images/ethereum/expansion podcast cover.webp"
   }
 ]

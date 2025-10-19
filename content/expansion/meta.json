@@ -1,0 +1,27 @@
+{
+  "title": "Expansion Podcast - Rex Kirshner",
+  "description": "Rex Kirshner's appearances on the Expansion Podcast. 36 episodes exploring crypto's modular future, scaling solutions, and the evolution of blockchain technology.",
+  "tagline": "Exploring crypto's modular future",
+  "keywords": [
+    "Expansion Podcast",
+    "Rex Kirshner",
+    "Ethereum",
+    "Modular Blockchain",
+    "Crypto Scaling",
+    "Layer 2",
+    "Blockchain Technology",
+    "Web3",
+    "DeFi"
+  ],
+  "ogImage": "/images/expansion/og-image.jpg",
+  "backLink": {
+    "text": "← Back to rexkirshner.com",
+    "url": "/#ethereum"
+  },
+  "intro": "From 2024 to 2025, I co-hosted the first 36 episodes of the Expansion Podcast, diving deep into crypto's modular future, scaling challenges, and the evolution of blockchain technology. Each conversation explored the cutting edge of Ethereum, L2s, and the broader Web3 ecosystem.",
+  "stats": {
+    "episodes": 36,
+    "guests": 45,
+    "topics": ["Modular Blockchains", "Zero Knowledge Proofs", "Layer 2 Scaling", "Interoperability", "Data Availability"]
+  }
+}

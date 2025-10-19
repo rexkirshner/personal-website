@@ -1,0 +1,605 @@
+{
+  "episodes": [
+    {
+      "id": "ep1",
+      "number": 1,
+      "title": "Exploring Crypto's Modular Path",
+      "thumbnail": "/images/expansion/ep1-thumbnail.webp",
+      "youtubeId": "Te67VfJ1cas",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Te67VfJ1cas",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/the-epilogue/id1679623838?i=1000658091702",
+      "spotifyUrl": "https://open.spotify.com/episode/4X55Yrt0gnu3MdWEvxhzxO?si=3362f3e8fc11478d",
+      "guests": [
+        {
+          "name": "Mike Ippolito",
+          "social": "https://x.com/MikeIppolito_"
+        },
+        {
+          "name": "Jason Yanowitz",
+          "social": "https://x.com/JasonYanowitz"
+        }
+      ],
+      "isRoundup": false
+    },
+    {
+      "id": "ep2",
+      "number": 2,
+      "title": "The Modular Integration Spectrum",
+      "thumbnail": "/images/expansion/ep2-thumbnail.webp",
+      "youtubeId": "iGPmwOtPphA",
+      "youtubeUrl": "https://www.youtube.com/watch?v=iGPmwOtPphA",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/the-modular-integration-spectrum-keone-zon/id1750005751?i=1000657917733",
+      "spotifyUrl": "https://open.spotify.com/episode/0JfCxHJ0cffPag3gw8g0yf?si=f889a0ad924d4c0a",
+      "guests": [
+        {
+          "name": "Keone Hon",
+          "social": "https://x.com/keoneHD"
+        },
+        {
+          "name": "Zon",
+          "social": "https://x.com/ItsAlwaysZonny"
+        }
+      ],
+      "isRoundup": false
+    },
+    {
+      "id": "ep3",
+      "number": 3,
+      "title": "How ZK Accounts Expand dApp Limits",
+      "thumbnail": "/images/expansion/ep3-thumbnail.webp",
+      "youtubeId": "VMmI77qcLyg",
+      "youtubeUrl": "https://www.youtube.com/watch?v=VMmI77qcLyg",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/how-zk-accounts-expand-dapp-limits-john-uma-zaki/id1750005751?i=1000658763024",
+      "spotifyUrl": "https://open.spotify.com/episode/0JfCxHJ0cffPag3gw8g0yf?si=dccb0057a9e14a51",
+      "guests": [
+        {
+          "name": "John Adler",
+          "social": "https://x.com/jadler0"
+        },
+        {
+          "name": "Uma Roy",
+          "social": "https://x.com/pumatheuma"
+        },
+        {
+          "name": "Zaki Manian",
+          "social": "https://x.com/zmanian"
+        }
+      ],
+      "isRoundup": false
+    },
+    {
+      "id": "ep4",
+      "number": 4,
+      "title": "What It Will Take to Bring the World Onchain",
+      "thumbnail": "/images/expansion/ep4-thumbnail.webp",
+      "youtubeId": "xE-S4I6vK04",
+      "youtubeUrl": "https://www.youtube.com/watch?v=xE-S4I6vK04",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/what-it-will-take-to-bring-the-world-onchain-jesse-pollak/id1750005751?i=1000659511774",
+      "spotifyUrl": "https://open.spotify.com/episode/57uU9ryu7ojBGhD40pqqar?si=722f79a9c6a7434f",
+      "guests": [
+        {
+          "name": "Jess Pollak",
+          "social": "https://x.com/jessepollak"
+        }
+      ],
+      "isRoundup": false
+    },
+    {
+      "id": "ep5",
+      "number": 5,
+      "title": "Inside the Modular Mullet Era of Crypto Scaling",
+      "thumbnail": "/images/expansion/ep5-thumbnail.webp",
+      "youtubeId": "HYwd_QH43hY",
+      "youtubeUrl": "https://www.youtube.com/watch?v=HYwd_QH43hY",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/inside-the-modular-mullet-era-of-crypto-scaling/id1750005751?i=1000660316790",
+      "spotifyUrl": "https://open.spotify.com/episode/7eF9y15PN7Dtne7YPkn1VE?si=57bb01a6a7f14335",
+      "guests": [
+        {
+          "name": "Olaf Carlson-Wee",
+          "social": "https://x.com/zxocw"
+        },
+        {
+          "name": "Nick White",
+          "social": "https://x.com/nickwh8te"
+        }
+      ],
+      "isRoundup": false
+    },
+    {
+      "id": "ep6",
+      "number": 6,
+      "title": "Is the EVM Holding Crypto Back?",
+      "thumbnail": "/images/expansion/ep6-thumbnail.webp",
+      "youtubeId": "tui2EMi4SD0",
+      "youtubeUrl": "https://www.youtube.com/watch?v=tui2EMi4SD0",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/is-the-evm-holding-crypto-back-dino-rushi-jarry/id1750005751?i=1000661024063",
+      "spotifyUrl": "https://open.spotify.com/episode/1EpvehAbCmA5eOgGbbRgIH?si=dff9f6de96dc44d1",
+      "guests": [
+        {
+          "name": "Dino",
+          "social": "https://x.com/blendino_"
+        },
+        {
+          "name": "Rushi Manche",
+          "social": "https://x.com/rushimanche"
+        },
+        {
+          "name": "Jarry Xiao",
+          "social": "https://x.com/jarxiao"
+        }
+      ],
+      "isRoundup": false
+    },
+    {
+      "id": "ep7",
+      "number": 7,
+      "title": "Blockchain's Race to $0 Fees",
+      "thumbnail": "/images/expansion/ep7-thumbnail.webp",
+      "youtubeId": "qZq6bxfVQBE",
+      "youtubeUrl": "https://www.youtube.com/watch?v=qZq6bxfVQBE",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/blockchains-race-to-%240-fees-kyle-samani/id1750005751?i=1000661785426",
+      "spotifyUrl": "https://open.spotify.com/episode/2kB0DhinkZwWD0CGQfCswq?si=f3804a5c4d744b6e",
+      "guests": [
+        {
+          "name": "Kyle Samani",
+          "social": "https://x.com/KyleSamani"
+        }
+      ],
+      "isRoundup": false
+    },
+    {
+      "id": "ep8",
+      "number": 8,
+      "title": "Is Crypto Really Just Financial Infrastructure?",
+      "thumbnail": "/images/expansion/ep8-thumbnail.webp",
+      "youtubeId": "5ONaQmHRcEM",
+      "youtubeUrl": "https://www.youtube.com/watch?v=5ONaQmHRcEM",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/is-crypto-really-just-financial-infrastructure-david/id1750005751?i=1000662513006",
+      "spotifyUrl": "https://open.spotify.com/episode/0K3StXZzgVEJaOgyMGlxQC?si=8be61506afcd4abb",
+      "guests": [
+        {
+          "name": "Mike Ippolito",
+          "social": "https://x.com/MikeIppolito_"
+        },
+        {
+          "name": "David Hoffman",
+          "social": "https://x.com/TrustlessState"
+        }
+      ],
+      "isRoundup": false
+    },
+    {
+      "id": "ep9",
+      "number": 9,
+      "title": "The Unasked Questions of Blockchain Interop",
+      "thumbnail": "/images/expansion/ep9-thumbnail.webp",
+      "youtubeId": "QZZhb22o1Bo",
+      "youtubeUrl": "https://www.youtube.com/watch?v=QZZhb22o1Bo",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/the-unasked-questions-of-blockchain-interop-jon-kol/id1750005751?i=1000663205614",
+      "spotifyUrl": "https://open.spotify.com/episode/4zjNUJR0u8A232CBt7jQ6y?si=8d76a05293f34e13",
+      "guests": [
+        {
+          "name": "Jon Kol",
+          "social": "https://x.com/thePalenimbus"
+        }
+      ],
+      "isRoundup": false
+    },
+    {
+      "id": "ep10",
+      "number": 10,
+      "title": "Safeguarding Creativity in an AI Future",
+      "thumbnail": "/images/expansion/ep10-thumbnail.webp",
+      "youtubeId": "w05RK213W1A",
+      "youtubeUrl": "https://www.youtube.com/watch?v=w05RK213W1A",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/safeguarding-creativity-in-an-ai-future-jason-zhao/id1750005751?i=1000663915110",
+      "spotifyUrl": "https://open.spotify.com/episode/1uk24Loyz51cysuYr8f7N7?si=b0d66f5fd86341c8",
+      "guests": [
+        {
+          "name": "Jason Zhao",
+          "social": "https://x.com/jasonjzhao"
+        },
+        {
+          "name": "Daniel Shorr",
+          "social": "https://x.com/realDanielShorr"
+        }
+      ],
+      "isRoundup": false
+    },
+    {
+      "id": "ep11",
+      "number": 11,
+      "title": "Beyond VMs: Will zkVMs Dominate Crypto?",
+      "thumbnail": "/images/expansion/ep11-thumbnail.webp",
+      "youtubeId": "LKMUEXloDk0",
+      "youtubeUrl": "https://www.youtube.com/watch?v=LKMUEXloDk0",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/beyond-vms-will-zkvms-dominate-crypto-roundup/id1750005751?i=1000664210627",
+      "spotifyUrl": "https://open.spotify.com/episode/2Axn27laDH5XVeht7GWdOK?si=b01b82ed7fa84f39",
+      "guests": [],
+      "isRoundup": true
+    },
+    {
+      "id": "ep12",
+      "number": 12,
+      "title": "Why Offchain Data Needs Blockchain Trust",
+      "thumbnail": "/images/expansion/ep12-thumbnail.webp",
+      "youtubeId": "rCh1yZ3pWZg",
+      "youtubeUrl": "https://www.youtube.com/watch?v=rCh1yZ3pWZg",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/why-offchain-data-needs-blockchain-trust-joe-coll-witness/id1750005751?i=1000664586579",
+      "spotifyUrl": "https://open.spotify.com/episode/5g7H0hfB1Ri2nDQmC2LSmy?si=2dcabf1f04544de1",
+      "guests": [
+        {
+          "name": "Joe Coll",
+          "social": "https://x.com/0x_Osprey"
+        }
+      ],
+      "isRoundup": false
+    },
+    {
+      "id": "ep13",
+      "number": 13,
+      "title": "Unpacking Crypto's Decentralization Illusion",
+      "thumbnail": "/images/expansion/ep13-thumbnail.webp",
+      "youtubeId": "mJUk2Pevzrg",
+      "youtubeUrl": "https://www.youtube.com/watch?v=mJUk2Pevzrg",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/unpacking-cryptos-decentralization-illusion-roundup/id1750005751?i=1000664888859",
+      "spotifyUrl": "https://open.spotify.com/episode/0YeoCJBdQG68cya3YfFWvT?si=a8c3bef08f8845ac",
+      "guests": [],
+      "isRoundup": true
+    },
+    {
+      "id": "ep14",
+      "number": 14,
+      "title": "The Death of Shared Sequencing: The Aftermath",
+      "thumbnail": "/images/expansion/ep14-thumbnail.webp",
+      "youtubeId": "hCcvogmz8ok",
+      "youtubeUrl": "https://www.youtube.com/watch?v=hCcvogmz8ok",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/the-death-of-shared-sequencing-the-aftermath/id1750005751?i=1000665250071",
+      "spotifyUrl": "https://open.spotify.com/episode/4RXkPkN4WQ5xshoOZpY6aS?si=507c909bb3a24be1",
+      "guests": [
+        {
+          "name": "Ben Fisch",
+          "social": "https://x.com/benafisch"
+        }
+      ],
+      "isRoundup": false
+    },
+    {
+      "id": "ep15",
+      "number": 15,
+      "title": "Airdrops Are Dead. What's Next for Token Distribution?",
+      "thumbnail": "/images/expansion/ep15-thumbnail.webp",
+      "youtubeId": "Pk5oB-jc2S0",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Pk5oB-jc2S0",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/airdrops-are-dead-whats-next-for-token-distribution/id1750005751?i=1000665707276",
+      "spotifyUrl": "https://open.spotify.com/episode/4fAV2nzUANXcgKIo9TlHvt?si=88009db42b95407a",
+      "guests": [],
+      "isRoundup": true
+    },
+    {
+      "id": "ep16",
+      "number": 16,
+      "title": "When Apps Become Chains",
+      "thumbnail": "/images/expansion/ep16-thumbnail.webp",
+      "youtubeId": "WcU62oDF93A",
+      "youtubeUrl": "https://www.youtube.com/watch?v=WcU62oDF93A",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/when-apps-become-chains-zorayr-khalapyan-josie-leung/id1750005751?i=1000666108437",
+      "spotifyUrl": "https://open.spotify.com/episode/6bvUxBPVvkWkYzDcj4csbJ?si=9828706d54d34334",
+      "guests": [
+        {
+          "name": "Zorayr Khalapyan",
+          "social": "https://x.com/0xZoZoZo"
+        },
+        {
+          "name": "Josie Leung",
+          "social": "https://x.com/josietyleung"
+        }
+      ],
+      "isRoundup": false
+    },
+    {
+      "id": "ep17",
+      "number": 17,
+      "title": "Memecoin Trenches, Sovereignty Dreams, and Crypto's App Chain Tradeoff",
+      "thumbnail": "/images/expansion/ep17-thumbnail.webp",
+      "youtubeId": "6rdLLAnmchY",
+      "youtubeUrl": "https://www.youtube.com/watch?v=6rdLLAnmchY",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/memecoin-trenches-sovereignty-dreams-and-cryptos-app/id1750005751?i=1000666455751",
+      "spotifyUrl": "https://open.spotify.com/episode/5IJghawHaA7L7S7lZc515G?si=29f1893adca449d5",
+      "guests": [],
+      "isRoundup": true
+    },
+    {
+      "id": "ep18",
+      "number": 18,
+      "title": "Are We Building the Wrong Blockchains? Debating Crypto's True Purpose",
+      "thumbnail": "/images/expansion/ep18-thumbnail.webp",
+      "youtubeId": "oArL4713JgA",
+      "youtubeUrl": "https://www.youtube.com/watch?v=oArL4713JgA",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/are-we-building-the-wrong-blockchains-debating/id1750005751?i=1000666890983",
+      "spotifyUrl": "https://open.spotify.com/episode/4Ju1XyqmuLaLJVeW8GDiyX?si=01773c2f17524274",
+      "guests": [
+        {
+          "name": "Logan Jastremski",
+          "social": "https://x.com/LoganJastremski"
+        }
+      ],
+      "isRoundup": false
+    },
+    {
+      "id": "ep19",
+      "number": 19,
+      "title": "What Goes Wrong with Crypto Rebrands & Who Will Win Crypto Scaling",
+      "thumbnail": "/images/expansion/ep19-thumbnail.webp",
+      "youtubeId": "YHLAptj8VJM",
+      "youtubeUrl": "https://www.youtube.com/watch?v=YHLAptj8VJM",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/what-goes-wrong-with-crypto-rebrands-who-will-win/id1750005751?i=1000667707937",
+      "spotifyUrl": "https://open.spotify.com/episode/5XaI0sJdGlacARILRGl78Q?si=33cc2c0090b6403e",
+      "guests": [],
+      "isRoundup": true
+    },
+    {
+      "id": "ep20",
+      "number": 20,
+      "title": "Are L1s and L2s Converging? Eclipse & Astria on Crypto's Scaling Future",
+      "thumbnail": "/images/expansion/ep20-thumbnail.webp",
+      "youtubeId": "J7JFsVs6kf8",
+      "youtubeUrl": "https://www.youtube.com/watch?v=J7JFsVs6kf8",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/are-l1s-and-l2s-converging-eclipse-astria-on-cryptos/id1750005751?i=1000668321257",
+      "spotifyUrl": "https://open.spotify.com/episode/4lGZ40sHiKvY3RGOrKJGH0?si=dec2364b75b84dd5",
+      "guests": [
+        {
+          "name": "Josh Bowen",
+          "social": "https://x.com/jskybowen"
+        },
+        {
+          "name": "Terry Chung",
+          "social": "https://x.com/0xtaetaehoho"
+        }
+      ],
+      "isRoundup": false
+    },
+    {
+      "id": "ep21",
+      "number": 21,
+      "title": "Is Crypto Twitter's Degradation an Existential Crisis?",
+      "thumbnail": "/images/expansion/ep21-thumbnail.webp",
+      "youtubeId": "wpJbxTkzu7I",
+      "youtubeUrl": "https://www.youtube.com/watch?v=wpJbxTkzu7I",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/is-crypto-twitters-degradation-an-existential-crisis/id1750005751?i=1000668710088",
+      "spotifyUrl": "https://open.spotify.com/episode/19vgpq9oTm5WYl7cb6nRQI?si=1add799cdd374604",
+      "guests": [],
+      "isRoundup": true
+    },
+    {
+      "id": "ep22",
+      "number": 22,
+      "title": "Why All Blockchains Are Converging on Sharding",
+      "thumbnail": "/images/expansion/ep22-thumbnail.webp",
+      "youtubeId": "oukJRws3q88",
+      "youtubeUrl": "https://www.youtube.com/watch?v=oukJRws3q88",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/why-all-blockchains-are-converging-on-sharding-avi/id1750005751?i=1000669138338",
+      "spotifyUrl": "https://open.spotify.com/episode/1G2vdWNBLeOKHnsEd4yo8e?si=cc952b9b976a40c5",
+      "guests": [
+        {
+          "name": "Avi Zurlo",
+          "social": "https://x.com/avizurlo"
+        }
+      ],
+      "isRoundup": false
+    },
+    {
+      "id": "ep23",
+      "number": 23,
+      "title": "Is Low Data Demand Crypto's Biggest Blind Spot?",
+      "thumbnail": "/images/expansion/ep23-thumbnail.webp",
+      "youtubeId": "N6MX1ZNhXlw",
+      "youtubeUrl": "https://www.youtube.com/watch?v=N6MX1ZNhXlw",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/is-low-data-demand-cryptos-biggest-blind-spot-roundup/id1750005751?i=1000669525827",
+      "spotifyUrl": "https://open.spotify.com/episode/5QD5vi2v6xfLIlAZ0JiWMj?si=9c92a1305f5c493e",
+      "guests": [
+        {
+          "name": "Sunny Aggarwal",
+          "social": "https://x.com/sunnya97"
+        }
+      ],
+      "isRoundup": false
+    },
+    {
+      "id": "ep24",
+      "number": 24,
+      "title": "Rethinking Ethereum's Block Building: CommitBoost & Pre-Confirmations",
+      "thumbnail": "/images/expansion/ep24-thumbnail.webp",
+      "youtubeId": "rAFFdqEAdj4",
+      "youtubeUrl": "https://www.youtube.com/watch?v=rAFFdqEAdj4",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/rethinking-ethereums-block-building-commitboost-inclusion/id1750005751?i=1000669925455",
+      "spotifyUrl": "https://open.spotify.com/episode/2cd5gBiJl6fbJHlQXYcH7T?si=1291c2c3d3444928",
+      "guests": [
+        {
+          "name": "Drew Van der Werff",
+          "social": "https://x.com/DrewVdW"
+        }
+      ],
+      "isRoundup": false
+    },
+    {
+      "id": "ep25",
+      "number": 25,
+      "title": "SEC Fear Mongering, Adoption of Intent-Based Systems, and the Death of Airdrops",
+      "thumbnail": "/images/expansion/ep25-thumbnail.webp",
+      "youtubeId": "b32qEgq5dFU",
+      "youtubeUrl": "https://www.youtube.com/watch?v=b32qEgq5dFU",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/sec-fear-mongering-adoption-of-intent-based-systems/id1750005751?i=1000670243020",
+      "spotifyUrl": "https://open.spotify.com/episode/7yEhzIEnQ0QQimOmrXlUCf?si=0e236a4baba645bf",
+      "guests": [],
+      "isRoundup": true
+    },
+    {
+      "id": "ep26",
+      "number": 26,
+      "title": "Is DA a Commodity? Celestia's Contrarian Bet on Sovereign, Abundant Blockspace",
+      "thumbnail": "/images/expansion/ep26-thumbnail.webp",
+      "youtubeId": "0RnqqEwBkQo",
+      "youtubeUrl": "https://www.youtube.com/watch?v=0RnqqEwBkQo",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/is-da-a-commodity-celestias-contrarian-bet-on/id1750005751?i=1000670647804",
+      "spotifyUrl": "https://open.spotify.com/episode/1FQcZgVkAkUgfrsZC4eh6Z?si=b263191d69d9422b",
+      "guests": [
+        {
+          "name": "Nick White",
+          "social": "https://x.com/nickwh8te"
+        }
+      ],
+      "isRoundup": false
+    },
+    {
+      "id": "ep27",
+      "number": 27,
+      "title": "Who's Winning Interop, Death of Chain Loyalty, and Stablecoin Centralization",
+      "thumbnail": "/images/expansion/ep27-thumbnail.webp",
+      "youtubeId": "O_f1RX2slO8",
+      "youtubeUrl": "https://www.youtube.com/watch?v=O_f1RX2slO8",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/whos-winning-interop-death-of-chain-loyalty/id1750005751?i=1000671081025",
+      "spotifyUrl": "https://open.spotify.com/episode/2ZY0hWm8fK9fgo5QMjS9Nu?si=8f89e164c63d41ea",
+      "guests": [],
+      "isRoundup": true
+    },
+    {
+      "id": "ep28",
+      "number": 28,
+      "title": "The Hidden Flaw in Encrypted Messaging",
+      "thumbnail": "/images/expansion/ep28-thumbnail.webp",
+      "youtubeId": "7vbxtLTMq8A",
+      "youtubeUrl": "https://www.youtube.com/watch?v=7vbxtLTMq8A",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/the-hidden-flaw-in-encrypted-messaging-jacob-arluck/id1750005751?i=1000671543428",
+      "spotifyUrl": "https://open.spotify.com/episode/286WVb4RSC4FRt0TYSjB9j?si=c87f943371424526",
+      "guests": [
+        {
+          "name": "Jacob Arluck",
+          "social": "https://x.com/JacobArluck"
+        },
+        {
+          "name": "Ryan Ford",
+          "social": null
+        }
+      ],
+      "isRoundup": false
+    },
+    {
+      "id": "ep29",
+      "number": 29,
+      "title": "Saving Open Source, Snowden's Solana Take, and Death of Optimistic Rollups",
+      "thumbnail": "/images/expansion/ep29-thumbnail.webp",
+      "youtubeId": "WFogy3DYcp0",
+      "youtubeUrl": "https://www.youtube.com/watch?v=WFogy3DYcp0",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/saving-open-source-snowdens-solana-take-and-death/id1750005751?i=1000671877064",
+      "spotifyUrl": "https://open.spotify.com/episode/49fPC3Y1CybUm0vHfGB4MF?si=56d9a06ddb234992",
+      "guests": [],
+      "isRoundup": true
+    },
+    {
+      "id": "ep30",
+      "number": 30,
+      "title": "Why Apps Are Going Modular & Fixing Token Launches",
+      "thumbnail": "/images/expansion/ep30-thumbnail.webp",
+      "youtubeId": "EPjwLXYIucc",
+      "youtubeUrl": "https://www.youtube.com/watch?v=EPjwLXYIucc",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/why-apps-are-going-modular-fixing-token-launches-roundup/id1750005751?i=1000673115450",
+      "spotifyUrl": "https://open.spotify.com/episode/3uKgoTbdNnpCvo7wwIObNT?si=1d610a2e537a426e",
+      "guests": [],
+      "isRoundup": true
+    },
+    {
+      "id": "ep31",
+      "number": 31,
+      "title": "Where is the Killer Payment App of Crypto?",
+      "thumbnail": "/images/expansion/ep31-thumbnail.webp",
+      "youtubeId": "-t8riVsSX9o",
+      "youtubeUrl": "https://www.youtube.com/watch?v=-t8riVsSX9o",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/where-is-the-killer-payment-app-of-crypto-sid/id1750005751?i=1000673292931",
+      "spotifyUrl": "https://open.spotify.com/episode/6rEmfaxmTsOkp6pvranCIT?si=fa1466491e0e4877",
+      "guests": [
+        {
+          "name": "Nick White",
+          "social": "https://x.com/nickwh8te"
+        },
+        {
+          "name": "Sid Gandhi",
+          "social": "https://x.com/sidgandhi_xyz"
+        }
+      ],
+      "isRoundup": false
+    },
+    {
+      "id": "ep32",
+      "number": 32,
+      "title": "Saving Crypto from the Hidden Costs of Rollups",
+      "thumbnail": "/images/expansion/ep32-thumbnail.webp",
+      "youtubeId": "c2AFREpF_oc",
+      "youtubeUrl": "https://www.youtube.com/watch?v=c2AFREpF_oc",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/saving-crypto-from-the-hidden-costs-of-rollups-roundup/id1750005751?i=1000673673002",
+      "spotifyUrl": "https://open.spotify.com/episode/413gAlfaxWd3rGBnucs4Sk?si=d42f5883beed48ad",
+      "guests": [],
+      "isRoundup": true
+    },
+    {
+      "id": "ep33",
+      "number": 33,
+      "title": "Why Data Sovereignty Changes Everything",
+      "thumbnail": "/images/expansion/ep33-thumbnail.webp",
+      "youtubeId": "tVPiAFoBjjI",
+      "youtubeUrl": "https://www.youtube.com/watch?v=tVPiAFoBjjI",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/why-data-sovereignty-changes-everything-nick-white/id1750005751?i=1000674141626",
+      "spotifyUrl": "https://open.spotify.com/episode/26pgyMeRwqJkyL0BJMg8cv?si=2c4d453d02094864",
+      "guests": [
+        {
+          "name": "Nick White",
+          "social": "https://x.com/nickwh8te"
+        }
+      ],
+      "isRoundup": false
+    },
+    {
+      "id": "ep34",
+      "number": 34,
+      "title": "The Death of Rollup Costs",
+      "thumbnail": "/images/expansion/ep34-thumbnail.webp",
+      "youtubeId": "hjJxJZ-l8kg",
+      "youtubeUrl": "https://www.youtube.com/watch?v=hjJxJZ-l8kg",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/the-death-of-rollup-costs-matt-katz-caldera/id1750005751?i=1000674541666",
+      "spotifyUrl": "https://open.spotify.com/episode/2wl0yol3CplegaB9tndmez?si=1b8c1e84e81a4a48",
+      "guests": [
+        {
+          "name": "Matt Katz",
+          "social": "https://x.com/0xkatz"
+        }
+      ],
+      "isRoundup": false
+    },
+    {
+      "id": "ep35",
+      "number": 35,
+      "title": "How Celestia's Gigabyte Block Vision Changes Crypto",
+      "thumbnail": "/images/expansion/ep35-thumbnail.webp",
+      "youtubeId": "g7vKnZ2rbmQ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=g7vKnZ2rbmQ",
+      "appleUrl": "https://podcasts.apple.com/us/podcast/how-celestias-gigabyte-block-vision-changes-crypto/id1750005751?i=1000674996462",
+      "spotifyUrl": "https://open.spotify.com/episode/0KWKKCKU7xQvVHcEQofbRZ?si=35e85576780e4ca0",
+      "guests": [
+        {
+          "name": "John Adler",
+          "social": "https://x.com/jadler0"
+        },
+        {
+          "name": "Evan Forbes",
+          "social": "https://x.com/evansforbes"
+        }
+      ],
+      "isRoundup": false
+    }
+  ],
+  "metadata": {
+    "totalEpisodes": 35,
+    "lastUpdated": "2025-10-19T02:51:09.199Z",
+    "description": "Rex Kirshner's appearances on the Expansion Podcast, exploring crypto's modular future, scaling solutions, and the evolution of blockchain technology."
+  }
+}
