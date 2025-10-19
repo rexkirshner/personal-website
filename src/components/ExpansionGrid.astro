@@ -26,6 +26,9 @@ const { episodes } = Astro.props;
     <div
       class="episode-card bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
       data-episode-id={episode.id}
+      role="button"
+      tabindex="0"
+      aria-label={`Play episode ${episode.number}: ${episode.title}`}
     >
       <!-- Thumbnail -->
       <div class="aspect-video relative overflow-hidden bg-gray-200">
@@ -87,12 +90,21 @@ const { episodes } = Astro.props;
     const cards = document.querySelectorAll('.episode-card');
 
     cards.forEach((card) => {
+      // Click event
       card.addEventListener('click', () => {
         const episodeId = card.dataset.episodeId;
         const event = new CustomEvent('open-episode-lightbox', {
           detail: { episodeId }
         });
         window.dispatchEvent(event);
+      });
+
+      // Keyboard support
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.click();
+        }
       });
     });
   });

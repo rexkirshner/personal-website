@@ -1,6 +1,6 @@
 {
   "title": "Expansion Podcast - Rex Kirshner",
-  "description": "Rex Kirshner's appearances on the Expansion Podcast. 36 episodes exploring crypto's modular future, scaling solutions, and the evolution of blockchain technology.",
+  "description": "Rex Kirshner's appearances on the Expansion Podcast. 35 episodes exploring crypto's modular future, scaling solutions, and the evolution of blockchain technology.",
   "tagline": "Exploring crypto's modular future",
   "keywords": [
     "Expansion Podcast",
@@ -18,9 +18,9 @@
     "text": "← Back to rexkirshner.com",
     "url": "/#ethereum"
   },
-  "intro": "In early 2024, Blockworks acquired Strange Water Podcast, giving me the opportunity to launch Expansion—a show dedicated to exploring modular blockchains and the future of crypto infrastructure. Over six months, we produced 36 episodes featuring deep conversations with the industry's brightest minds. After stepping back from regular hosting duties, these episodes remain as a snapshot of crypto's modular evolution during a pivotal time.",
+  "intro": "In early 2024, Blockworks acquired Strange Water Podcast, giving me the opportunity to launch Expansion—a show dedicated to exploring modular blockchains and the future of crypto infrastructure. Over six months, we produced 35 episodes featuring deep conversations with the industry's brightest minds. After stepping back from regular hosting duties, these episodes remain as a snapshot of crypto's modular evolution during a pivotal time.",
   "stats": {
-    "episodes": 36,
+    "episodes": 35,
     "guests": 45,
     "topics": ["Modular Blockchains", "Zero Knowledge Proofs", "Layer 2 Scaling", "Interoperability", "Data Availability"]
   }
