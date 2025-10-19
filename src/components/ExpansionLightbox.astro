@@ -10,6 +10,8 @@ interface Episode {
   spotifyUrl: string;
   guests: Array<{ name: string; social: string | null }>;
   isRoundup: boolean;
+  publishDate?: string;
+  displayDate?: string;
 }
 
 interface Props {
@@ -155,7 +157,7 @@ const { episodes } = Astro.props;
 
     // Update title and number
     titleElement.textContent = episode.title;
-    episodeNumberElement.textContent = `Episode ${episode.number}`;
+    episodeNumberElement.textContent = `Episode ${episode.number}${episode.displayDate ? ` • ${episode.displayDate}` : ''}`;
 
     // Update video embed (only load when opened)
     videoContainer.innerHTML = `

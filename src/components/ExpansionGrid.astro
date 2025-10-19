@@ -10,6 +10,8 @@ interface Episode {
   spotifyUrl: string;
   guests: Array<{ name: string; social: string | null }>;
   isRoundup: boolean;
+  publishDate?: string;
+  displayDate?: string;
 }
 
 interface Props {
@@ -48,6 +50,9 @@ const { episodes } = Astro.props;
         <h3 class="font-bold text-lg text-gray-900 mb-2 line-clamp-2">
           {episode.title}
         </h3>
+        {episode.displayDate && (
+          <p class="text-xs text-gray-500 mb-1">{episode.displayDate}</p>
+        )}
         {!episode.isRoundup && episode.guests.length > 0 && (
           <p class="text-sm text-gray-600 line-clamp-1">
             with {episode.guests.map(g => g.name).join(', ')}
