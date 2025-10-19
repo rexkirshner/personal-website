@@ -14,31 +14,39 @@ const { episodes } = episodesData;
   description={metaData.description}
   ogImage={metaData.ogImage}
 >
-  <!-- Hero Section -->
-  <section class="bg-gradient-to-b from-blue-50 to-white py-16">
-    <div class="container mx-auto px-4">
-      <div class="max-w-4xl mx-auto text-center">
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-          {metaData.title.split(' - ')[0]}
-        </h1>
-        <p class="text-xl text-gray-600 mb-8">{metaData.tagline}</p>
-        <p class="text-gray-700 leading-relaxed max-w-3xl mx-auto">
-          {metaData.intro}
-        </p>
+  <!-- Hero Banner -->
+  <section class="relative">
+    <!-- Banner Image Container -->
+    <div class="banner-container relative w-full overflow-hidden bg-gray-900">
+      <img
+        src="/images/expansion/expansion-banner.jpg"
+        alt="Expansion Podcast by Blockworks"
+        class="banner-image w-full h-auto"
+      />
+    </div>
 
-        <!-- Stats Cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-12 max-w-2xl mx-auto">
-          <div class="bg-white rounded-lg shadow-md p-6">
-            <div class="text-3xl font-bold text-blue-600">{metaData.stats.episodes}</div>
-            <div class="text-gray-600 mt-1">Episodes</div>
-          </div>
-          <div class="bg-white rounded-lg shadow-md p-6">
-            <div class="text-3xl font-bold text-green-600">{metaData.stats.guests}</div>
-            <div class="text-gray-600 mt-1">Guests</div>
-          </div>
-          <div class="bg-white rounded-lg shadow-md p-6">
-            <div class="text-3xl font-bold text-purple-600">2</div>
-            <div class="text-gray-600 mt-1">Years</div>
+    <!-- Content Section Below Banner -->
+    <div class="bg-gradient-to-b from-gray-900 to-gray-50 py-16">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <p class="text-gray-700 leading-relaxed max-w-3xl mx-auto mb-12">
+            {metaData.intro}
+          </p>
+
+          <!-- Stats Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <div class="text-3xl font-bold text-blue-600">{metaData.stats.episodes}</div>
+              <div class="text-gray-600 mt-1">Episodes</div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <div class="text-3xl font-bold text-green-600">{metaData.stats.guests}</div>
+              <div class="text-gray-600 mt-1">Guests</div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <div class="text-3xl font-bold text-purple-600">2</div>
+              <div class="text-gray-600 mt-1">Years</div>
+            </div>
           </div>
         </div>
       </div>
@@ -56,3 +64,49 @@ const { episodes } = episodesData;
   <!-- Lightbox Component -->
   <ExpansionLightbox episodes={episodes} />
 </ExpansionLayout>
+
+<style>
+  /* Banner responsive behavior */
+  .banner-container {
+    height: 200px; /* Default mobile height */
+  }
+
+  .banner-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center right; /* Focus on the "Expansion" text on mobile */
+  }
+
+  /* Tablet and up - show more of the banner */
+  @media (min-width: 640px) {
+    .banner-container {
+      height: 250px;
+    }
+
+    .banner-image {
+      object-position: center center;
+    }
+  }
+
+  /* Desktop - show full banner with aspect ratio preserved */
+  @media (min-width: 1024px) {
+    .banner-container {
+      height: auto;
+      max-height: 400px;
+    }
+
+    .banner-image {
+      object-fit: contain;
+      background-color: #1a1a2e; /* Dark background to match banner edges */
+    }
+  }
+
+  /* Extra wide screens - limit maximum width for better viewing */
+  @media (min-width: 1536px) {
+    .banner-container {
+      max-width: 1536px;
+      margin: 0 auto;
+    }
+  }
+</style>
