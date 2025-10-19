@@ -86,24 +86,10 @@ const { episodes } = episodesData;
     }
   }
 
-  /* Desktop - show more of the banner */
+  /* Desktop and all larger screens - fixed height to show more width */
   @media (min-width: 1024px) {
     .banner-container {
-      height: 350px;
-    }
-  }
-
-  /* Extra wide screens - show even more height */
-  @media (min-width: 1536px) {
-    .banner-container {
-      height: 400px;
-    }
-  }
-
-  /* Ultra-wide screens - cap the height */
-  @media (min-width: 2000px) {
-    .banner-container {
-      height: 450px;
+      height: 300px; /* Fixed height for all desktop+ sizes */
     }
   }
 </style>
