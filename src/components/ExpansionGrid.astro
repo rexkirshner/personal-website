@@ -33,10 +33,6 @@ const { episodes } = Astro.props;
           loading={episode.number <= 6 ? "eager" : "lazy"}
           class="w-full h-full object-cover"
         />
-        <!-- Episode Number Badge -->
-        <div class="absolute top-4 left-4 bg-black bg-opacity-75 text-white px-3 py-1 rounded-full text-sm font-bold">
-          Ep {episode.number}
-        </div>
         <!-- Play Button Overlay -->
         <div class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50">
           <div class="bg-white rounded-full p-4">
