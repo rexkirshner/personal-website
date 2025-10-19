@@ -249,8 +249,8 @@ import profilePics from '../../content/site/profile-pics.json';
             {project.link && (
               <a
                 href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
+                target={project.link.startsWith('/') ? undefined : "_blank"}
+                rel={project.link.startsWith('/') ? undefined : "noopener noreferrer"}
                 class="text-blue-600 hover:text-blue-800 font-semibold inline-flex items-center"
               >
                 Learn More →
