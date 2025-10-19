@@ -25,6 +25,9 @@ jobs:
       - name: Build site
         run: npm run build
 
+      - name: Fix paths for IPFS
+        run: node scripts/fix-ipfs-paths.js
+
       - name: Deploy to IPFS
         id: ipfs
         uses: aquiladev/ipfs-action@v0.3.1
