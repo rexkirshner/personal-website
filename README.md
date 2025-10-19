@@ -10,6 +10,7 @@ This is a static website showcasing:
 - Photography gallery with lightbox
 - Running journey and statistics
 - About/bio section
+- Expansion Podcast episodes (dedicated page at `/expansion` - created to highlight the work Rex did on the Expansion Podcast, which ran longer than his involvement and has since been canceled. This page contains all 35 episodes he hosted)
 
 **Tech Stack:**
 - **Framework:** Astro (static site generator)
@@ -35,6 +36,9 @@ This is a static website showcasing:
 │   ├── running/
 │   │   ├── stats.json
 │   │   └── narrative.md
+│   ├── expansion/       # Expansion Podcast episodes
+│   │   ├── episodes.json
+│   │   └── meta.json
 │   └── about/
 │       └── bio.md
 ├── src/
@@ -46,7 +50,8 @@ This is a static website showcasing:
 │   ├── layouts/
 │   │   └── BaseLayout.astro
 │   ├── pages/
-│   │   └── index.astro  # Main homepage
+│   │   ├── index.astro     # Main homepage
+│   │   └── expansion.astro # Expansion Podcast episodes page
 │   └── styles/
 │       └── global.css   # Tailwind imports
 └── public/              # Static assets
