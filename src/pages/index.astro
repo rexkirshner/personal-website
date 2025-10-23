@@ -6,6 +6,7 @@ import RunningStats from '../components/RunningStats.astro';
 import TravelMap from '../components/TravelMap.astro';
 import siteMetadata from '../../content/site/meta.json';
 import ethereumProjects from '../../content/ethereum/projects.json';
+import programmingProjects from '../../content/programming/projects.json';
 import videos from '../../content/videos/videos.json';
 import photos from '../../content/photography/photos.json';
 import runningStats from '../../content/running/stats.json';
@@ -294,6 +295,89 @@ import profilePics from '../../content/site/profile-pics.json';
 
         // Toggle content visibility
         const content = project.querySelector('.ethereum-content');
+        const isHidden = content?.classList.contains('hidden');
+
+        if (isHidden) {
+          content?.classList.remove('hidden');
+          chevron?.classList.add('rotate-180');
+        } else {
+          content?.classList.add('hidden');
+          chevron?.classList.remove('rotate-180');
+        }
+      });
+    });
+  </script>
+
+  <!-- Programming Section -->
+  <section id="programming" class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-4xl font-bold mb-12 text-center">Programming Projects</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {programmingProjects.map((project) => (
+          <div class="programming-project border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow cursor-pointer md:cursor-default bg-white">
+            <!-- Header with chevron -->
+            <div class="flex justify-between items-start mb-4">
+              <div class="flex-1">
+                <h3 class="text-2xl font-bold mb-2">{project.title}</h3>
+                <p class="text-sm text-gray-500">{project.type}</p>
+              </div>
+              <!-- Chevron icon (mobile only) -->
+              <svg class="programming-chevron md:hidden w-6 h-6 flex-shrink-0 transition-transform ml-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+
+            <!-- Collapsible content (hidden on mobile by default, always visible on desktop) -->
+            <div class="programming-content hidden md:block">
+              {project.image && (
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  class="w-full aspect-square object-cover rounded-lg mb-4"
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
+              {project.tagline && (
+                <p class="text-sm italic text-gray-600 mb-3">"{project.tagline}"</p>
+              )}
+              <p class="text-gray-700 mb-4">{project.description}</p>
+              {project.link && (
+                <a
+                  href={project.link}
+                  target={project.link.startsWith('/') ? undefined : "_blank"}
+                  rel={project.link.startsWith('/') ? undefined : "noopener noreferrer"}
+                  class="text-blue-600 hover:text-blue-800 font-semibold inline-flex items-center"
+                >
+                  Learn More →
+                </a>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Programming project accordion toggle (mobile only)
+    const programmingProjects = document.querySelectorAll('.programming-project');
+
+    programmingProjects.forEach((project) => {
+      project.addEventListener('click', (e) => {
+        // Only work on mobile (when chevron is visible)
+        const chevron = project.querySelector('.programming-chevron');
+        if (!chevron || window.getComputedStyle(chevron).display === 'none') {
+          return; // Desktop view, do nothing
+        }
+
+        // Prevent link clicks from toggling
+        if (e.target.tagName === 'A' || e.target.closest('a')) {
+          return;
+        }
+
+        // Toggle content visibility
+        const content = project.querySelector('.programming-content');
         const isHidden = content?.classList.contains('hidden');
 
         if (isHidden) {

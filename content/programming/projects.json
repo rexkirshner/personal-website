@@ -1,0 +1,18 @@
+[
+  {
+    "id": "ai-context-system",
+    "title": "AI Context System",
+    "type": "CLI Tool",
+    "tagline": "Externalize AI reasoning. Enable perfect session continuity.",
+    "description": "A CLI tool for AI coding assistants that externalizes AI context into structured documentation, enabling developers to resume projects seamlessly and maintain visibility into AI decision-making processes.",
+    "link": "https://acs.rexkirshner.com"
+  },
+  {
+    "id": "podcast-framework",
+    "title": "Podcast Framework",
+    "type": "Web Framework",
+    "tagline": "Build beautiful podcast websites in minutes, not weeks",
+    "description": "A production-ready framework for creating podcast websites using modern web technologies. Combines content management with static site generation to help podcasters launch professional sites without extensive development time.",
+    "link": "https://podcast-framework.rexkirshner.com"
+  }
+]
