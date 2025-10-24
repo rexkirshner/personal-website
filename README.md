@@ -6,6 +6,7 @@ A modern, performant personal portfolio website built with Astro and deployed to
 
 This is a static website showcasing:
 - Personal projects and Ethereum contributions
+- Programming projects (AI Context System, Podcast Framework)
 - Video portfolio (Vimeo-hosted)
 - Photography gallery with lightbox
 - Running journey and statistics
@@ -29,6 +30,8 @@ This is a static website showcasing:
 │   │   └── meta.json    # Site metadata, OG image, social links
 │   ├── ethereum/
 │   │   └── projects.json
+│   ├── programming/
+│   │   └── projects.json
 │   ├── videos/
 │   │   └── videos.json
 │   ├── photography/
@@ -39,8 +42,8 @@ This is a static website showcasing:
 │   ├── expansion/       # Expansion Podcast episodes
 │   │   ├── episodes.json
 │   │   └── meta.json
-│   └── about/
-│       └── bio.md
+│   └── travel/
+│       └── map-data.json
 ├── src/
 │   ├── components/      # Reusable Astro components
 │   │   ├── PhotoGallery.astro

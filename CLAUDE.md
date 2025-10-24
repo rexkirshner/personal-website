@@ -114,7 +114,8 @@ All tab-based components (RunningStats, VideoGallery, PhotoGallery) implement mo
 - `index.astro`: Single-page site with all sections:
   - Home/About with profile carousel (3 photos, auto-rotating, deferred script)
   - Creative section (videos and photography with carousels and tabbed galleries)
-  - Ethereum projects
+  - Ethereum projects (collapsible accordion on mobile)
+  - Programming projects (collapsible accordion on mobile)
   - Running (narrative, stats with tabs, heatmap, travel map toggle)
 
 ### Content Schema
@@ -125,7 +126,9 @@ Content files are strongly structured:
 
 **`/content/site/profile-pics.json`**: Array of profile images with responsive srcsets (uses dashes in filenames, not spaces)
 
-**`/content/ethereum/projects.json`**: Array of Ethereum projects with id, title, type, description, link, and image
+**`/content/ethereum/projects.json`**: Array of Ethereum projects with id, title, type, tagline (optional), description, link, and image. Projects include Inevitable Ethereum Wiki, Strange Water Podcast, Expansion Podcast, and Signaling Theory Podcast.
+
+**`/content/programming/projects.json`**: Array of programming projects with id, title, type, tagline, description, and link. Projects include AI Context System and Podcast Framework. Images optional.
 
 **`/content/videos/videos.json`**: Array of videos with id, title, year, vimeoId, description, thumbnail path, and categories (featured, stories, year-reviews, running, all)
 
@@ -189,6 +192,14 @@ This site uses minimal JavaScript with performance optimizations:
    - Mobile: Dropdown selector
    - Shared `switchTab()` function handles both interactions
    - Select changes update button states and vice versa
+
+9. **Project Card Accordions (Ethereum & Programming)**: Collapsible cards on mobile to save vertical space:
+   - Mobile (< 768px): Cards show title + type only, click to expand/collapse
+   - Desktop (≥ 768px): All content visible in grid layout
+   - Chevron icon rotates on toggle (mobile only)
+   - Prevents link clicks from triggering accordion
+   - Content uses `hidden md:block` pattern for responsive visibility
+   - Separate scripts for `.ethereum-project` and `.programming-project` selectors
 
 **Key Pattern**: Components use `define:vars` to pass Astro data to inline scripts. Scripts are scoped per-component and only execute when the component renders.
 
@@ -378,6 +389,14 @@ The travel map is built from KML export and converted to GeoJSON:
 **Active Development:**
 - `/src`: All Astro components, pages, layouts
 - `/content`: All content JSON/Markdown files
+  - `/content/site`: Site metadata and profile pics
+  - `/content/ethereum`: Ethereum projects
+  - `/content/programming`: Programming projects
+  - `/content/videos`: Vimeo videos
+  - `/content/photography`: Photo metadata (images on R2)
+  - `/content/running`: Running stats and narrative
+  - `/content/travel`: Travel map data
+  - `/content/expansion`: Expansion Podcast episodes
 - `/public`: Static assets (images, favicons, robots.txt)
 - `/scripts`: Content management automation scripts
 - `.github/workflows`: GitHub Actions for IPFS deployment

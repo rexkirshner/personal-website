@@ -154,6 +154,36 @@ Change the order of entries in the array.
 
 ---
 
+## Programming Projects
+
+**File:** `/content/programming/projects.json`
+
+### Add a project:
+1. (Optional) Add project cover image to `/public/images/programming/`
+2. Add entry to JSON:
+   ```json
+   {
+     "id": "project-slug",
+     "title": "Project Name",
+     "type": "Project Type",
+     "tagline": "Brief tagline (displayed without quotes)",
+     "description": "Project description",
+     "link": "https://example.com",
+     "image": "/images/programming/cover.webp"
+   }
+   ```
+
+### Update a project:
+Edit the existing entry (change title, tagline, description, link, image, etc.)
+
+### Remove a project:
+Delete the entry from the JSON array.
+
+### Reorder projects:
+Change the order of entries in the array.
+
+---
+
 ## Running Section
 
 ### Stats and Numbers
@@ -245,6 +275,7 @@ Changes here affect:
 | Profile pics | `/content/site/profile-pics.json` |
 | Site metadata | `/content/site/meta.json` |
 | Ethereum projects | `/content/ethereum/projects.json` |
+| Programming projects | `/content/programming/projects.json` |
 | Videos | `/content/videos/videos.json` |
 | Photos | `/content/photography/photos.json` |
 | Running stats | `/content/running/stats.json` |
