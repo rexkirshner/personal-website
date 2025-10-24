@@ -11,7 +11,7 @@
     "id": "podcast-framework",
     "title": "Podcast Framework",
     "type": "Web Framework",
-    "tagline": "Build beautiful podcast websites in minutes, not weeks",
+    "tagline": "Build beautiful podcast websites in minutes",
     "description": "A production-ready framework for creating podcast websites using modern web technologies. Combines content management with static site generation to help podcasters launch professional sites without extensive development time.",
     "link": "https://podcast-framework.rexkirshner.com"
   }
