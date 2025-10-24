@@ -27,5 +27,13 @@
     "platform": "YouTube/Apple/Spotify",
     "link": "/expansion",
     "image": "/images/ethereum/expansion podcast cover.webp"
+  },
+  {
+    "id": "signaling-theory",
+    "title": "Signaling Theory Podcast",
+    "type": "Podcast",
+    "description": "A new podcast, coming soon.",
+    "link": "https://sigtheory.com",
+    "image": "/images/ethereum/signaling theory podcast cover.webp"
   }
 ]
