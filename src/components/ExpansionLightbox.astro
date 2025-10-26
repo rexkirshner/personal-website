@@ -155,6 +155,9 @@ const { episodes } = Astro.props;
     currentEpisodeIndex = index;
     updateLightboxContent();
     dialog.showModal();
+
+    // Update URL hash
+    window.history.pushState(null, '', `#${episodeId}`);
   }
 
   function updateLightboxContent() {
@@ -210,21 +213,58 @@ const { episodes } = Astro.props;
     nextButton.disabled = currentEpisodeIndex === episodes.length - 1;
   }
 
-  function closeLightbox() {
+  function closeLightbox(updateHistory = true) {
     // Clear video to stop playback
     videoContainer.innerHTML = '';
     dialog.close();
+
+    // Remove URL hash (unless called from popstate)
+    if (updateHistory) {
+      window.history.pushState(null, '', window.location.pathname);
+    }
   }
 
   function navigateEpisode(direction) {
     if (direction === 'prev' && currentEpisodeIndex > 0) {
       currentEpisodeIndex--;
       updateLightboxContent();
+      // Update URL hash
+      window.history.pushState(null, '', `#${episodes[currentEpisodeIndex].id}`);
     } else if (direction === 'next' && currentEpisodeIndex < episodes.length - 1) {
       currentEpisodeIndex++;
       updateLightboxContent();
+      // Update URL hash
+      window.history.pushState(null, '', `#${episodes[currentEpisodeIndex].id}`);
     }
   }
+
+  // Check for hash on page load and auto-open episode
+  function checkHashAndOpenEpisode() {
+    const hash = window.location.hash.substring(1); // Remove the '#'
+    if (hash) {
+      const episode = episodes.find(ep => ep.id === hash);
+      if (episode) {
+        openLightbox(hash);
+      }
+    }
+  }
+
+  // Run on page load
+  document.addEventListener('DOMContentLoaded', checkHashAndOpenEpisode);
+
+  // Handle browser back/forward button
+  window.addEventListener('popstate', () => {
+    const hash = window.location.hash.substring(1);
+    if (hash) {
+      // Hash present, open that episode
+      openLightbox(hash);
+    } else {
+      // No hash, close lightbox if open (don't update history again)
+      if (dialog.open) {
+        closeLightbox(false);
+      }
+    }
+  });
 
   // Event listeners
   window.addEventListener('open-episode-lightbox', (event) => {
