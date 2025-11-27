@@ -1,5 +1,13 @@
 [
   {
+    "id": "input-atlas",
+    "title": "Input Atlas",
+    "type": "Prompt Library",
+    "tagline": "A curated collection of high-quality AI prompts for the community",
+    "description": "A comprehensive library of expertly crafted AI prompts across multiple categories. Input Atlas helps users get better results from AI tools by providing tested, high-quality prompts with clear use cases and examples.",
+    "link": "https://inputatlas.com"
+  },
+  {
     "id": "ai-context-system",
     "title": "AI Context System",
     "type": "CLI Tool",
