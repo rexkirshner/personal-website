@@ -46,9 +46,9 @@ import profilePics from '../../content/site/profile-pics.json';
             I travel. I take photos and videos. I run. I believe great stories happen to those who can tell them.
           </p>
           <p class="text-lg text-gray-700 leading-relaxed mt-6">
-            I'm a researcher, content creator, and contributor. Building off an education in computer science and
-            a background in corporate finance, I've created educational resources about Ethereum, host podcasts,
-            and built communities around decentralized technology.
+            I'm a researcher, content creator, and consultant. Building off an education in computer science and
+            a background in corporate finance, I provide strategic consulting to growing businesses while creating
+            educational resources about Ethereum, hosting podcasts, and building communities around decentralized technology.
           </p>
           <p class="text-lg text-gray-700 leading-relaxed mt-6">
             I also believe that Ethereum is the world computer—a globally shared piece of technology that will make
@@ -98,6 +98,19 @@ import profilePics from '../../content/site/profile-pics.json';
               <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
             </svg>
             <span class="text-sm font-medium text-gray-700 group-hover:text-gray-900">LinkedIn</span>
+          </a>
+
+          <!-- RBK Strategies -->
+          <a
+            href="https://rbkstrategies.com"
+            class="flex flex-col items-center gap-1 sm:gap-2 p-1 sm:p-4 rounded-lg hover:bg-gray-50 transition-colors group"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg class="w-5 h-5 sm:w-8 sm:h-8 text-gray-700 group-hover:text-gray-900" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/>
+            </svg>
+            <span class="text-sm font-medium text-gray-700 group-hover:text-gray-900">Consulting</span>
           </a>
 
           <!-- Telegram -->
@@ -153,80 +166,126 @@ import profilePics from '../../content/site/profile-pics.json';
     });
   </script>
 
-  <script>
-    // Travel map toggle with lazy loading
-    const travelMapToggle = document.getElementById('travel-map-toggle');
-    const travelMapContainer = document.getElementById('travel-map-container');
-    const travelMapIcon = document.getElementById('travel-map-icon');
-    let mapInitialized = false;
-
-    travelMapToggle?.addEventListener('click', async () => {
-      const isHidden = travelMapContainer?.classList.contains('hidden');
-
-      if (isHidden) {
-        travelMapContainer?.classList.remove('hidden');
-        travelMapIcon?.classList.add('rotate-180');
-
-        // Initialize map on first open
-        if (!mapInitialized) {
-          const initMap = (window as any).__initTravelMap;
-          if (initMap) {
-            await initMap();
-            mapInitialized = true;
-          }
-        }
-      } else {
-        travelMapContainer?.classList.add('hidden');
-        travelMapIcon?.classList.remove('rotate-180');
-      }
-    });
-  </script>
-
-  <!-- Creative Section -->
-  <section id="creative" class="py-20 bg-gray-50">
+  <!-- Consulting Section -->
+  <section id="consulting" class="py-20 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-4xl font-bold mb-12 text-center">Creative</h2>
+      <h2 class="text-4xl font-bold mb-12 text-center">Consulting</h2>
 
-      <!-- Introduction -->
-      <div class="max-w-3xl mx-auto mb-12 text-center">
-        <p class="text-lg text-gray-700 leading-relaxed">
-          Photos and videos let us travel back in time. They let us re-experience the best moments of life.
-          I capture everything on my iPhone (and occasionally a GoPro or drone).
+      <div class="max-w-3xl mx-auto">
+        <p class="text-lg text-gray-700 leading-relaxed mb-6">
+          I provide strategic consulting services to growing businesses through <strong>RBK Strategies</strong>.
+          With expertise spanning operations, finance, technology, and blockchain, I help organizations build
+          the foundations they need to scale efficiently.
         </p>
-      </div>
 
-      <!-- Travel Map (Collapsible) -->
-      <div class="mb-20">
-        <button
-          id="travel-map-toggle"
-          class="mx-auto flex items-center gap-2 px-6 py-3 bg-white hover:bg-gray-100 rounded-lg transition-colors font-semibold text-gray-900 shadow-md"
-        >
-          <span>View Travel Map</span>
-          <svg id="travel-map-icon" class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
-        <div id="travel-map-container" class="hidden mt-6">
-          <TravelMap />
+        <p class="text-lg text-gray-700 leading-relaxed mb-8">
+          Whether you're refining your operational processes, implementing financial systems, building
+          technology solutions, or navigating the blockchain landscape, I bring hands-on experience and
+          strategic guidance to help you achieve your goals.
+        </p>
+
+        <div class="text-center">
+          <a
+            href="https://rbkstrategies.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-8 py-4 bg-gray-900 hover:bg-gray-800 text-white font-semibold rounded-lg transition-colors shadow-lg"
+          >
+            Visit RBK Strategies
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </a>
         </div>
-      </div>
-
-      <!-- Videos Subsection -->
-      <div class="mb-20">
-        <h3 class="text-3xl font-bold mb-8 text-center">Videos</h3>
-        <VideoGallery videos={videos} />
-      </div>
-
-      <!-- Photography Subsection -->
-      <div>
-        <h3 class="text-3xl font-bold mb-8 text-center">Photography</h3>
-        <PhotoGallery photos={photos} />
       </div>
     </div>
   </section>
 
+  <!-- Programming Section -->
+  <section id="programming" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-4xl font-bold mb-12 text-center">Programming Projects</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {programmingProjects.map((project) => (
+          <div class="programming-project border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow cursor-pointer md:cursor-default bg-white">
+            <!-- Header with chevron -->
+            <div class="flex justify-between items-start mb-4">
+              <div class="flex-1">
+                <h3 class="text-2xl font-bold mb-2">{project.title}</h3>
+                <p class="text-sm text-gray-500">{project.type}</p>
+              </div>
+              <!-- Chevron icon (mobile only) -->
+              <svg class="programming-chevron md:hidden w-6 h-6 flex-shrink-0 transition-transform ml-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+
+            <!-- Collapsible content (hidden on mobile by default, always visible on desktop) -->
+            <div class="programming-content hidden md:block">
+              {project.image && (
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  class="w-full aspect-square object-cover rounded-lg mb-4"
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
+              {project.tagline && (
+                <p class="text-sm italic text-gray-600 mb-3">{project.tagline}</p>
+              )}
+              <p class="text-gray-700 mb-4">{project.description}</p>
+              {project.link && (
+                <a
+                  href={project.link}
+                  target={project.link.startsWith('/') ? undefined : "_blank"}
+                  rel={project.link.startsWith('/') ? undefined : "noopener noreferrer"}
+                  class="text-blue-600 hover:text-blue-800 font-semibold inline-flex items-center"
+                >
+                  Learn More →
+                </a>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Programming project accordion toggle (mobile only)
+    const programmingProjects = document.querySelectorAll('.programming-project');
+
+    programmingProjects.forEach((project) => {
+      project.addEventListener('click', (e) => {
+        // Only work on mobile (when chevron is visible)
+        const chevron = project.querySelector('.programming-chevron');
+        if (!chevron || window.getComputedStyle(chevron).display === 'none') {
+          return; // Desktop view, do nothing
+        }
+
+        // Prevent link clicks from toggling
+        if (e.target.tagName === 'A' || e.target.closest('a')) {
+          return;
+        }
+
+        // Toggle content visibility
+        const content = project.querySelector('.programming-content');
+        const isHidden = content?.classList.contains('hidden');
+
+        if (isHidden) {
+          content?.classList.remove('hidden');
+          chevron?.classList.add('rotate-180');
+        } else {
+          content?.classList.add('hidden');
+          chevron?.classList.remove('rotate-180');
+        }
+      });
+    });
+  </script>
+
   <!-- Ethereum Section -->
-  <section id="ethereum" class="py-20 bg-white">
+  <section id="ethereum" class="py-20 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <h2 class="text-4xl font-bold mb-12 text-center">Ethereum Projects</h2>
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -308,86 +367,75 @@ import profilePics from '../../content/site/profile-pics.json';
     });
   </script>
 
-  <!-- Programming Section -->
-  <section id="programming" class="py-20 bg-gray-50">
+  <!-- Creative Section -->
+  <section id="creative" class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-4xl font-bold mb-12 text-center">Programming Projects</h2>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {programmingProjects.map((project) => (
-          <div class="programming-project border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow cursor-pointer md:cursor-default bg-white">
-            <!-- Header with chevron -->
-            <div class="flex justify-between items-start mb-4">
-              <div class="flex-1">
-                <h3 class="text-2xl font-bold mb-2">{project.title}</h3>
-                <p class="text-sm text-gray-500">{project.type}</p>
-              </div>
-              <!-- Chevron icon (mobile only) -->
-              <svg class="programming-chevron md:hidden w-6 h-6 flex-shrink-0 transition-transform ml-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </div>
+      <h2 class="text-4xl font-bold mb-12 text-center">Creative</h2>
 
-            <!-- Collapsible content (hidden on mobile by default, always visible on desktop) -->
-            <div class="programming-content hidden md:block">
-              {project.image && (
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  class="w-full aspect-square object-cover rounded-lg mb-4"
-                  loading="lazy"
-                  decoding="async"
-                />
-              )}
-              {project.tagline && (
-                <p class="text-sm italic text-gray-600 mb-3">{project.tagline}</p>
-              )}
-              <p class="text-gray-700 mb-4">{project.description}</p>
-              {project.link && (
-                <a
-                  href={project.link}
-                  target={project.link.startsWith('/') ? undefined : "_blank"}
-                  rel={project.link.startsWith('/') ? undefined : "noopener noreferrer"}
-                  class="text-blue-600 hover:text-blue-800 font-semibold inline-flex items-center"
-                >
-                  Learn More →
-                </a>
-              )}
-            </div>
-          </div>
-        ))}
+      <!-- Introduction -->
+      <div class="max-w-3xl mx-auto mb-12 text-center">
+        <p class="text-lg text-gray-700 leading-relaxed">
+          Photos and videos let us travel back in time. They let us re-experience the best moments of life.
+          I capture everything on my iPhone (and occasionally a GoPro or drone).
+        </p>
+      </div>
+
+      <!-- Travel Map (Collapsible) -->
+      <div class="mb-20">
+        <button
+          id="travel-map-toggle"
+          class="mx-auto flex items-center gap-2 px-6 py-3 bg-white hover:bg-gray-100 rounded-lg transition-colors font-semibold text-gray-900 shadow-md"
+        >
+          <span>View Travel Map</span>
+          <svg id="travel-map-icon" class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div id="travel-map-container" class="hidden mt-6">
+          <TravelMap />
+        </div>
+      </div>
+
+      <!-- Videos Subsection -->
+      <div class="mb-20">
+        <h3 class="text-3xl font-bold mb-8 text-center">Videos</h3>
+        <VideoGallery videos={videos} />
+      </div>
+
+      <!-- Photography Subsection -->
+      <div>
+        <h3 class="text-3xl font-bold mb-8 text-center">Photography</h3>
+        <PhotoGallery photos={photos} />
       </div>
     </div>
   </section>
 
   <script>
-    // Programming project accordion toggle (mobile only)
-    const programmingProjects = document.querySelectorAll('.programming-project');
+    // Travel map toggle with lazy loading
+    const travelMapToggle = document.getElementById('travel-map-toggle');
+    const travelMapContainer = document.getElementById('travel-map-container');
+    const travelMapIcon = document.getElementById('travel-map-icon');
+    let mapInitialized = false;
 
-    programmingProjects.forEach((project) => {
-      project.addEventListener('click', (e) => {
-        // Only work on mobile (when chevron is visible)
-        const chevron = project.querySelector('.programming-chevron');
-        if (!chevron || window.getComputedStyle(chevron).display === 'none') {
-          return; // Desktop view, do nothing
+    travelMapToggle?.addEventListener('click', async () => {
+      const isHidden = travelMapContainer?.classList.contains('hidden');
+
+      if (isHidden) {
+        travelMapContainer?.classList.remove('hidden');
+        travelMapIcon?.classList.add('rotate-180');
+
+        // Initialize map on first open
+        if (!mapInitialized) {
+          const initMap = (window as any).__initTravelMap;
+          if (initMap) {
+            await initMap();
+            mapInitialized = true;
+          }
         }
-
-        // Prevent link clicks from toggling
-        if (e.target.tagName === 'A' || e.target.closest('a')) {
-          return;
-        }
-
-        // Toggle content visibility
-        const content = project.querySelector('.programming-content');
-        const isHidden = content?.classList.contains('hidden');
-
-        if (isHidden) {
-          content?.classList.remove('hidden');
-          chevron?.classList.add('rotate-180');
-        } else {
-          content?.classList.add('hidden');
-          chevron?.classList.remove('rotate-180');
-        }
-      });
+      } else {
+        travelMapContainer?.classList.add('hidden');
+        travelMapIcon?.classList.remove('rotate-180');
+      }
     });
   </script>
 
