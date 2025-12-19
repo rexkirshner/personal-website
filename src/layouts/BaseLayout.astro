@@ -21,8 +21,8 @@ import siteMetadata from '../../content/site/meta.json';
 // Construct full URLs for SEO
 const canonicalURL = canonical || new URL(Astro.url.pathname, 'https://rexkirshner.com').toString();
 const ogImageURL = ogImage || siteMetadata.ogImage;
-// Use logrex.eth.limo for OG image until rexkirshner.com DNS propagates
-const fullOgImageURL = ogImageURL.startsWith('http') ? ogImageURL : `https://logrex.eth.limo${ogImageURL}`;
+// Construct full OG image URL using primary domain
+const fullOgImageURL = ogImageURL.startsWith('http') ? ogImageURL : `https://rexkirshner.com${ogImageURL}`;
 ---
 
 <!doctype html>
