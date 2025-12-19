@@ -58,21 +58,19 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://rexkirshner.com');
     <link rel="icon" type="image/png" href="/icon-512.png" sizes="512x512" />
 
     <!-- Structured Data -->
-    <script type="application/ld+json">
-      {JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "PodcastSeries",
-        "name": "Expansion Podcast",
-        "description": description,
-        "url": canonicalURL.href,
-        "author": {
-          "@type": "Person",
-          "name": "Rex Kirshner",
-          "url": "https://rexkirshner.com"
-        },
-        "numberOfEpisodes": 35
-      })}
-    </script>
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "PodcastSeries",
+      "name": "Expansion Podcast",
+      "description": description,
+      "url": canonicalURL.href,
+      "author": {
+        "@type": "Person",
+        "name": "Rex Kirshner",
+        "url": "https://rexkirshner.com"
+      },
+      "numberOfEpisodes": 35
+    })} />
   </head>
 
   <body class="bg-gray-50 text-gray-800">
