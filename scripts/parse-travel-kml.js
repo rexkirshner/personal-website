@@ -168,6 +168,11 @@ function parseTravelData() {
     return new Date(a.date) - new Date(b.date);
   });
 
+  // Find actual date range (exclude null dates)
+  const locationsWithDates = locations.filter(loc => loc.date);
+  const startDate = locationsWithDates[0]?.date || null;
+  const endDate = locationsWithDates[locationsWithDates.length - 1]?.date || null;
+
   // Build final data structure
   const mapData = {
     metadata: {
@@ -175,8 +180,8 @@ function parseTravelData() {
       countries: countries.size,
       lastUpdated: new Date().toISOString(),
       dateRange: {
-        start: locations[0]?.date || null,
-        end: locations[locations.length - 1]?.date || null
+        start: startDate,
+        end: endDate
       }
     },
     bbox: [minLng, minLat, maxLng, maxLat],
