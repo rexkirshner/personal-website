@@ -28,7 +28,7 @@ import profilePics from '../../content/site/profile-pics.json';
                 src={pic.src}
                 srcset={pic.srcset}
                 sizes="(max-width: 768px) 100vw, 256px"
-                alt={`Rex Kirshner profile ${index + 1}`}
+                alt={pic.alt}
                 class="profile-image absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
                 style={index === 0 ? 'opacity: 1' : 'opacity: 0'}
                 loading={index === 0 ? 'eager' : 'lazy'}

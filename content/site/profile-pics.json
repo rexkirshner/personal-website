@@ -4,20 +4,20 @@
     "src": "/images/profile/rex-profile-pic-1-800w.webp",
     "srcset": "/images/profile/rex-profile-pic-1-400w.webp 400w, /images/profile/rex-profile-pic-1-600w.webp 600w, /images/profile/rex-profile-pic-1-800w.webp 800w",
     "sizes": "(max-width: 768px) 100vw, 400px",
-    "alt": "Rex Kirshner profile photo"
+    "alt": "Rex Kirshner speaking at a conference, seated on stage with microphone"
   },
   {
     "id": "profile-2",
     "src": "/images/profile/rex-profile-pic-2-800w.webp",
     "srcset": "/images/profile/rex-profile-pic-2-400w.webp 400w, /images/profile/rex-profile-pic-2-600w.webp 600w, /images/profile/rex-profile-pic-2-800w.webp 800w",
     "sizes": "(max-width: 768px) 100vw, 400px",
-    "alt": "Rex Kirshner profile photo"
+    "alt": "Rex Kirshner celebrating at the New York Stock Exchange"
   },
   {
     "id": "profile-3",
     "src": "/images/profile/rex-profile-pic-3-800w.webp",
     "srcset": "/images/profile/rex-profile-pic-3-400w.webp 400w, /images/profile/rex-profile-pic-3-600w.webp 600w, /images/profile/rex-profile-pic-3-800w.webp 800w",
     "sizes": "(max-width: 768px) 100vw, 400px",
-    "alt": "Rex Kirshner profile photo"
+    "alt": "Rex Kirshner in a blue suit, professional portrait"
   }
 ]
