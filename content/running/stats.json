@@ -1,23 +1,23 @@
 {
   "timePeriod": {
     "start": "2016-11-01",
-    "end": "2025-10-01"
+    "end": "2025-12-05"
   },
   "totals": {
-    "miles": 17376.57,
-    "runs": 2728,
+    "miles": 17730.33,
+    "runs": 2780,
     "countries": 43,
-    "avgDistance": 6.37,
+    "avgDistance": 6.38,
     "longestRun": 26.8,
-    "homeMiles": 14012.66,
-    "travelMiles": 3363.91,
-    "outdoorMiles": 14470.55,
-    "treadmillMiles": 2906.02
+    "homeMiles": 14359.07,
+    "travelMiles": 3371.26,
+    "outdoorMiles": 14809.51,
+    "treadmillMiles": 2920.82
   },
   "byCountry": [
     {
       "country": "USA",
-      "miles": 1991.24
+      "miles": 1998.59
     },
     {
       "country": "Mexico",
@@ -191,7 +191,7 @@
   "byState": [
     {
       "state": "California",
-      "miles": 604.34
+      "miles": 611.69
     },
     {
       "state": "Colorado",
@@ -377,13 +377,13 @@
     },
     {
       "year": "2025",
-      "miles": 1640.64
+      "miles": 1994.4
     }
   ],
   "homeLocations": [
     {
       "location": "Home - MDR",
-      "miles": 7902.58
+      "miles": 8248.99
     },
     {
       "location": "Home - PP",
