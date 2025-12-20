@@ -231,6 +231,25 @@ const featuredPhotos = photos.filter(p => p.featured);
 </style>
 
 <script define:vars={{ photos }}>
+  // Shuffle featured photos on page load
+  function shuffleCarousel() {
+    const track = document.querySelector('.carousel-track');
+    const dotsContainer = document.querySelector('.carousel-container .flex.gap-2');
+    if (!track || !dotsContainer) return;
+
+    const slides = Array.from(track.children);
+    const dots = Array.from(dotsContainer.children);
+
+    // Fisher-Yates shuffle
+    for (let i = slides.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      // Swap slides
+      track.appendChild(slides[j]);
+      slides.splice(j, 1);
+    }
+  }
+  shuffleCarousel();
+
   // Carousel logic
   let currentSlide = 0;
   const carouselTrack = document.querySelector('.carousel-track');
