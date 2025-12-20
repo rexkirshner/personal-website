@@ -27,7 +27,7 @@ const featuredPhotos = photos.filter(p => p.featured);
       {featuredPhotos.map((photo, index) => (
         <div class="carousel-slide min-w-full relative cursor-pointer" data-carousel-photo-index={photos.indexOf(photo)}>
           <img
-            src={photo.originalUrl}
+            src={photo.carouselUrl || photo.originalUrl}
             alt={photo.alt}
             class="w-full h-[400px] md:h-[500px] object-cover"
             loading={index === 0 ? 'eager' : 'lazy'}
