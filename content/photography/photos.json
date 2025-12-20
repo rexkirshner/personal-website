@@ -89,11 +89,12 @@
     "alt": "Male lion walking in golden light",
     "width": 4032,
     "height": 3024,
-    "featured": false,
+    "featured": true,
     "categories": [
       "all",
       "animals"
-    ]
+    ],
+    "carouselUrl": "https://cdn.rexkirshner.com/photos/carousel/2023-12-20%20Chobe%20National%20Park%20Botswana-carousel.webp"
   },
   {
     "id": "2023-12-19-chobe-national-park-botswana",
