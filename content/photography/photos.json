@@ -1,5 +1,278 @@
 [
   {
+    "id": "2024-10-16-lake-como-italy",
+    "title": "Varenna, Italy",
+    "location": "Lake Como, Italy",
+    "date": "2024-10-16",
+    "thumbnailUrl": "https://cdn.rexkirshner.com/photos/thumbnails/thumbnails_2024-10-16%20Lake%20Como%20Italy-thumb.webp",
+    "originalUrl": "https://cdn.rexkirshner.com/photos/display-size/2024-10-16%20Lake%20Como%20Italy.jpeg",
+    "alt": "Colorful Varenna village on Lake Como with misty mountains",
+    "width": 5712,
+    "height": 4284,
+    "featured": false,
+    "categories": [
+      "all",
+      "cities"
+    ]
+  },
+  {
+    "id": "2024-10-11-los-angeles-ca",
+    "title": "Los Angeles, USA",
+    "location": "Los Angeles, USA",
+    "date": "2024-10-11",
+    "thumbnailUrl": "https://cdn.rexkirshner.com/photos/thumbnails/thumbnails_2024-10-11%20Los%20Angeles%20CA-thumb.webp",
+    "originalUrl": "https://cdn.rexkirshner.com/photos/display-size/2024-10-11%20Los%20Angeles%20CA.jpeg",
+    "alt": "Aerial view of downtown Los Angeles at sunset with mountains",
+    "width": 4032,
+    "height": 3024,
+    "featured": false,
+    "categories": [
+      "all",
+      "cities"
+    ]
+  },
+  {
+    "id": "2024-06-22-moorea",
+    "title": "Sea Turtle, French Polynesia",
+    "location": "Moorea, French Polynesia",
+    "date": "2024-06-22",
+    "thumbnailUrl": "https://cdn.rexkirshner.com/photos/thumbnails/thumbnails_2024-06-22%20Moorea-thumb.webp",
+    "originalUrl": "https://cdn.rexkirshner.com/photos/display-size/2024-06-22%20Moorea.png",
+    "alt": "Green sea turtle swimming with diver in clear blue water",
+    "width": 4000,
+    "height": 2988,
+    "featured": false,
+    "categories": [
+      "all",
+      "animals"
+    ]
+  },
+  {
+    "id": "2024-06-20-bora-bora",
+    "title": "Eagle Rays, French Polynesia",
+    "location": "Bora Bora, French Polynesia",
+    "date": "2024-06-20",
+    "thumbnailUrl": "https://cdn.rexkirshner.com/photos/thumbnails/thumbnails_2024-06-20%20Bora%20Bora-thumb.webp",
+    "originalUrl": "https://cdn.rexkirshner.com/photos/display-size/2024-06-20%20Bora%20Bora.png",
+    "alt": "School of eagle rays swimming over sandy ocean floor",
+    "width": 3400,
+    "height": 2151,
+    "featured": false,
+    "categories": [
+      "all",
+      "animals"
+    ]
+  },
+  {
+    "id": "2023-12-23-maurituis",
+    "title": "Le Morne, Mauritius",
+    "location": "Le Morne, Mauritius",
+    "date": "2023-12-23",
+    "thumbnailUrl": "https://cdn.rexkirshner.com/photos/thumbnails/thumbnails_2023-12-23%20Maurituis-thumb.webp",
+    "originalUrl": "https://cdn.rexkirshner.com/photos/display-size/2023-12-23%20Maurituis.jpeg",
+    "alt": "Aerial view of Le Morne peninsula with underwater waterfall illusion",
+    "width": 3840,
+    "height": 2160,
+    "featured": false,
+    "categories": [
+      "all",
+      "landscapes"
+    ]
+  },
+  {
+    "id": "2023-12-20-chobe-national-park-botswana",
+    "title": "Lion, Botswana",
+    "location": "Chobe National Park, Botswana",
+    "date": "2023-12-20",
+    "thumbnailUrl": "https://cdn.rexkirshner.com/photos/thumbnails/thumbnails_2023-12-20%20Chobe%20National%20Park%20Botswana-thumb.webp",
+    "originalUrl": "https://cdn.rexkirshner.com/photos/display-size/2023-12-20%20Chobe%20National%20Park%20Botswana.jpeg",
+    "alt": "Male lion walking in golden light",
+    "width": 4032,
+    "height": 3024,
+    "featured": false,
+    "categories": [
+      "all",
+      "animals"
+    ]
+  },
+  {
+    "id": "2023-12-19-chobe-national-park-botswana",
+    "title": "Lioness, Botswana",
+    "location": "Chobe National Park, Botswana",
+    "date": "2023-12-19",
+    "thumbnailUrl": "https://cdn.rexkirshner.com/photos/thumbnails/thumbnails_2023-12-19%20Chobe%20National%20Park%20Botswana-thumb.webp",
+    "originalUrl": "https://cdn.rexkirshner.com/photos/display-size/2023-12-19%20Chobe%20National%20Park%20Botswana.jpeg",
+    "alt": "Lioness yawning in the grass",
+    "width": 3558,
+    "height": 2795,
+    "featured": false,
+    "categories": [
+      "all",
+      "animals"
+    ]
+  },
+  {
+    "id": "2023-12-18-chobe-national-park-botswana",
+    "title": "Elephants at Sunset, Botswana",
+    "location": "Chobe National Park, Botswana",
+    "date": "2023-12-18",
+    "thumbnailUrl": "https://cdn.rexkirshner.com/photos/thumbnails/thumbnails_2023-12-18%20Chobe%20National%20Park%20Botswana-thumb.webp",
+    "originalUrl": "https://cdn.rexkirshner.com/photos/display-size/2023-12-18%20Chobe%20National%20Park%20Botswana.jpeg",
+    "alt": "Elephant herd crossing river at sunset",
+    "width": 2630,
+    "height": 3507,
+    "featured": false,
+    "categories": [
+      "all",
+      "animals"
+    ]
+  },
+  {
+    "id": "2023-12-15-victoria-falls-zimbabwe",
+    "title": "Victoria Falls, Zimbabwe",
+    "location": "Victoria Falls, Zimbabwe",
+    "date": "2023-12-15",
+    "thumbnailUrl": "https://cdn.rexkirshner.com/photos/thumbnails/thumbnails_2023-12-15%20Victoria%20Falls%20Zimbabwe-thumb.webp",
+    "originalUrl": "https://cdn.rexkirshner.com/photos/display-size/2023-12-15%20Victoria%20Falls%20Zimbabwe.jpeg",
+    "alt": "Victoria Falls with rainbow and mist",
+    "width": 10564,
+    "height": 3894,
+    "featured": true,
+    "categories": [
+      "all",
+      "nature",
+      "landscapes"
+    ]
+  },
+  {
+    "id": "2023-06-22-grand-teton-usa",
+    "title": "Grand Teton, USA",
+    "location": "Grand Teton, USA",
+    "date": "2023-06-22",
+    "thumbnailUrl": "https://cdn.rexkirshner.com/photos/thumbnails/thumbnails_2023-06-22%20Grand%20Teton%20USA-thumb.webp",
+    "originalUrl": "https://cdn.rexkirshner.com/photos/display-size/2023-06-22%20Grand%20Teton%20USA.jpeg",
+    "alt": "Panoramic view of the Grand Teton mountain range",
+    "width": 9397,
+    "height": 3845,
+    "featured": false,
+    "categories": [
+      "all",
+      "landscapes"
+    ]
+  },
+  {
+    "id": "2023-06-21-mount-rainier-usa",
+    "title": "Mount Rainier, USA",
+    "location": "Mount Rainier, USA",
+    "date": "2023-06-21",
+    "thumbnailUrl": "https://cdn.rexkirshner.com/photos/thumbnails/thumbnails_2023-06-21%20Mount%20Rainier%20USA-thumb.webp",
+    "originalUrl": "https://cdn.rexkirshner.com/photos/display-size/2023-06-21%20Mount%20Rainier%20USA.jpeg",
+    "alt": "Mount Rainier peak rising above the clouds",
+    "width": 3840,
+    "height": 2160,
+    "featured": false,
+    "categories": [
+      "all",
+      "landscapes"
+    ]
+  },
+  {
+    "id": "2023-05-26-lake-maggiore-switzerland",
+    "title": "Lake Maggiore Panorama, Switzerland",
+    "location": "Lake Maggiore, Switzerland",
+    "date": "2023-05-26",
+    "thumbnailUrl": "https://cdn.rexkirshner.com/photos/thumbnails/thumbnails_2023-05-26%20Lake%20Maggiore%20Switzerland-thumb.webp",
+    "originalUrl": "https://cdn.rexkirshner.com/photos/display-size/2023-05-26%20Lake%20Maggiore%20Switzerland.jpeg",
+    "alt": "Panoramic view of Lake Maggiore from mountain summit",
+    "width": 16346,
+    "height": 3800,
+    "featured": true,
+    "categories": [
+      "all",
+      "landscapes"
+    ]
+  },
+  {
+    "id": "2023-05-25-lake-maggiore-switzerland",
+    "title": "Lake Maggiore, Switzerland",
+    "location": "Lake Maggiore, Switzerland",
+    "date": "2023-05-25",
+    "thumbnailUrl": "https://cdn.rexkirshner.com/photos/thumbnails/thumbnails_2023-05-25%20Lake%20Maggiore%20Switzerland-thumb.webp",
+    "originalUrl": "https://cdn.rexkirshner.com/photos/display-size/2023-05-25%20Lake%20Maggiore%20Switzerland.jpeg",
+    "alt": "Fishing boat on Lake Maggiore with green mountains",
+    "width": 3840,
+    "height": 2160,
+    "featured": false,
+    "categories": [
+      "all",
+      "landscapes"
+    ]
+  },
+  {
+    "id": "2022-08-25-costa-rica",
+    "title": "School of Fish, Costa Rica",
+    "location": "Costa Rica",
+    "date": "2022-08-25",
+    "thumbnailUrl": "https://cdn.rexkirshner.com/photos/thumbnails/thumbnails_2022-08-25%20Costa%20Rica-thumb.webp",
+    "originalUrl": "https://cdn.rexkirshner.com/photos/display-size/2022-08-25%20Costa%20Rica.png",
+    "alt": "Large school of fish swimming underwater",
+    "width": 3840,
+    "height": 2160,
+    "featured": false,
+    "categories": [
+      "all",
+      "animals"
+    ]
+  },
+  {
+    "id": "2022-08-23-tenorio-volcano-costa-rica",
+    "title": "Rio Celeste, Costa Rica",
+    "location": "Tenorio Volcano, Costa Rica",
+    "date": "2022-08-23",
+    "thumbnailUrl": "https://cdn.rexkirshner.com/photos/thumbnails/thumbnails_2022-08-23%20Tenorio%20Volcano%20Costa%20Rica-thumb.webp",
+    "originalUrl": "https://cdn.rexkirshner.com/photos/display-size/2022-08-23%20Tenorio%20Volcano%20Costa%20Rica.jpeg",
+    "alt": "Rio Celeste waterfall with bright turquoise water in jungle",
+    "width": 6062,
+    "height": 3916,
+    "featured": false,
+    "categories": [
+      "all",
+      "nature"
+    ]
+  },
+  {
+    "id": "2022-06-04-los-angeles-ca",
+    "title": "Misty Mountains, USA",
+    "location": "Los Angeles, USA",
+    "date": "2022-06-04",
+    "thumbnailUrl": "https://cdn.rexkirshner.com/photos/thumbnails/thumbnails_2022-06-04%20Los%20Angeles%20CA-thumb.webp",
+    "originalUrl": "https://cdn.rexkirshner.com/photos/display-size/2022-06-04%20Los%20Angeles%20CA.jpeg",
+    "alt": "Layered misty blue mountains at sunrise",
+    "width": 3840,
+    "height": 2160,
+    "featured": false,
+    "categories": [
+      "all",
+      "landscapes"
+    ]
+  },
+  {
+    "id": "2021-12-21-zermatt-switzerland",
+    "title": "Matterhorn, Switzerland",
+    "location": "Zermatt, Switzerland",
+    "date": "2021-12-21",
+    "thumbnailUrl": "https://cdn.rexkirshner.com/photos/thumbnails/thumbnails_2021-12-21%20Zermatt%20Switzerland-thumb.webp",
+    "originalUrl": "https://cdn.rexkirshner.com/photos/display-size/2021-12-21%20Zermatt%20Switzerland.jpeg",
+    "alt": "The iconic Matterhorn peak covered in snow",
+    "width": 2700,
+    "height": 2160,
+    "featured": true,
+    "categories": [
+      "all",
+      "landscapes"
+    ]
+  },
+  {
     "id": "2021-12-18-toledo-spain",
     "title": "Toledo, Spain",
     "location": "Toledo, Spain",
@@ -64,6 +337,22 @@
     ]
   },
   {
+    "id": "2021-10-28-hawaii-usa",
+    "title": "Manta Ray, USA",
+    "location": "Hawaii, USA",
+    "date": "2021-10-28",
+    "thumbnailUrl": "https://cdn.rexkirshner.com/photos/thumbnails/thumbnails_2021-10-28%20Hawaii%20USA-thumb.webp",
+    "originalUrl": "https://cdn.rexkirshner.com/photos/display-size/2021-10-28%20Hawaii%20USA.jpeg",
+    "alt": "Manta ray swimming underwater with small fish",
+    "width": 4000,
+    "height": 3000,
+    "featured": false,
+    "categories": [
+      "all",
+      "animals"
+    ]
+  },
+  {
     "id": "2021-08-17-moscow-russia",
     "title": "Moscow, Russia",
     "location": "Moscow, Russia",
@@ -80,6 +369,22 @@
     ]
   },
   {
+    "id": "2021-04-26-dubai-uae",
+    "title": "Dubai Desert, UAE",
+    "location": "Dubai, UAE",
+    "date": "2021-04-26",
+    "thumbnailUrl": "https://cdn.rexkirshner.com/photos/thumbnails/thumbnails_2021-04-26%20Dubai%20UAE-thumb.webp",
+    "originalUrl": "https://cdn.rexkirshner.com/photos/display-size/2021-04-26%20Dubai%20UAE.jpeg",
+    "alt": "Sand dunes in Dubai desert at sunset",
+    "width": 8038,
+    "height": 3760,
+    "featured": false,
+    "categories": [
+      "all",
+      "landscapes"
+    ]
+  },
+  {
     "id": "2021-04-25-dubai-uae",
     "title": "Dubai, UAE",
     "location": "Dubai, UAE",
@@ -89,6 +394,54 @@
     "alt": "Photography from Dubai, UAE",
     "width": 3840,
     "height": 2160,
+    "featured": false,
+    "categories": [
+      "all",
+      "cities"
+    ]
+  },
+  {
+    "id": "2021-01-31-grand-staircase-utah",
+    "title": "Grand Staircase, USA",
+    "location": "Grand Staircase-Escalante, USA",
+    "date": "2021-01-31",
+    "thumbnailUrl": "https://cdn.rexkirshner.com/photos/thumbnails/thumbnails_2021-01-31%20Grand%20Staircase%20Utah-thumb.webp",
+    "originalUrl": "https://cdn.rexkirshner.com/photos/display-size/2021-01-31%20Grand%20Staircase%20Utah.jpeg",
+    "alt": "Snowy red rock canyon landscape in Utah",
+    "width": 2572,
+    "height": 2034,
+    "featured": false,
+    "categories": [
+      "all",
+      "landscapes"
+    ]
+  },
+  {
+    "id": "2020-03-14-cabo-san-lucas-mexico",
+    "title": "Mako Shark, Mexico",
+    "location": "Cabo San Lucas, Mexico",
+    "date": "2020-03-14",
+    "thumbnailUrl": "https://cdn.rexkirshner.com/photos/thumbnails/thumbnails_2020-03-14%20Cabo%20San%20Lucas%20Mexico-thumb.webp",
+    "originalUrl": "https://cdn.rexkirshner.com/photos/display-size/2020-03-14%20Cabo%20San%20Lucas%20Mexico.jpeg",
+    "alt": "Mako shark swimming underwater in clear blue ocean",
+    "width": 3313,
+    "height": 2485,
+    "featured": false,
+    "categories": [
+      "all",
+      "animals"
+    ]
+  },
+  {
+    "id": "2020-02-11-new-york-city-usa",
+    "title": "New York City, USA",
+    "location": "New York City, USA",
+    "date": "2020-02-11",
+    "thumbnailUrl": "https://cdn.rexkirshner.com/photos/thumbnails/thumbnails_2020-02-11%20New%20York%20City%20USA-thumb.webp",
+    "originalUrl": "https://cdn.rexkirshner.com/photos/display-size/2020-02-11%20New%20York%20City%20USA.jpeg",
+    "alt": "New York City skyline view from bridge at sunset",
+    "width": 4032,
+    "height": 3024,
     "featured": false,
     "categories": [
       "all",
@@ -128,6 +481,22 @@
     ]
   },
   {
+    "id": "2019-08-07-bordeaux-france",
+    "title": "Bordeaux Vineyard, France",
+    "location": "Bordeaux, France",
+    "date": "2019-08-07",
+    "thumbnailUrl": "https://cdn.rexkirshner.com/photos/thumbnails/thumbnails_2019-08-07%20Bordeaux%20France-thumb.webp",
+    "originalUrl": "https://cdn.rexkirshner.com/photos/display-size/2019-08-07%20Bordeaux%20France.jpeg",
+    "alt": "Stone gate entrance to French vineyard with rows of grapevines",
+    "width": 3938,
+    "height": 2955,
+    "featured": false,
+    "categories": [
+      "all",
+      "nature"
+    ]
+  },
+  {
     "id": "2019-07-29-petra-jordan",
     "title": "Petra, Jordan",
     "location": "Petra, Jordan",
@@ -154,6 +523,55 @@
     "width": 3520,
     "height": 1980,
     "featured": true,
+    "categories": [
+      "all",
+      "landscapes"
+    ]
+  },
+  {
+    "id": "2019-04-14-kilauea-usa",
+    "title": "Kilauea Volcano, USA",
+    "location": "Kilauea, USA",
+    "date": "2019-04-14",
+    "thumbnailUrl": "https://cdn.rexkirshner.com/photos/thumbnails/thumbnails_2019-04-14%20Kilauea%20USA-thumb.webp",
+    "originalUrl": "https://cdn.rexkirshner.com/photos/display-size/2019-04-14%20Kilauea%20USA.jpeg",
+    "alt": "Aerial view of Kilauea volcano crater with steam rising",
+    "width": 4032,
+    "height": 3024,
+    "featured": false,
+    "categories": [
+      "all",
+      "nature",
+      "landscapes"
+    ]
+  },
+  {
+    "id": "2019-03-31-big-blue-hole-belize",
+    "title": "Great Blue Hole, Belize",
+    "location": "Great Blue Hole, Belize",
+    "date": "2019-03-31",
+    "thumbnailUrl": "https://cdn.rexkirshner.com/photos/thumbnails/thumbnails_2019-03-31%20Big%20Blue%20Hole%20Belize-thumb.webp",
+    "originalUrl": "https://cdn.rexkirshner.com/photos/display-size/2019-03-31%20Big%20Blue%20Hole%20Belize.jpeg",
+    "alt": "Aerial view of the Great Blue Hole surrounded by turquoise reef",
+    "width": 3840,
+    "height": 2160,
+    "featured": false,
+    "categories": [
+      "all",
+      "nature"
+    ]
+  },
+  {
+    "id": "2018-12-03-kauai-usa",
+    "title": "Na Pali Coast, USA",
+    "location": "Kauai, USA",
+    "date": "2018-12-03",
+    "thumbnailUrl": "https://cdn.rexkirshner.com/photos/thumbnails/thumbnails_2018-12-03%20Kauai%20USA-thumb.webp",
+    "originalUrl": "https://cdn.rexkirshner.com/photos/display-size/2018-12-03%20Kauai%20USA.jpeg",
+    "alt": "Dramatic green cliffs of the Na Pali Coast with sailboat on turquoise ocean",
+    "width": 3972,
+    "height": 2316,
+    "featured": false,
     "categories": [
       "all",
       "landscapes"
