@@ -1,0 +1,204 @@
+{
+  "version": "4.0.2",
+  "owner": "Rex Kirshner",
+  "project": {
+    "name": "Rex Kirshner Personal Website",
+    "type": "web-app",
+    "initialized": "2026-01-06",
+    "urls": {
+      "production": "https://rexkirshner.com",
+      "staging": "https://logrex.eth.limo",
+      "repository": "(private)"
+    },
+    "techStack": "Astro v5, Tailwind CSS v4, MapLibre GL, Cloudflare R2, IPFS",
+    "commands": {
+      "dev": "npm run dev",
+      "test": "N/A",
+      "build": "npm run build"
+    }
+  },
+  "preferences": {
+    "documentation": {
+      "location": "context/",
+      "autoCreate": true,
+      "updateFrequency": "every-session",
+      "includeTimestamps": true,
+      "gitTracking": true,
+      "pruneInterval": "monthly"
+    },
+    "workflow": {
+      "requirePlanApproval": true,
+      "requirePushApproval": true,
+      "preferSimpleChanges": true,
+      "noTemporaryFixes": true,
+      "fullCodeFlowTracing": true,
+      "testBeforeCommit": false,
+      "useTodoList": true
+    },
+    "communication": {
+      "summaryStyle": "high-level",
+      "verbosity": "concise",
+      "includeLineNumbers": true,
+      "skipPreamble": true,
+      "useEmojis": false,
+      "explainComplex": false
+    },
+    "codeReview": {
+      "thoroughnessLevel": "comprehensive",
+      "makeNoChanges": true,
+      "timeConstraintWarning": true,
+      "separateFixSession": true,
+      "focusAreas": [
+        "simplicity",
+        "performance",
+        "accessibility",
+        "seo"
+      ]
+    },
+    "sessionManagement": {
+      "autoSaveInterval": null,
+      "captureCommandHistory": true,
+      "trackFileChanges": true,
+      "preserveWIPState": true,
+      "detailedSessionLogs": true
+    }
+  },
+  "commands": {
+    "enabled": [
+      "/init-context",
+      "/save",
+      "/save-full",
+      "/review-context",
+      "/code-review",
+      "/code-review-performance",
+      "/code-review-accessibility",
+      "/code-review-seo",
+      "/build-check",
+      "/validate-context",
+      "/update-context-system",
+      "/organize-docs"
+    ],
+    "aliases": {
+      "/review": "/review-context",
+      "/init": "/init-context"
+    },
+    "customCommands": []
+  },
+  "documentation": {
+    "required": [
+      "CONTEXT.md",
+      "STATUS.md",
+      "DECISIONS.md",
+      "SESSIONS.md"
+    ],
+    "aiHeaders": [
+      "CLAUDE.md"
+    ],
+    "optional": [],
+    "autoGenerate": true,
+    "templates": {
+      "useDefaults": true,
+      "customPath": null
+    }
+  },
+  "git": {
+    "autoCommit": false,
+    "requireApprovalForPush": true,
+    "pushProtection": {
+      "enabled": true,
+      "requireExplicitApproval": true,
+      "approvalPhrases": [
+        "push",
+        "deploy",
+        "go ahead and push",
+        "yes push"
+      ]
+    },
+    "commitMessageFormat": "standard",
+    "includeCoAuthor": true,
+    "branchStrategy": "main"
+  },
+  "validation": {
+    "stalenessThresholds": {
+      "STATUS.md": {
+        "green": 14,
+        "yellow": 30,
+        "red": 60
+      },
+      "SESSIONS.md": {
+        "green": 14,
+        "yellow": 30,
+        "red": 60
+      },
+      "CONTEXT.md": {
+        "green": 90,
+        "yellow": 180,
+        "red": 365
+      },
+      "DECISIONS.md": {
+        "appendOnly": true,
+        "noThreshold": true
+      }
+    }
+  },
+  "quality": {
+    "codeStyle": {
+      "simplicityFirst": true,
+      "noTemporaryFixes": true,
+      "rootCauseOnly": true,
+      "minimalImpact": true,
+      "fullCodeTracing": true
+    },
+    "testing": {
+      "requireTests": false,
+      "coverageCritical": 0,
+      "coverageTarget": 0,
+      "testBeforeCommit": false
+    },
+    "performance": {
+      "measureFirst": true,
+      "optimizeHotPaths": true,
+      "userPerceivedPriority": true
+    },
+    "security": {
+      "validateInput": true,
+      "noSecretsInCode": true,
+      "useEnvVars": true
+    }
+  },
+  "customRules": {
+    "projectSpecific": [
+      "All images must be WebP format",
+      "Filenames use dashes, not spaces",
+      "Test IPFS compatibility for all changes",
+      "Build size must stay under 3MB",
+      "Lazy-load heavy dependencies (MapLibre)"
+    ],
+    "filePatterns": {},
+    "exclusions": [
+      "node_modules/",
+      "dist/",
+      ".git/",
+      ".archive/",
+      ".astro/"
+    ]
+  },
+  "metadata": {
+    "createdAt": "2026-01-06",
+    "lastUpdated": "2026-01-06",
+    "configVersion": "4.0.2",
+    "notes": "Personal portfolio with dual deployment (Cloudflare Pages + IPFS)"
+  },
+  "metrics": {
+    "saveMetrics": {
+      "avgDuration": null,
+      "lastSaveDuration": null,
+      "totalSaves": 0
+    },
+    "saveFullMetrics": {
+      "avgDuration": null,
+      "lastSaveDuration": null,
+      "totalSaves": 0
+    }
+  }
+}
