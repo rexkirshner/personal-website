@@ -1,7 +1,7 @@
 # AI Context System - Feedback Log
 
-**Version**: [Your CCS version]
-**Project**: [Your project name]
+**Version**: 4.0.2
+**Project**: Rex Kirshner Personal Website
 
 ---
 
@@ -10,146 +10,187 @@
 This file helps improve the AI Context System for everyone. Your feedback matters!
 
 **Please document:**
-- 🐛 **Bugs** - Errors, unexpected behavior, crashes
-- 💡 **Improvements** - Ideas to make CCS better
-- ❓ **Questions** - Confusion, unclear documentation
-- ✨ **Feature Requests** - New capabilities you'd like
-- 👍 **Praise** - What's working well (we need this too!)
-
----
-
-## Guidelines
-
-**Be specific:**
-- Which command? (`/init-context`, `/save-full`, etc.)
-- What were you doing?
-- What happened vs. what you expected?
-
-**Include context:**
-- Operating system (macOS, Linux, Windows)
-- Claude Code version
-- Project type (web app, CLI, library)
-
-**Suggest solutions:**
-- How could this be better?
-- What would the ideal behavior be?
-
-**Mark severity:**
-- 🔴 **Critical** - Blocking work, data loss, security issue
-- 🟡 **Moderate** - Inconvenient, workaround exists
-- 🟢 **Minor** - Nice to have, polish
-
----
-
-## Template
-
-Copy this template for each feedback entry:
-
-```markdown
-## YYYY-MM-DD - [Command/Feature] - [Category]
-
-**What happened**: [Clear description of the issue or observation]
-
-**Expected behavior**: [What you thought would happen]
-
-**Actual behavior**: [What actually happened]
-
-**Steps to reproduce** (for bugs):
-1. Step one
-2. Step two
-3. Step three
-
-**Suggestion**: [Your idea for how to improve this]
-
-**Severity**: [🔴 Critical / 🟡 Moderate / 🟢 Minor]
-
-**Environment**:
-- OS: [macOS 14.x / Ubuntu 22.04 / Windows 11]
-- Claude Code: [version]
-- CCS: [version from context/.context-config.json]
-```
+- Bugs - Errors, unexpected behavior, crashes
+- Improvements - Ideas to make CCS better
+- Questions - Confusion, unclear documentation
+- Feature Requests - New capabilities you'd like
+- Praise - What's working well (we need this too!)
 
 ---
 
 ## Feedback Entries
 
-<!-- Add your feedback below this line -->
+### 2026-01-07 - Installation Process - Feedback
 
----
+**What happened**: Installed ACS v4.0.2 via curl script on a mature project (personal website with existing CLAUDE.md, README.md, docs/, tasks/).
 
-## Examples (Delete after reading)
+**What went well**:
+- Curl install script worked flawlessly
+- All 22 slash commands installed correctly
+- Templates, scripts, reference files all in place
+- VERSION file created
 
-### Example 1: Bug Report
-
-## 2024-10-21 - /validate-context - Bug 🐛
-
-**What happened**: Running `/validate-context` crashed when SESSIONS.md had emoji in session titles
-
-**Expected behavior**: Validation should handle emoji in markdown files
-
-**Actual behavior**: Got error "invalid byte sequence" and validation stopped
-
-**Steps to reproduce**:
-1. Add emoji to session title: `## Session 5 | 2024-10-20 | 🚀 Launch`
-2. Run `/validate-context`
-3. Error appears
-
-**Suggestion**: Add UTF-8 encoding handling to validation script
-
-**Severity**: 🟡 Moderate (workaround: remove emoji from titles)
+**Severity**: N/A (praise)
 
 **Environment**:
-- OS: macOS 14.5
-- Claude Code: 1.2.0
-- CCS: 2.3.0
+- OS: macOS 14.x (Darwin 24.6.0)
+- Claude Code: Opus 4.5
+- ACS: 4.0.2
 
 ---
 
-### Example 2: Feature Request
+### 2026-01-07 - /init-context - Improvement Needed
 
-## 2024-10-21 - /save - Feature Request ✨
+**What happened**: User requested `/init-context`. Step 0.1 correctly detected 2+ documentation files (README.md, docs/ directory) and suggested switching to `/migrate-context`.
 
-**What happened**: Would love auto-save reminder after 30 minutes of work
+**Expected behavior**: Automatic detection and routing worked correctly.
 
-**Expected behavior**: After 30 min without `/save`, gentle reminder appears
+**What could be better**:
 
-**Suggestion**: Add optional reminder in .context-config.json:
-```json
-"notifications": {
-  "saveReminder": {
-    "enabled": true,
-    "intervalMinutes": 30
-  }
-}
+1. **The decision to switch required user confirmation.** The command correctly identified that `/migrate-context` was more appropriate, but the user had to manually confirm the switch. Consider:
+   - Auto-switching when detection is clear (2+ docs)
+   - Or providing clearer guidance about the difference
+
+2. **After switching to /migrate-context, I had to re-read the entire command file.** The context from /init-context didn't carry over. Consider:
+   - Having /init-context auto-invoke /migrate-context when appropriate
+   - Or having a shared "maturity detection" step that routes to the right command automatically
+
+**Suggestion**: Create a single entry point `/setup-context` that auto-detects project maturity and routes to the appropriate flow (init vs migrate) without user needing to know the difference.
+
+**Severity**: Moderate (workaround exists - just run the right command)
+
+---
+
+### 2026-01-07 - /migrate-context - Legacy Task File Handling
+
+**What happened**: Project had `tasks/todo.md` (3705 bytes) - a legacy task tracking file from pre-ACS work. The /migrate-context command detected it and asked what to do.
+
+**The problem**: The command offered three generic options:
+1. Preserve legacy task files in context/tasks/ for reference
+2. Skip (content should be migrated to STATUS.md)
+3. [Delete wasn't explicitly offered but implied]
+
+**What actually needed to happen**:
+The file contained a **completed performance optimization plan** with:
+- Historical decisions (why defer gallery, why use thumbnails)
+- Before/after metrics
+- Specific file changes with line numbers
+- Root cause analysis
+
+This wasn't current task state (STATUS.md) - it was **historical session work and decisions** that needed to be:
+1. Analyzed to extract valuable information
+2. Migrated to DECISIONS.md (the performance optimization rationale became D006)
+3. Migrated to SESSIONS.md (became Session 0 - pre-ACS historical work)
+4. Archived (not deleted, not kept in active location)
+
+**What we did**:
+1. Read the file to understand contents
+2. Extracted decisions → Added D006 to DECISIONS.md
+3. Extracted session history → Added Session 0 to SESSIONS.md
+4. Archived original → Moved to .archive/tasks/todo.md
+
+**Suggestion**: Enhance /migrate-context to:
+1. **Analyze legacy file contents** before asking what to do
+2. **Suggest appropriate destinations** based on content type:
+   - If contains completed tasks with history → SESSIONS.md
+   - If contains decision rationale → DECISIONS.md
+   - If contains current tasks → STATUS.md
+   - If contains architectural info → ARCHITECTURE.md or CLAUDE.md
+3. **Offer guided migration** rather than just preserve/skip/delete
+4. **Always archive** rather than delete (preserve history)
+
+**Severity**: Moderate (required manual intervention to handle correctly)
+
+---
+
+### 2026-01-07 - Project with Existing CLAUDE.md - Guidance Needed
+
+**What happened**: Project already had a comprehensive CLAUDE.md (19KB) that serves as the primary project reference. This created uncertainty about how ACS should integrate.
+
+**Questions that arose**:
+1. Should CLAUDE.md be moved to context/?
+2. Should CONTEXT.md duplicate or reference CLAUDE.md content?
+3. What's the relationship between them?
+
+**What we decided** (became D005):
+- Keep CLAUDE.md at project root (auto-loaded by Claude Code)
+- ACS supplements it with session state (STATUS.md, SESSIONS.md)
+- CONTEXT.md stays lightweight, references CLAUDE.md
+- No duplication
+
+**Suggestion**: Add explicit guidance in /init-context and /migrate-context for projects with existing comprehensive CLAUDE.md:
+
+```
+Detected existing CLAUDE.md (19KB) at project root.
+
+CLAUDE.md is auto-loaded by Claude Code and should stay in root.
+ACS will supplement it with:
+- context/STATUS.md - Current state
+- context/SESSIONS.md - Session history
+- context/DECISIONS.md - Decision log
+
+Your CLAUDE.md will remain the primary project reference.
+Continue? [Y/n]
 ```
 
-**Severity**: 🟢 Minor (nice quality of life improvement)
-
-**Environment**:
-- OS: Ubuntu 22.04
-- Claude Code: 1.1.5
-- CCS: 2.3.0
+**Severity**: Moderate (had to figure out the right approach)
 
 ---
 
-### Example 3: Praise
+### 2026-01-07 - Multiple .claude Directories Detection - Good Feature
 
-## 2024-10-21 - /organize-docs - Praise 👍
+**What happened**: Step 0.5 detected multiple .claude directories (one in parent /coding/ folder, others in sibling projects).
 
-**What happened**: The `/organize-docs` command is AMAZING! Cleaned up 20+ loose files in 2 minutes.
+**Expected behavior**: Warn about potential conflicts.
 
-**Why it's great**:
-- Interactive and smart (analyzed files before moving)
-- Suggested good locations
-- Dated historical files automatically
-- Kept my project professional
+**Actual behavior**: Correctly warned, but the detection was too broad - it found sibling projects' .claude folders which aren't conflicts.
 
-**Suggestion**: None - this is perfect! Maybe add to README as a selling point?
+**Suggestion**: Refine detection to only warn about:
+1. .claude in DIRECT parent directories (actual conflict)
+2. NOT sibling directories at same level (not conflicts)
 
-**Severity**: 🟢 (just appreciation!)
+Current find command searches `..` which includes siblings.
+
+**Severity**: Minor (false positive warnings, but no real issue)
 
 ---
 
-**Thank you for helping make the AI Context System better!** 🙏
+### 2026-01-07 - Overall Experience - Praise
+
+**What went well**:
+
+1. **Install script is solid** - One curl command, everything in place
+2. **Maturity detection works** - Correctly identified mature vs new project
+3. **Template quality is high** - Well-structured, comprehensive
+4. **Documentation is thorough** - Commands are well-documented
+5. **Flexibility** - System adapted to project with existing comprehensive CLAUDE.md
+
+**Best parts**:
+- The two-tier save approach (/save vs /save-full) is smart
+- DECISIONS.md with structured format is valuable for AI context
+- Session history with TL;DR requirement is useful
+- Config file (.context-config.json) is comprehensive
+
+**Overall**: Strong system. Main gaps are in handling edge cases during migration (legacy files, existing docs). The "happy path" for new projects is likely smoother.
+
+---
+
+## Template for Future Entries
+
+```markdown
+### YYYY-MM-DD - [Command/Feature] - [Category]
+
+**What happened**: [Description]
+
+**Expected behavior**: [What you thought would happen]
+
+**Actual behavior**: [What actually happened]
+
+**Suggestion**: [Your idea for improvement]
+
+**Severity**: [Critical / Moderate / Minor]
+```
+
+---
 
 *Your feedback will be reviewed when you run `/update-context-system` or manually share it with the maintainers.*

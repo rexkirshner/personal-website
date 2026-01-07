@@ -426,3 +426,19 @@ When writing copy for this site, use Rex's voice:
 8. MAKE ALL FIXES AND CODE CHANGES AS SIMPLE AS HUMANLY POSSIBLE. THEY SHOULD ONLY IMPACT NECESSARY CODE RELEVANT TO THE TASK AND NOTHING ELSE. IT SHOULD IMPACT AS LITTLE CODE AS POSSIBLE. YOUR GOAL IS TO NOT INTRODUCE ANY BUGS. IT'S ALL ABOUT SIMPLICITY
 
 CRITICAL: When debugging, you MUST trace through the ENTIRE code flow step by step. No assumptions. No shortcuts.
+
+## AI Context System
+
+This project uses the AI Context System for session continuity. Configuration and preferences are in `context/.context-config.json`.
+
+**Context Files:**
+- `context/STATUS.md` - Current state and active tasks
+- `context/SESSIONS.md` - Session history
+- `context/DECISIONS.md` - Technical decisions with rationale
+- `context/CONTEXT.md` - Project orientation (supplements this file)
+
+**Session Commands:**
+- `/save` - Quick session update (2-3 min)
+- `/save-full` - Comprehensive save before breaks (10-15 min)
+- `/review-context` - Orient at session start
+- `/code-review` - Run code audits

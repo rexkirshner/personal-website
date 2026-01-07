@@ -28,6 +28,7 @@ This file captures the reasoning that isn't obvious from code alone.
 | D003 | Photos on Cloudflare R2 | 2024-10 | Accepted |
 | D004 | Lazy-load Travel Map | 2024-10 | Accepted |
 | D005 | Keep comprehensive CLAUDE.md | 2026-01 | Accepted |
+| D006 | Performance Optimization Strategy | 2024-10 | Accepted |
 
 ---
 
@@ -193,6 +194,59 @@ Keep existing CLAUDE.md as the primary project reference. ACS supplements it wit
 - We give up: Strict adherence to ACS template structure
 
 **For AI agents:** Read CLAUDE.md first for architecture and patterns. Use context/ files for session state and decisions.
+
+---
+
+## D006 - Performance Optimization Strategy
+
+**Date:** 2024-10
+**Status:** Accepted
+
+### Context
+
+Site had performance issues: carousel loading full-resolution JPEGs instead of thumbnails, all 20+ gallery photos loading on page load (even when hidden), carousel auto-rotating constantly (even off-screen).
+
+### Decision
+
+Implement multi-pronged performance optimization:
+1. Use WebP thumbnails in carousel instead of original JPEGs
+2. Defer gallery rendering until user clicks "View All Photos"
+3. Pause carousel when off-screen using Intersection Observer
+4. Add async image decoding
+5. Increase carousel interval from 5s to 8s
+
+### Rationale
+
+**Key factors:**
+- IPFS gateways have slow connections - every KB matters
+- Most users don't expand full gallery - don't load what they won't see
+- Carousel running off-screen wastes CPU cycles
+- Async decoding prevents layout blocking
+
+### Results
+
+**Before:**
+- 25+ images loading on page load (5 carousel full-res JPEGs + 20 thumbnails)
+- Carousel auto-rotating constantly
+- No async decoding
+
+**After:**
+- Only 5 optimized WebP thumbnails load initially (~80-90% smaller)
+- Gallery deferred until user interaction
+- Carousel pauses when off-screen
+- All images decode asynchronously
+
+**Impact:** ~70-80% reduction in initial image payload
+
+### Files Changed
+
+- `PhotoGallery.astro:30` - Changed `originalUrl` to `thumbnailUrl`
+- `PhotoGallery.astro:318-349` - Added Intersection Observer
+- `PhotoGallery.astro:92,317-369,387-425` - Deferred gallery rendering
+- `VideoGallery.astro:80` - Added async decoding
+- `index.astro:100` - Added async decoding to project images
+
+**For AI agents:** This pattern (defer heavy content, use thumbnails, pause off-screen animations) should be applied to any new gallery or carousel features.
 
 ---
 
