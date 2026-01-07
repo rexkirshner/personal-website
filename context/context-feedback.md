@@ -175,6 +175,208 @@ Current find command searches `..` which includes siblings.
 
 ---
 
+### 2026-01-07 - Re-initialization Detection - Bug/Improvement
+
+**What happened**: During this session, I actually ran /init-context twice:
+1. First run: Quickly created context/ folder with files
+2. Second run: User asked for step-by-step execution, which detected maturity and switched to /migrate-context
+
+When /migrate-context ran, context/ already existed with files from the first /init-context run.
+
+**The problem**: Neither command handled the "already partially initialized" state well. /migrate-context proceeded as if context/ was fresh, when it actually had files from the interrupted /init-context.
+
+**Suggestion**: Add "already initialized" detection at the start of both commands:
+
+```bash
+if [ -f "context/.context-config.json" ]; then
+  echo "⚠️  ACS appears to already be initialized"
+  echo "   Found: context/.context-config.json"
+  echo ""
+  echo "Options:"
+  echo "  [1] Continue anyway (augment existing)"
+  echo "  [2] Reset and start fresh"
+  echo "  [3] Cancel"
+fi
+```
+
+**Severity**: Moderate (can cause confusion about what's already done)
+
+---
+
+### 2026-01-07 - Command Length/Complexity - Observation
+
+**What happened**: /migrate-context is 870+ lines of markdown instructions. /init-context is 820+ lines. These are comprehensive but very long for Claude to process in one go.
+
+**Observations**:
+- Long commands mean more context usage
+- Easy to lose track of which step you're on
+- Hard to resume if interrupted mid-command
+
+**Suggestion**: Consider modularizing:
+1. **Phase-based execution**: `/migrate-context --phase=scan`, `--phase=move`, `--phase=augment`
+2. **Quick vs full modes**: `/migrate-context --quick` (essential steps only) vs full
+3. **Checkpoint system**: Save progress between phases, allow resume
+
+**Severity**: Minor (works, but could be more efficient)
+
+---
+
+### 2026-01-07 - Two-Commit Workflow - Documentation Gap
+
+**What happened**: The installation resulted in two commits:
+1. `68fe420` - Install AI Context System v4.0.2 (ACS infrastructure)
+2. `f4c17a9` - Complete ACS migration with /migrate-context (project-specific changes)
+
+**Question**: Is this the intended workflow? Or should install + migration be one atomic operation?
+
+**Current behavior**: Install script adds files, user commits. Then /migrate-context makes changes, user commits again.
+
+**Suggestion**: Document the expected commit workflow:
+- Option A: Two commits (current) - separates "system files" from "project customization"
+- Option B: One commit - run install, then immediately run /init-context or /migrate-context, then commit everything together
+
+Either is valid, but should be documented in install instructions.
+
+**Severity**: Minor (documentation gap, not a bug)
+
+---
+
+### 2026-01-07 - CONTEXT.md Template vs Lightweight Mode - Feature Request
+
+**What happened**: The CONTEXT.md template is ~300 lines and very comprehensive. But for projects with existing comprehensive CLAUDE.md (19KB), I wrote a lighter ~230 line CONTEXT.md that references CLAUDE.md rather than duplicating content.
+
+**The tension**:
+- Template assumes CONTEXT.md is the primary orientation doc
+- Reality: Some projects have CLAUDE.md as primary, CONTEXT.md as supplement
+
+**Suggestion**: Add a "lightweight mode" for CONTEXT.md when comprehensive CLAUDE.md exists:
+
+```bash
+if [ -f "CLAUDE.md" ] && [ $(wc -c < CLAUDE.md) -gt 10000 ]; then
+  echo "Detected comprehensive CLAUDE.md ($(wc -c < CLAUDE.md) bytes)"
+  echo ""
+  echo "CONTEXT.md options:"
+  echo "  [1] Full template (standalone orientation doc)"
+  echo "  [2] Lightweight (references CLAUDE.md, adds ACS-specific sections only)"
+fi
+```
+
+The lightweight version would include:
+- Getting Started (quick reference to STATUS.md, SESSIONS.md)
+- Tech Stack (brief, link to CLAUDE.md for details)
+- Key Resources (links to all docs)
+- Skip: Architecture, Environment Setup, etc. (already in CLAUDE.md)
+
+**Severity**: Minor (manual workaround exists)
+
+---
+
+### 2026-01-07 - Historical Session/Decision Numbering - Convention Question
+
+**What happened**: When migrating pre-ACS work from tasks/todo.md:
+- Created "Session 0" for historical performance optimization work
+- Created "D006" for the performance optimization decision
+
+**Questions**:
+1. Is "Session 0" the right convention for pre-ACS historical work?
+2. Should retrospectively-documented decisions be marked differently than real-time decisions?
+
+**Current approach**:
+- Session 0, Session -1, etc. for pre-ACS history
+- Decisions numbered sequentially regardless of when documented
+
+**Alternative approaches**:
+- "Session H1, H2" (H for Historical)
+- Decisions marked with "(retrospective)" tag
+- Separate "Historical Context" section in SESSIONS.md
+
+**Suggestion**: Add guidance in templates for handling pre-ACS historical work. Many mature projects will have important context that predates ACS installation.
+
+**Severity**: Minor (convention question, not blocking)
+
+---
+
+### 2026-01-07 - .archive Gitignore Warning - Documentation Gap
+
+**What happened**: When archiving tasks/todo.md to .archive/, git refused to stage it because .archive is in .gitignore (set by ACS or project).
+
+**The implication**: Archived files are NOT backed up in git. They exist only locally.
+
+**Is this intentional?** Probably yes - archives are for local reference, not cluttering repo history.
+
+**Suggestion**: Add explicit warning when archiving:
+
+```
+Moving tasks/todo.md → .archive/tasks/todo.md
+
+⚠️  Note: .archive/ is gitignored
+    Archived files are kept locally but NOT in git history.
+    If you need this in version control, use a different location.
+```
+
+**Severity**: Minor (but could cause confusion/data loss if unexpected)
+
+---
+
+### 2026-01-07 - Post-Migration Validation - Feature Request
+
+**What happened**: After completing /migrate-context, the command ends with "Next Steps" text but no automated validation.
+
+**Suggestion**: Add automatic post-migration validation:
+
+```bash
+echo "Running post-migration validation..."
+# Could auto-run /validate-context or a subset
+# Check all required files exist
+# Check CLAUDE.md was augmented
+# Check config is valid JSON
+# Report any warnings
+```
+
+This catches issues immediately rather than waiting for user to discover them later.
+
+**Severity**: Minor (nice to have)
+
+---
+
+### 2026-01-07 - Feedback File Examples - Minor UX Issue
+
+**What happened**: The context-feedback.md template included 3 detailed example entries (bug report, feature request, praise). These were helpful to understand the format but:
+1. They're 70+ lines of examples
+2. They need to be manually deleted
+3. If not deleted, they pollute the feedback file
+
+**Suggestion**: Either:
+1. Put examples in a separate file (context/feedback-examples.md) that can be deleted
+2. Use HTML comments around examples so they're hidden but available
+3. Keep examples minimal (1 short example, not 3 detailed ones)
+
+**Severity**: Minor (cosmetic)
+
+---
+
+## Summary of Actionable Improvements
+
+**High Priority (would significantly improve UX):**
+1. Single entry point `/setup-context` that auto-routes to init vs migrate
+2. Analyze legacy file contents before offering preserve/skip/delete
+3. Explicit guidance for projects with existing comprehensive CLAUDE.md
+4. "Already initialized" detection at command start
+
+**Medium Priority (would improve edge cases):**
+5. Fix .claude directory detection to exclude siblings
+6. Lightweight CONTEXT.md template option
+7. Post-migration auto-validation
+8. Document expected commit workflow
+
+**Low Priority (polish):**
+9. Modularize long commands into phases
+10. Guidance for historical session/decision numbering
+11. Warning when archiving to gitignored location
+12. Streamline feedback file examples
+
+---
+
 ## Template for Future Entries
 
 ```markdown
