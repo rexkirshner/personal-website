@@ -1,6 +1,6 @@
 #!/bin/bash
 # Common functions used across AI Context System commands
-# Version: 4.0.2
+# Version: 4.2.0
 #
 # This file extracts duplicate code from multiple commands into shared utilities.
 # Source this file at the beginning of any command that needs these functions.
@@ -27,6 +27,24 @@ export YELLOW='\033[1;33m'
 export GREEN='\033[0;32m'
 export BLUE='\033[0;34m'
 export NC='\033[0m' # No Color
+
+# =============================================================================
+# Repository Root Detection
+# =============================================================================
+
+# Get the repository root directory
+# Works from any subdirectory within a git repository
+# Falls back to current directory if not in a git repo
+#
+# Usage:
+#   REPO_ROOT=$(get_repo_root)
+#   ls "$REPO_ROOT/.claude/commands/"
+#
+# Returns:
+#   Absolute path to repository root, or pwd if not in git repo
+get_repo_root() {
+  git rev-parse --show-toplevel 2>/dev/null || pwd
+}
 
 # =============================================================================
 # Context Directory Management
@@ -1229,6 +1247,384 @@ days_since_file_modified() {
 }
 
 # =============================================================================
+# Documentation Health Check (v4.1.0)
+# =============================================================================
+
+# Check health of project documentation
+# Compares CLAUDE.md against CONTEXT.md for staleness and drift
+#
+# Usage:
+#   check_documentation_health [context_dir]
+#
+# Returns (via global variables):
+#   DOC_HEALTH_STATUS    - "healthy" | "stale" | "drift" | "incomplete"
+#   DOC_HEALTH_DETAILS   - Array of issue descriptions
+#   DOC_HEALTH_WARNINGS  - Count of warnings found
+#
+# Exit codes:
+#   0 - Check completed (regardless of health status)
+#   1 - Could not run check (missing files, etc.)
+check_documentation_health() {
+  local context_dir="${1:-context}"
+  local repo_root
+  repo_root=$(get_repo_root)
+
+  # Initialize return variables
+  DOC_HEALTH_STATUS="healthy"
+  DOC_HEALTH_DETAILS=()
+  DOC_HEALTH_WARNINGS=0
+
+  local claude_md="$repo_root/CLAUDE.md"
+  local context_md="$repo_root/$context_dir/CONTEXT.md"
+
+  # Check 1: Files exist
+  if [ ! -f "$claude_md" ]; then
+    DOC_HEALTH_STATUS="incomplete"
+    DOC_HEALTH_DETAILS+=("CLAUDE.md not found at project root")
+    DOC_HEALTH_WARNINGS=$((DOC_HEALTH_WARNINGS + 1))
+  fi
+
+  if [ ! -f "$context_md" ]; then
+    DOC_HEALTH_STATUS="incomplete"
+    DOC_HEALTH_DETAILS+=("CONTEXT.md not found in $context_dir/")
+    DOC_HEALTH_WARNINGS=$((DOC_HEALTH_WARNINGS + 1))
+    return 0  # Can't do further checks
+  fi
+
+  # Check 2: Template placeholders in CONTEXT.md
+  local placeholders
+  placeholders=$(grep -c '\[FILL:' "$context_md" 2>/dev/null | tr -d '\n' || echo "0")
+  placeholders=${placeholders:-0}
+  if [ "$placeholders" -gt 0 ]; then
+    DOC_HEALTH_DETAILS+=("CONTEXT.md has $placeholders unfilled [FILL:...] placeholders")
+    DOC_HEALTH_WARNINGS=$((DOC_HEALTH_WARNINGS + 1))
+    [ "$DOC_HEALTH_STATUS" = "healthy" ] && DOC_HEALTH_STATUS="incomplete"
+  fi
+
+  # Check 3: Staleness comparison (if both files exist)
+  if [ -f "$claude_md" ] && [ -f "$context_md" ]; then
+    local claude_age context_age
+    claude_age=$(days_since_file_modified "$claude_md")
+    context_age=$(days_since_file_modified "$context_md")
+
+    if [ "$claude_age" -ge 0 ] && [ "$context_age" -ge 0 ]; then
+      local age_diff=$((claude_age - context_age))
+
+      if [ "$age_diff" -gt 30 ]; then
+        DOC_HEALTH_DETAILS+=("CLAUDE.md is ${claude_age} days old (CONTEXT.md: ${context_age} days) - significantly stale")
+        DOC_HEALTH_WARNINGS=$((DOC_HEALTH_WARNINGS + 1))
+        DOC_HEALTH_STATUS="stale"
+      elif [ "$age_diff" -gt 14 ]; then
+        DOC_HEALTH_DETAILS+=("CLAUDE.md is ${claude_age} days old (CONTEXT.md: ${context_age} days) - consider updating")
+        DOC_HEALTH_WARNINGS=$((DOC_HEALTH_WARNINGS + 1))
+        [ "$DOC_HEALTH_STATUS" = "healthy" ] && DOC_HEALTH_STATUS="stale"
+      fi
+    fi
+  fi
+
+  # Check 4: Tech stack drift (if both files exist)
+  if [ -f "$claude_md" ] && [ -f "$context_md" ]; then
+    # Extract tech keywords from CONTEXT.md
+    local context_tech
+    context_tech=$(grep -oE '\b(React|Next\.js|Vue|Svelte|Angular|Node|Express|Prisma|Drizzle|TypeORM|PostgreSQL|MySQL|MongoDB|Redis|Docker|Kubernetes|Vercel|AWS|Cloudflare|Supabase|Firebase)\b' "$context_md" 2>/dev/null | sort -u | tr '\n' ' ')
+
+    # Check if each tech is mentioned in CLAUDE.md
+    local missing_tech=()
+    for tech in $context_tech; do
+      if ! grep -qi "$tech" "$claude_md" 2>/dev/null; then
+        missing_tech+=("$tech")
+      fi
+    done
+
+    # Only flag if 2+ technologies missing (reduce false positives)
+    if [ ${#missing_tech[@]} -ge 2 ]; then
+      DOC_HEALTH_DETAILS+=("Tech drift: CONTEXT.md mentions ${missing_tech[*]} - not in CLAUDE.md")
+      DOC_HEALTH_WARNINGS=$((DOC_HEALTH_WARNINGS + 1))
+      [ "$DOC_HEALTH_STATUS" = "healthy" ] && DOC_HEALTH_STATUS="drift"
+    fi
+  fi
+
+  return 0
+}
+
+# Format documentation health check results for display
+# Usage: format_documentation_health
+format_documentation_health() {
+  echo ""
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "Documentation Health Check"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo ""
+
+  if [ "$DOC_HEALTH_WARNINGS" -eq 0 ]; then
+    local claude_md_path="$(get_repo_root)/CLAUDE.md"
+    if [ -f "$claude_md_path" ]; then
+      local claude_age
+      claude_age=$(days_since_file_modified "$claude_md_path")
+      echo "  CLAUDE.md current (${claude_age} days old)"
+    else
+      echo "  CLAUDE.md not found"
+    fi
+    echo "  CONTEXT.md fully configured"
+  else
+    for detail in "${DOC_HEALTH_DETAILS[@]}"; do
+      echo "  - $detail"
+    done
+    echo ""
+    echo "Recommendations:"
+
+    case "$DOC_HEALTH_STATUS" in
+      "incomplete")
+        echo "  - Run /init-context to create missing files"
+        echo "  - Fill in [FILL:...] placeholders with project details"
+        ;;
+      "stale")
+        echo "  - Review CLAUDE.md and update with current project info"
+        echo "  - Compare with CONTEXT.md for accuracy"
+        ;;
+      "drift")
+        echo "  - Update CLAUDE.md tech stack section"
+        echo "  - Ensure CLAUDE.md reflects current architecture"
+        ;;
+    esac
+  fi
+  echo ""
+}
+
+# =============================================================================
+# Context Completeness Detection (v4.1.1)
+# =============================================================================
+
+# Count unfilled [FILL:...] placeholders in a file
+# Usage: count=$(count_unfilled_placeholders "context/CONTEXT.md")
+# Returns: Number of unfilled placeholders (0 if file doesn't exist)
+count_unfilled_placeholders() {
+  local file="$1"
+
+  if [ ! -f "$file" ]; then
+    echo "0"
+    return 0
+  fi
+
+  local count
+  count=$(grep -c '\[FILL:' "$file" 2>/dev/null | tr -d '\n' || echo "0")
+  count=${count:-0}
+  echo "$count"
+}
+
+# =============================================================================
+# Project Auto-Detection (v4.1.1)
+# =============================================================================
+
+# Detect project name from various sources
+# Priority: package.json > Cargo.toml > pyproject.toml > directory name
+# Usage: name=$(detect_project_name)
+detect_project_name() {
+  local name=""
+
+  # Try package.json
+  if [ -f "package.json" ]; then
+    name=$(grep -m1 '"name"' package.json 2>/dev/null | sed 's/.*"name"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/')
+  fi
+
+  # Try Cargo.toml
+  if [ -z "$name" ] && [ -f "Cargo.toml" ]; then
+    name=$(grep -m1 '^name' Cargo.toml 2>/dev/null | sed 's/name[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/')
+  fi
+
+  # Try pyproject.toml
+  if [ -z "$name" ] && [ -f "pyproject.toml" ]; then
+    name=$(grep -m1 'name' pyproject.toml 2>/dev/null | sed 's/name[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/')
+  fi
+
+  # Fallback to directory name
+  if [ -z "$name" ]; then
+    name=$(basename "$(pwd)")
+  fi
+
+  echo "$name"
+}
+
+# Detect project description
+# Priority: package.json > README first line
+# Usage: desc=$(detect_project_description)
+detect_project_description() {
+  local desc=""
+
+  # Try package.json
+  if [ -f "package.json" ]; then
+    desc=$(grep -m1 '"description"' package.json 2>/dev/null | sed 's/.*"description"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/')
+  fi
+
+  # Try README first meaningful line
+  if [ -z "$desc" ]; then
+    for readme in README.md README.rst README.txt README; do
+      if [ -f "$readme" ]; then
+        # Get first non-empty, non-header line
+        desc=$(grep -v '^#\|^$\|^==\|^--' "$readme" 2>/dev/null | head -1 | cut -c1-200)
+        [ -n "$desc" ] && break
+      fi
+    done
+  fi
+
+  echo "$desc"
+}
+
+# Detect repository URL from git remote
+# Usage: url=$(detect_repo_url)
+detect_repo_url() {
+  if ! git rev-parse --git-dir >/dev/null 2>&1; then
+    echo ""
+    return 0
+  fi
+
+  local url
+  url=$(git remote get-url origin 2>/dev/null || echo "")
+
+  # Convert SSH URL to HTTPS for display
+  if [[ "$url" == git@* ]]; then
+    url=$(echo "$url" | sed 's/git@\([^:]*\):/https:\/\/\1\//' | sed 's/\.git$//')
+  fi
+
+  echo "$url"
+}
+
+# Detect tech stack from project files
+# Returns: Comma-separated list of detected technologies
+# Usage: stack=$(detect_tech_stack)
+detect_tech_stack() {
+  local stack=()
+
+  # Check for JavaScript/TypeScript ecosystem
+  if [ -f "package.json" ]; then
+    # Check for specific frameworks
+    if grep -q '"next"' package.json 2>/dev/null; then
+      stack+=("Next.js")
+    elif grep -q '"@remix-run' package.json 2>/dev/null; then
+      stack+=("Remix")
+    elif grep -q '"astro"' package.json 2>/dev/null; then
+      stack+=("Astro")
+    elif grep -q '"nuxt"' package.json 2>/dev/null; then
+      stack+=("Nuxt")
+    elif grep -q '"@sveltejs/kit"' package.json 2>/dev/null; then
+      stack+=("SvelteKit")
+    elif grep -q '"react"' package.json 2>/dev/null; then
+      stack+=("React")
+    elif grep -q '"vue"' package.json 2>/dev/null; then
+      stack+=("Vue")
+    elif grep -q '"express"' package.json 2>/dev/null; then
+      stack+=("Express")
+    fi
+
+    # Check for TypeScript
+    if grep -q '"typescript"' package.json 2>/dev/null || [ -f "tsconfig.json" ]; then
+      stack+=("TypeScript")
+    else
+      stack+=("JavaScript")
+    fi
+
+    # Check for database/ORM
+    if grep -q '"prisma"' package.json 2>/dev/null || [ -d "prisma" ]; then
+      stack+=("Prisma")
+    elif grep -q '"drizzle-orm"' package.json 2>/dev/null; then
+      stack+=("Drizzle")
+    fi
+
+    # Check for database
+    if grep -q '"pg"\|"postgres"' package.json 2>/dev/null; then
+      stack+=("PostgreSQL")
+    elif grep -q '"mysql' package.json 2>/dev/null; then
+      stack+=("MySQL")
+    elif grep -q '"mongodb"' package.json 2>/dev/null; then
+      stack+=("MongoDB")
+    fi
+  fi
+
+  # Check for Python
+  if [ -f "requirements.txt" ] || [ -f "pyproject.toml" ] || [ -f "setup.py" ]; then
+    stack+=("Python")
+    if grep -q 'django' requirements.txt pyproject.toml 2>/dev/null; then
+      stack+=("Django")
+    elif grep -q 'flask' requirements.txt pyproject.toml 2>/dev/null; then
+      stack+=("Flask")
+    elif grep -q 'fastapi' requirements.txt pyproject.toml 2>/dev/null; then
+      stack+=("FastAPI")
+    fi
+  fi
+
+  # Check for Rust
+  if [ -f "Cargo.toml" ]; then
+    stack+=("Rust")
+  fi
+
+  # Check for Go
+  if [ -f "go.mod" ]; then
+    stack+=("Go")
+  fi
+
+  # Check for hosting platforms
+  if [ -f "vercel.json" ] || [ -d ".vercel" ]; then
+    stack+=("Vercel")
+  elif [ -f "netlify.toml" ]; then
+    stack+=("Netlify")
+  elif [ -f "fly.toml" ]; then
+    stack+=("Fly.io")
+  elif [ -f "railway.json" ]; then
+    stack+=("Railway")
+  fi
+
+  # Return comma-separated list
+  local IFS=','
+  echo "${stack[*]}"
+}
+
+# Detect project type
+# Returns: web-app | api | cli | library | unknown
+# Usage: type=$(detect_project_type)
+detect_project_type() {
+  # Check for web app indicators
+  if [ -f "package.json" ]; then
+    if grep -qE '"next"|"remix"|"astro"|"nuxt"|"svelte"' package.json 2>/dev/null; then
+      echo "web-app"
+      return 0
+    fi
+
+    # Check for CLI
+    if grep -q '"bin"' package.json 2>/dev/null; then
+      echo "cli"
+      return 0
+    fi
+
+    # Check for library (no bin, has main/module)
+    if grep -qE '"main"|"module"|"exports"' package.json 2>/dev/null && \
+       ! grep -q '"bin"' package.json 2>/dev/null; then
+      echo "library"
+      return 0
+    fi
+
+    # Express/Fastify = API
+    if grep -qE '"express"|"fastify"|"hapi"|"koa"' package.json 2>/dev/null; then
+      echo "api"
+      return 0
+    fi
+  fi
+
+  # Python web frameworks
+  if grep -qE 'django|flask|fastapi' requirements.txt pyproject.toml 2>/dev/null; then
+    echo "web-app"
+    return 0
+  fi
+
+  # CLI indicators
+  if [ -f "setup.py" ] && grep -q 'entry_points\|console_scripts' setup.py 2>/dev/null; then
+    echo "cli"
+    return 0
+  fi
+
+  echo "unknown"
+}
+
+# =============================================================================
 
 # Run auto-update check in background (non-blocking)
 # Only if not already running and not in quiet mode
@@ -1238,4 +1634,4 @@ if [ "$VERBOSITY" != "quiet" ] && [ -z "$UPDATE_CHECK_RUNNING" ]; then
 fi
 
 # Log that common functions were loaded (debug only)
-log_debug "Loaded common-functions.sh v4.0.2"
+log_debug "Loaded common-functions.sh v4.1.1"

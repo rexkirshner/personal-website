@@ -1,5 +1,5 @@
 {
-  "version": "4.0.2",
+  "version": "4.2.0",
   "owner": "Rex Kirshner",
   "project": {
     "name": "Rex Kirshner Personal Website",
@@ -186,7 +186,7 @@
   "metadata": {
     "createdAt": "2026-01-06",
     "lastUpdated": "2026-01-06",
-    "configVersion": "4.0.2",
+    "configVersion": "4.2.0",
     "notes": "Personal portfolio with dual deployment (Cloudflare Pages + IPFS)"
   },
   "metrics": {

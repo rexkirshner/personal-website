@@ -215,6 +215,89 @@ if [ -n "$PARENT_CLAUDE" ]; then
 fi
 ```
 
+---
+
+### Step 0.7: Check for Existing ACS Installation (v4.2.0)
+
+**ACTION:** Check if AI Context System is already initialized. The presence of `.context-config.json` indicates a prior installation.
+
+```bash
+echo "Checking for existing ACS installation..."
+echo ""
+
+if [ -f "context/.context-config.json" ]; then
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "⚠️  AI Context System Already Initialized"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo ""
+  echo "Found: context/.context-config.json"
+  echo ""
+  echo "Existing context files:"
+  ls context/*.md 2>/dev/null | head -10
+  echo ""
+fi
+```
+
+**If context/.context-config.json exists:**
+
+Present options to user:
+1. **Continue anyway** - Augment existing installation (add missing files only)
+2. **Reset and start fresh** - Back up existing to `.archive/context-backup-TIMESTAMP/` and create new
+3. **Cancel** - Exit without changes
+
+Wait for user selection before proceeding.
+
+**Why this matters:** Prevents confusion when users accidentally run /init-context on an already-initialized project, or when switching between /init-context and /migrate-context.
+
+---
+
+### Step 0.8: Detect Existing CLAUDE.md (v4.2.0)
+
+**ACTION:** Check for an existing CLAUDE.md at project root. Large files indicate comprehensive project documentation that ACS should complement, not replace.
+
+```bash
+if [ -f "CLAUDE.md" ]; then
+  CLAUDE_SIZE=$(wc -c < CLAUDE.md | tr -d ' ')
+
+  # Format size for display (cross-platform)
+  if [ "$CLAUDE_SIZE" -gt 1048576 ]; then
+    SIZE_DISPLAY="$(( CLAUDE_SIZE / 1048576 ))MB"
+  elif [ "$CLAUDE_SIZE" -gt 1024 ]; then
+    SIZE_DISPLAY="$(( CLAUDE_SIZE / 1024 ))KB"
+  else
+    SIZE_DISPLAY="${CLAUDE_SIZE}B"
+  fi
+
+  if [ "$CLAUDE_SIZE" -gt 5000 ]; then
+    echo ""
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "📄 Existing CLAUDE.md Detected ($SIZE_DISPLAY)"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo ""
+    echo "Your project has a comprehensive CLAUDE.md at the project root."
+    echo "This file is auto-loaded by Claude Code at conversation start."
+    echo ""
+    echo "ACS Integration Strategy:"
+    echo "  ✅ CLAUDE.md stays at project root (auto-loaded, primary reference)"
+    echo "  ✅ ACS adds context/ folder with session state:"
+    echo "     • STATUS.md - Current tasks, blockers, next steps"
+    echo "     • SESSIONS.md - Session history with mental models"
+    echo "     • DECISIONS.md - Decision log with rationale"
+    echo "  ✅ CONTEXT.md will be lightweight, referencing CLAUDE.md"
+    echo ""
+    echo "Your CLAUDE.md remains the primary project documentation."
+    echo "ACS supplements it with session continuity features."
+    echo ""
+  else
+    echo "ℹ️  Found CLAUDE.md ($SIZE_DISPLAY) - will preserve at project root"
+  fi
+fi
+```
+
+**Why this matters:** Users with existing CLAUDE.md files need clarity on how ACS integrates. The static project documentation in CLAUDE.md complements the dynamic session state in ACS context files.
+
+---
+
 ### Step 1: Check Existing Context
 
 ```
@@ -258,6 +341,40 @@ mkdir -p artifacts/security
 mkdir -p artifacts/bundle-analysis
 mkdir -p artifacts/coverage
 ```
+
+### Step 3.5: Auto-detect Project Information (v4.1.1)
+
+Before creating files, gather project information automatically:
+
+```bash
+log_info "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+log_info "🔍 Auto-detecting Project Information"
+log_info "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+log_info ""
+
+# Detect project info using common-functions
+if type detect_project_name &>/dev/null; then
+  DETECTED_NAME=$(detect_project_name)
+  DETECTED_DESC=$(detect_project_description)
+  DETECTED_STACK=$(detect_tech_stack)
+  DETECTED_TYPE=$(detect_project_type)
+  DETECTED_URL=$(detect_repo_url)
+
+  log_info "  Name:        ${DETECTED_NAME:-[not detected]}"
+  log_info "  Type:        ${DETECTED_TYPE:-unknown}"
+  log_info "  Description: ${DETECTED_DESC:-[not detected]}"
+  log_info "  Tech Stack:  ${DETECTED_STACK:-[not detected]}"
+  log_info "  Repository:  ${DETECTED_URL:-[not detected]}"
+  log_info ""
+  log_info "This information will help you fill in the template files."
+  log_info ""
+else
+  log_warn "⚠️  Auto-detection not available (common-functions.sh not fully loaded)"
+  log_info ""
+fi
+```
+
+**Why this matters:** Gathering project info upfront makes it easier to fill in the template placeholders. The AI can use this detected info when customizing the context files.
 
 ### Step 4: Generate Core Documentation Files
 
@@ -710,6 +827,72 @@ if [ -f "../ai-context-system.zip" ]; then
 fi
 ```
 
+### Step 8: Fill in Template Placeholders (v4.1.1 - CRITICAL)
+
+**CRITICAL:** This step ensures CONTEXT.md and other files get filled in properly. Without this step, context files remain as templates indefinitely.
+
+**ACTION:** Check for unfilled placeholders and fill them in:
+
+```bash
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "📝 CONTEXT.md Template Completion Check"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+# Check for placeholders in CONTEXT.md
+if [ -f "context/CONTEXT.md" ]; then
+  CONTEXT_PLACEHOLDERS=$(grep -c '\[FILL:' context/CONTEXT.md 2>/dev/null || echo "0")
+
+  if [ "$CONTEXT_PLACEHOLDERS" -gt 0 ]; then
+    echo "⚠️  CONTEXT.md has $CONTEXT_PLACEHOLDERS unfilled [FILL:...] placeholders"
+    echo ""
+    echo "IMPORTANT: The AI assistant should now fill in these placeholders using:"
+    echo "  1. The auto-detected project info (shown in Step 3.5)"
+    echo "  2. Analysis of package.json, README.md, and codebase structure"
+    echo "  3. Any additional context from the conversation"
+    echo ""
+    echo "Key placeholders to fill:"
+    grep -oE '\[FILL: [^]]+\]' context/CONTEXT.md 2>/dev/null | head -10 | sort -u | while read placeholder; do
+      echo "  • $placeholder"
+    done
+    echo ""
+  else
+    echo "✅ CONTEXT.md has no unfilled placeholders"
+  fi
+else
+  echo "⚠️  CONTEXT.md not found"
+fi
+```
+
+**Why this matters:** Context files left as templates defeat the purpose of the system. AI agents and future sessions need actual project information, not placeholder text like `[FILL: Project Name]`.
+
+**AI ASSISTANT ACTION REQUIRED:**
+
+After running the bash check above, you MUST:
+
+1. **Read context/CONTEXT.md** to see all `[FILL:...]` placeholders
+2. **Use detected info** from Step 3.5 (project name, type, tech stack, etc.)
+3. **Analyze the codebase** to fill in remaining placeholders:
+   - Read package.json for dependencies and description
+   - Read README.md for project overview
+   - Check directory structure for architecture info
+4. **Edit context/CONTEXT.md** to replace ALL `[FILL:...]` placeholders with actual content
+
+**Do NOT skip this step.** The user cannot use /save or /save-full effectively until CONTEXT.md has actual project information.
+
+**Verification:** After filling in, run:
+```bash
+REMAINING=$(grep -c '\[FILL:' context/CONTEXT.md 2>/dev/null || echo "0")
+if [ "$REMAINING" -eq 0 ]; then
+  echo "✅ CONTEXT.md is now complete!"
+else
+  echo "⚠️  Still $REMAINING placeholders remaining - please fill them in"
+fi
+```
+
+---
+
 ## Template Content Guidelines
 
 When filling templates, use this priority:
@@ -815,5 +998,5 @@ Understood?
 
 ---
 
-**Version:** 4.0.2
-**Updated:** v3.6.1 - Fixed CLAUDE.md migration (now automatic, non-interactive)
+**Version:** 4.2.0
+**Updated:** v4.1.1 - Added auto-detection and template placeholder filling

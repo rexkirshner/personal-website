@@ -190,6 +190,89 @@ if [ -n "$PARENT_CLAUDE" ]; then
 fi
 ```
 
+---
+
+### Step 0.7: Check for Existing ACS Installation (v4.2.0)
+
+**ACTION:** Check if AI Context System is already initialized. The presence of `.context-config.json` indicates a prior installation.
+
+```bash
+echo "Checking for existing ACS installation..."
+echo ""
+
+if [ -f "context/.context-config.json" ]; then
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "⚠️  AI Context System Already Initialized"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo ""
+  echo "Found: context/.context-config.json"
+  echo ""
+  echo "Existing context files:"
+  ls context/*.md 2>/dev/null | head -10
+  echo ""
+fi
+```
+
+**If context/.context-config.json exists:**
+
+Present options to user:
+1. **Continue anyway** - Augment existing installation (add missing files only)
+2. **Reset and start fresh** - Back up existing to `.archive/context-backup-TIMESTAMP/` and create new
+3. **Cancel** - Exit without changes
+
+Wait for user selection before proceeding.
+
+**Why this matters:** Prevents confusion when users accidentally run /migrate-context on an already-initialized project, or when switching between /init-context and /migrate-context.
+
+---
+
+### Step 0.8: Detect Existing CLAUDE.md (v4.2.0)
+
+**ACTION:** Check for an existing CLAUDE.md at project root. Large files indicate comprehensive project documentation that ACS should complement, not replace.
+
+```bash
+if [ -f "CLAUDE.md" ]; then
+  CLAUDE_SIZE=$(wc -c < CLAUDE.md | tr -d ' ')
+
+  # Format size for display (cross-platform)
+  if [ "$CLAUDE_SIZE" -gt 1048576 ]; then
+    SIZE_DISPLAY="$(( CLAUDE_SIZE / 1048576 ))MB"
+  elif [ "$CLAUDE_SIZE" -gt 1024 ]; then
+    SIZE_DISPLAY="$(( CLAUDE_SIZE / 1024 ))KB"
+  else
+    SIZE_DISPLAY="${CLAUDE_SIZE}B"
+  fi
+
+  if [ "$CLAUDE_SIZE" -gt 5000 ]; then
+    echo ""
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "📄 Existing CLAUDE.md Detected ($SIZE_DISPLAY)"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo ""
+    echo "Your project has a comprehensive CLAUDE.md at the project root."
+    echo "This file is auto-loaded by Claude Code at conversation start."
+    echo ""
+    echo "ACS Integration Strategy:"
+    echo "  ✅ CLAUDE.md stays at project root (auto-loaded, primary reference)"
+    echo "  ✅ ACS adds context/ folder with session state:"
+    echo "     • STATUS.md - Current tasks, blockers, next steps"
+    echo "     • SESSIONS.md - Session history with mental models"
+    echo "     • DECISIONS.md - Decision log with rationale"
+    echo "  ✅ CONTEXT.md will be lightweight, referencing CLAUDE.md"
+    echo ""
+    echo "Your CLAUDE.md remains the primary project documentation."
+    echo "ACS supplements it with session continuity features."
+    echo ""
+  else
+    echo "ℹ️  Found CLAUDE.md ($SIZE_DISPLAY) - will preserve at project root"
+  fi
+fi
+```
+
+**Why this matters:** Users with existing CLAUDE.md files need clarity on how ACS integrates. The static project documentation in CLAUDE.md complements the dynamic session state in ACS context files.
+
+---
+
 ### Step 1: Scan Existing Project
 
 **Identify existing documentation:**
@@ -868,4 +951,4 @@ fi
 
 ---
 
-**Version:** 4.0.2
+**Version:** 4.2.0

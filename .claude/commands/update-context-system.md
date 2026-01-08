@@ -108,8 +108,9 @@ echo ""
 **ACTION:** Use the Bash tool to check the current version using shared function:
 
 ```bash
-CURRENT_VERSION=$(get_system_version)
-log_info "📦 Current version: $CURRENT_VERSION"
+# Capture version BEFORE upgrade (for feedback archive naming)
+PRE_UPGRADE_VERSION=$(get_system_version)
+log_info "📦 Current version: $PRE_UPGRADE_VERSION"
 log_info "🔍 Checking for updates from GitHub..."
 ```
 
@@ -159,37 +160,6 @@ The installer will:
 
 ---
 
-### Step 2.3: Update Configuration Version
-
-**ACTION:** Update the version fields in `.context-config.json` to match the new system version:
-
-```bash
-echo "🔄 Updating configuration version..."
-
-# Detect new system version
-SYSTEM_VERSION=$(cat VERSION 2>/dev/null || echo "unknown")
-
-if [ "$SYSTEM_VERSION" != "unknown" ] && [ -f "context/.context-config.json" ]; then
-  # Update both version and configVersion fields
-  # macOS uses different sed syntax than Linux
-  if [[ "$OSTYPE" == "darwin"* ]]; then
-    sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$SYSTEM_VERSION\"/g" context/.context-config.json
-    sed -i '' "s/\"configVersion\": \"[^\"]*\"/\"configVersion\": \"$SYSTEM_VERSION\"/g" context/.context-config.json
-  else
-    sed -i "s/\"version\": \"[^\"]*\"/\"version\": \"$SYSTEM_VERSION\"/g" context/.context-config.json
-    sed -i "s/\"configVersion\": \"[^\"]*\"/\"configVersion\": \"$SYSTEM_VERSION\"/g" context/.context-config.json
-  fi
-
-  echo "✅ Updated config version to $SYSTEM_VERSION"
-else
-  echo "⚠️  Could not update config version (VERSION file or config missing)"
-fi
-```
-
-**Why this matters:** Ensures the configuration file accurately reflects the upgraded system version, preventing version mismatch warnings in `/review-context`.
-
----
-
 ### Step 2.5: Archive Feedback and Create Fresh File
 
 **v2.3.1: Feedback System**
@@ -211,12 +181,11 @@ if [ -f "context/claude-context-feedback.md" ] && [ ! -f "context/context-feedba
   CONTENT_LINES=$(wc -l < "context/claude-context-feedback.md" | tr -d ' ')
 
   if [ "$CONTENT_LINES" -gt 10 ]; then
-    # Has content - archive it
-    CURRENT_VERSION=$(get_system_version)
+    # Has content - archive it (use PRE_UPGRADE_VERSION captured in Step 1)
     ARCHIVE_DATE=$(date +%Y-%m-%d)
     mkdir -p artifacts/feedback
 
-    ARCHIVE_FILE="artifacts/feedback/feedback-v${CURRENT_VERSION}-${ARCHIVE_DATE}.md"
+    ARCHIVE_FILE="artifacts/feedback/feedback-v${PRE_UPGRADE_VERSION}-${ARCHIVE_DATE}.md"
     mv "context/claude-context-feedback.md" "$ARCHIVE_FILE"
 
     log_success "✅ Archived v2.x feedback to $ARCHIVE_FILE"
@@ -234,25 +203,23 @@ fi
 
 # Check if feedback file exists and has actual content (not just template)
 if [ -f "context/context-feedback.md" ]; then
-  # Count lines in Feedback Entries section (between "## Feedback Entries" and "## Examples")
-  # Fresh template has ~7 lines, template with entries has 15+
-  CONTENT_LINES=$(awk '/^## Feedback Entries$/,/^## Examples/' \
-    context/context-feedback.md | wc -l | tr -d ' ')
+  # Count only real user entries (## YYYY-MM-DD format headers)
+  # This ignores template examples which use different formats
+  USER_ENTRIES=$(grep -c "^## [0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}" context/context-feedback.md 2>/dev/null || echo "0")
 
-  if [ "$CONTENT_LINES" -gt 10 ]; then  # Has actual entries beyond template
-    # Get current version for archive filename
-    CURRENT_VERSION=$(get_system_version)
+  if [ "$USER_ENTRIES" -gt 0 ]; then  # Has actual user feedback entries
+    # Use PRE_UPGRADE_VERSION captured in Step 1 for archive filename
     ARCHIVE_DATE=$(date +%Y-%m-%d)
 
     # Create archive directory if needed
     mkdir -p artifacts/feedback
 
     # Archive with version and date
-    ARCHIVE_FILE="artifacts/feedback/feedback-v${CURRENT_VERSION}-${ARCHIVE_DATE}.md"
+    ARCHIVE_FILE="artifacts/feedback/feedback-v${PRE_UPGRADE_VERSION}-${ARCHIVE_DATE}.md"
     mv context/context-feedback.md "$ARCHIVE_FILE"
 
     log_success "✅ Archived feedback to $ARCHIVE_FILE"
-    log_info "   (Feedback from v${CURRENT_VERSION} preserved)"
+    log_info "   (Feedback from v${PRE_UPGRADE_VERSION} preserved)"
   else
     log_verbose "Feedback file exists but appears to be just template (no entries)"
     # Deletion protection for potentially sensitive files
@@ -291,52 +258,28 @@ log_info ""
 
 ---
 
-### Step 3: Show What's New
+### Step 3: Show Upgrade Complete
 
-**ACTION:** Display what's new in the upgraded version:
+**ACTION:** Display upgrade completion with link to changelog:
 
 ```bash
-log_info ""
-log_info "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-log_info "  🎉 What's New in v4.0.0"
-log_info "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-log_info ""
+# Get version for display
+NEW_VERSION=$(cat VERSION 2>/dev/null || echo "unknown")
 
-CURRENT_VERSION=$(get_system_version)
-
-echo "✨ Modular Code Review System"
 echo ""
-echo "The /code-review command is now a master orchestrator with"
-echo "8 specialized audit commands:"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "  Upgrade Complete"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
-echo "   /code-review-security      OWASP Top 10 audit"
-echo "   /code-review-performance   Core Web Vitals audit"
-echo "   /code-review-accessibility WCAG 2.1 AA compliance"
-echo "   /code-review-seo           Technical SEO audit"
-echo "   /code-review-database      N+1, indexes, query optimization"
-echo "   /code-review-infrastructure Serverless costs, caching"
-echo "   /code-review-typescript    Type safety audit"
-echo "   /code-review-testing       Coverage and quality audit"
-echo "   /build-check               Pre-push quality gate"
+echo "📦 Current version: v${NEW_VERSION}"
 echo ""
-echo "📂 New Structure:"
-echo "   • Reports saved to docs/audits/{type}-audit-NN.md"
-echo "   • INDEX.md tracks all audits with grades"
-echo "   • Old reports migrated to docs/audits/archive/"
-echo ""
-echo "🎯 Quick Start:"
-echo "   /code-review               Interactive selection menu"
-echo "   /code-review --prelaunch   Security + Perf + A11y + SEO"
-echo "   /code-review --all         Run all 8 audits"
-echo "   /code-review-security      Run single audit directly"
+echo "📋 See what's new:"
+echo "   https://github.com/rexkirshner/ai-context-system/blob/main/CHANGELOG.md"
 echo ""
 echo "⚠️  IMPORTANT: Restart Claude Code to use new commands"
 echo "   Claude Code caches slash commands at session start."
 echo "   Close and reopen Claude Code for changes to take effect."
 echo ""
-
-log_info "📦 Current version: $CURRENT_VERSION"
-log_info ""
 ```
 
 ### Step 4: Check Version and Migration Notes
@@ -344,8 +287,8 @@ log_info ""
 **ACTION:** Show migration notes based on previous version:
 
 ```bash
-# Extract major version number for comparison
-PREV_MAJOR=$(echo "$CURRENT_VERSION" | cut -d. -f1)
+# Extract major version number for comparison (use PRE_UPGRADE_VERSION from Step 1)
+PREV_MAJOR=$(echo "$PRE_UPGRADE_VERSION" | cut -d. -f1)
 
 if [[ "$PREV_MAJOR" == "3" ]]; then
   echo ""
@@ -366,7 +309,7 @@ if [[ "$PREV_MAJOR" == "3" ]]; then
   echo ""
 elif [[ "$PREV_MAJOR" -lt "3" ]]; then
   echo ""
-  echo "⚠️  Upgrading from v$CURRENT_VERSION (very old version)"
+  echo "⚠️  Upgrading from v$PRE_UPGRADE_VERSION (very old version)"
   echo ""
   echo "Your version is quite old. The upgrade will work, but you may"
   echo "want to review the CHANGELOG for all changes since your version:"
@@ -449,16 +392,11 @@ if [ -f "$OLD_CLAUDE" ] && [ ! -f "$NEW_CLAUDE" ]; then
   echo "   Review ./CLAUDE.md - the v3.6.1 template has updated sections."
   echo "   See: templates/CLAUDE.md.template for latest structure"
 
-# Case 2: Both exist - warn about duplicate (user must resolve manually)
+# Case 2: Both exist - AUTO-REMOVE old file (v4.1.0: no longer requires manual action)
 elif [ -f "$OLD_CLAUDE" ] && [ -f "$NEW_CLAUDE" ]; then
-  echo "⚠️  Both locations exist:"
-  echo "   - ./CLAUDE.md (correct - auto-loaded by Claude Code)"
-  echo "   - context/claude.md (old - NOT auto-loaded)"
-  echo ""
-  echo "Action required:"
-  echo "  1. Review context/claude.md for any unique customizations"
-  echo "  2. Merge any customizations into ./CLAUDE.md"
-  echo "  3. Delete the old file: rm context/claude.md"
+  echo "🧹 Removing deprecated context/claude.md (root CLAUDE.md is active)"
+  rm "$OLD_CLAUDE"
+  echo "✅ Cleaned up old CLAUDE.md location"
 
 # Case 3: Only new location exists - good!
 elif [ -f "$NEW_CLAUDE" ]; then
@@ -601,6 +539,27 @@ Review templates/ directory for new reference content you may want to adopt:
 📚 Full changelog: https://github.com/rexkirshner/ai-context-system/releases
 ```
 
+---
+
+### Step 7: Post-Upgrade Commit Guidance (v4.1.0)
+
+```bash
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "COMMIT SYSTEM UPDATE"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+echo "System files were updated. Recommended commit:"
+echo ""
+echo "  git add .claude scripts templates config VERSION"
+echo "  git commit -m \"chore: upgrade AI Context System to v\$(cat VERSION)\""
+echo ""
+echo "Or include with your next feature commit."
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+```
+
+---
+
 ## Important Notes
 
 ### What Gets Updated
@@ -702,4 +661,4 @@ Understood?
 
 ---
 
-**Version:** 4.0.2
+**Version:** 4.2.0

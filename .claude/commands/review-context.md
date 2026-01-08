@@ -241,6 +241,30 @@ If YES → Set PUSH_APPROVED=true, verify by re-reading, auto-log approval
 
 **This reminder is displayed at session start to prevent git push violations.**
 
+### Step 1.7: Documentation Health Check (v4.1.0)
+
+**ACTION:** Check health of CLAUDE.md and CONTEXT.md:
+
+```bash
+REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
+source "$REPO_ROOT/scripts/common-functions.sh"
+
+# Run health check
+if check_documentation_health "$CONTEXT_DIR"; then
+  format_documentation_health
+else
+  log_warn "Could not complete documentation health check"
+fi
+```
+
+This check:
+- Compares modification dates of CLAUDE.md vs CONTEXT.md
+- Detects unfilled template placeholders
+- Identifies tech stack drift between files
+- Provides specific recommendations
+
+---
+
 ### Step 2: Load All Documentation
 
 Read and parse all context files:
@@ -504,8 +528,8 @@ echo "  STATUS.md:   ${STATUS_DATE:-not found}"
 
 if [ -n "$CONTEXT_DATE" ] && [ -n "$STATUS_DATE" ] && [ "$CONTEXT_DATE" != "$STATUS_DATE" ]; then
   echo ""
-  echo "  ⚠️  Date mismatch: CONTEXT.md ($CONTEXT_DATE) vs STATUS.md ($STATUS_DATE)"
-  echo "     STATUS.md is typically more current. Run /save to sync."
+  echo "  ℹ️  Layer dates: CONTEXT.md ($CONTEXT_DATE) | STATUS.md ($STATUS_DATE)"
+  echo "      Note: Different dates are normal. CONTEXT.md is static, STATUS.md is dynamic."
 fi
 echo ""
 
@@ -945,5 +969,5 @@ Understood?
 
 ---
 
-**Version:** 4.0.2
+**Version:** 4.2.0
 **Updated:** v3.0.4 - Added git workflow reminder for session start
