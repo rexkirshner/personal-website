@@ -453,4 +453,351 @@ The ` |` suffix ensures we're matching actual session headers (format: `## Sessi
 
 ---
 
+---
+
+### 2026-01-07 - /review-context - Staleness Thresholds Hardcoded vs Config
+
+**What happened**: Running /review-context Step 2.7 (Documentation Staleness Check). The command uses hardcoded thresholds:
+
+```bash
+THRESHOLD_GREEN=7
+THRESHOLD_YELLOW=14
+```
+
+**Expected behavior**: Should read from `.context-config.json` which has file-specific thresholds:
+- STATUS.md: green=14, yellow=30, red=60
+- SESSIONS.md: green=14, yellow=30, red=60
+- CONTEXT.md: green=90, yellow=180, red=365
+- DECISIONS.md: appendOnly=true, noThreshold=true
+
+**Actual behavior**: Uses same 7/14 day thresholds for ALL files. This causes false "stale" warnings for files like CONTEXT.md that are meant to be updated rarely.
+
+**Impact**: CONTEXT.md was flagged as "current (1 day old)" but should use the 90/180/365 thresholds per config. The hardcoded values are too aggressive for static context files.
+
+**Suggestion**: Read thresholds from config:
+
+```bash
+# Read file-specific thresholds from .context-config.json
+get_threshold() {
+  local file=$1
+  local level=$2  # green, yellow, red
+  jq -r ".validation.stalenessThresholds[\"$file\"].$level // empty" "$CONTEXT_DIR/.context-config.json"
+}
+
+THRESHOLD_GREEN=$(get_threshold "$FILENAME" "green")
+THRESHOLD_YELLOW=$(get_threshold "$FILENAME" "yellow")
+
+# Fall back to defaults if not in config
+[ -z "$THRESHOLD_GREEN" ] && THRESHOLD_GREEN=7
+[ -z "$THRESHOLD_YELLOW" ] && THRESHOLD_YELLOW=14
+```
+
+**Note**: The command even has a comment "(configurable from .context-config.json in future)" acknowledging this gap.
+
+**Severity**: Moderate (causes incorrect staleness warnings)
+
+---
+
+### 2026-01-07 - /review-context - Non-Core Files in Staleness Check
+
+**What happened**: The staleness check found DEPLOYMENT.md as 98 days "stale" (🔴 red).
+
+**The problem**: DEPLOYMENT.md is a project-specific file that was moved to context/ during /migrate-context. It's not an ACS core file. The staleness check shouldn't apply the same standards to:
+- ACS core files (STATUS.md, SESSIONS.md, CONTEXT.md, DECISIONS.md)
+- ACS optional files (PRD.md, ARCHITECTURE.md, etc.)
+- Project-specific files that happen to be in context/
+
+**Expected behavior**: Either:
+1. Only check ACS core files for staleness
+2. Distinguish between file types in the report
+3. Use the `documentation.required` array from .context-config.json to identify core files
+
+**Suggestion**: Add file categorization:
+
+```bash
+# Core ACS files (from config)
+CORE_FILES=$(jq -r '.documentation.required[]' "$CONTEXT_DIR/.context-config.json")
+
+for file in "$CONTEXT_DIR"/*.md; do
+  FILENAME=$(basename "$file")
+
+  # Check if this is a core file
+  if echo "$CORE_FILES" | grep -q "$FILENAME"; then
+    echo "  [Core] $FILENAME - ..."
+  else
+    echo "  [Project] $FILENAME - ..."
+  fi
+done
+```
+
+**Severity**: Minor (informational inaccuracy, not blocking)
+
+---
+
+### 2026-01-07 - /review-context - Cross-Document Date Mismatch Is Expected Behavior
+
+**What happened**: The cross-document consistency check flagged:
+```
+⚠️  Date mismatch: CONTEXT.md (2026-01-06) vs STATUS.md (2026-01-07)
+    STATUS.md is typically more current. Run /save to sync.
+```
+
+**The problem**: This is actually expected behavior, not an issue. Per ACS design:
+- **CONTEXT.md** is the "static layer" - updated rarely, contains orientation
+- **STATUS.md** is the "dynamic layer" - updated every session
+
+A date mismatch is NORMAL. The warning is misleading and suggests running /save to sync, but /save shouldn't update CONTEXT.md every time.
+
+**Expected behavior**: Don't warn about CONTEXT.md vs STATUS.md date differences. They're designed to be different.
+
+**Suggestion**: Either:
+1. Remove the CONTEXT.md vs STATUS.md date comparison entirely
+2. Only warn if CONTEXT.md date is NEWER than STATUS.md (backwards)
+3. Change the message: "ℹ️ CONTEXT.md last updated [date] (static layer - update when architecture changes)"
+
+**Severity**: Moderate (creates unnecessary confusion)
+
+---
+
+### 2026-01-07 - /review-context - Git Commit Count Immediately Stale
+
+**What happened**: After /save-full ran and created a commit, STATUS.md said "3 commits ahead of origin" but `git log` showed 4 commits ahead.
+
+**Root cause**: /save-full created a commit documenting the session, which incremented the commit count. But the STATUS.md content written by /save-full referenced the count BEFORE that commit was created.
+
+**The sequence**:
+1. /save-full reads git state: "3 commits ahead"
+2. /save-full writes to STATUS.md: "3 commits ahead"
+3. /save-full commits the changes: now 4 commits ahead
+4. STATUS.md is immediately wrong
+
+**Suggestion**: Either:
+1. Don't include specific commit counts in STATUS.md (too volatile)
+2. Update commit count AFTER the save commit is created
+3. Use relative language: "Commits ready to push: check git status"
+
+**Alternative fix**: Add a post-commit step to update the count:
+```bash
+# After git commit succeeds
+ACTUAL_COUNT=$(git rev-list --count origin/main..HEAD 2>/dev/null || echo "0")
+sed -i "s/[0-9]* commits ahead/$ACTUAL_COUNT commits ahead/" context/STATUS.md
+git add context/STATUS.md
+git commit --amend --no-edit
+```
+
+**Severity**: Moderate (documentation immediately incorrect)
+
+---
+
+### 2026-01-07 - /review-context - Update Check Interrupts Review Flow
+
+**What happened**: The update check in Step 1.5 found v4.1.1 available (current: v4.0.2). The command then prompted:
+
+```
+📦 Update Available
+
+Your AI Context System: v4.0.2
+Latest on GitHub: v4.1.1
+
+Would you like to update now? [Y/n]
+```
+
+**The problem**: This interrupts the review flow mid-execution. The user came to review context, not to update. The update prompt requires a decision before the actual review even starts.
+
+**Expected behavior**: Show update availability in the final report, not mid-flow:
+
+```
+📋 Context Review Report
+
+**Confidence Score: 88/100** - Good
+
+📦 System update available: v4.0.2 → v4.1.1 (run /update-context-system)
+
+✅ Accurate Documentation:
+...
+```
+
+**Why this is better**:
+1. Doesn't interrupt the primary task (review)
+2. User can complete review first, then decide on update
+3. Less context switching
+4. Update can happen after session work, not before
+
+**Severity**: Minor (UX friction, not blocking)
+
+---
+
+### 2026-01-07 - /review-context - PUSH_APPROVED Flag Conceptually Confusing
+
+**What happened**: Step 1.6 displays:
+
+```
+SESSION FLAG SET:
+PUSH_APPROVED = false
+```
+
+**The problem**: Claude/AI assistants don't actually maintain state between messages. There's no real "flag" being set. This is a prompt/reminder formatted to look like code execution.
+
+**Why it's confusing**:
+1. Looks like actual code setting a variable
+2. Implies state persistence that doesn't exist
+3. Later references to "the flag" suggest checking a real value
+4. New users might think there's actual enforcement logic
+
+**What's actually happening**: It's a prompt to remind the AI to ask before pushing. The "enforcement" is the AI's instruction-following, not a technical block.
+
+**Suggestion**: Reframe as behavioral guidance, not fake code:
+
+```
+🚨 GIT PUSH PROTOCOL
+
+Default behavior: Always ask before pushing to remote.
+
+You may:
+✅ git add (safe)
+✅ git commit (safe - local only)
+❓ git push → REQUIRES explicit user approval first
+
+User must say "push", "deploy", or similar BEFORE you run git push.
+```
+
+**Severity**: Minor (conceptual clarity, not functional)
+
+---
+
+### 2026-01-07 - /review-context - Missing days_since_file_modified Function
+
+**What happened**: Step 2.7 staleness check uses:
+
+```bash
+DAYS_OLD=$(days_since_file_modified "$file" 2>/dev/null || echo "-1")
+```
+
+This function is supposed to come from `scripts/common-functions.sh` (Step 0).
+
+**Actual behavior**: The function doesn't exist or wasn't loaded. I had to write inline bash to calculate days:
+
+```bash
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  FILE_MOD=$(stat -f %m "$file")
+else
+  FILE_MOD=$(stat -c %Y "$file")
+fi
+NOW=$(date +%s)
+DAYS_OLD=$(( (NOW - FILE_MOD) / 86400 ))
+```
+
+**Expected behavior**: `scripts/common-functions.sh` should provide this utility function, OR the command should include inline fallback.
+
+**Suggestion**: Either:
+1. Add `days_since_file_modified()` to common-functions.sh
+2. Include inline calculation in the command with proper cross-platform support
+3. Document that the function is a future enhancement
+
+**Severity**: Moderate (command references non-existent function)
+
+---
+
+### 2026-01-07 - /review-context - Copy-Paste Prompt Is Redundant
+
+**What happened**: After the review, the command displays a ~15 line "copy-paste prompt" for git workflow rules and asks the user to copy it back into the session.
+
+**The problem**:
+1. The AI already read the instructions in the command file
+2. The user doesn't need to copy-paste it back - the AI knows the rules
+3. It adds visual noise to the session
+4. The "Understood?" at the end expects a response to something the AI said
+
+**Expected behavior**: Since the /review-context command already loaded the git workflow rules, just display a brief acknowledgment:
+
+```
+✅ Git Workflow: Local commits OK, push requires explicit approval.
+```
+
+**Why current approach exists**: Likely for non-Claude AI tools that might not have loaded the command context. But for Claude Code specifically, it's redundant.
+
+**Suggestion**: Make it configurable or detect Claude Code and skip the copy-paste prompt. Or simply show a 1-line reminder.
+
+**Severity**: Minor (UX friction, not functional)
+
+---
+
+### 2026-01-07 - /review-context - Missing Build Verification Step
+
+**What happened**: As part of my review, I ran `npm run build` to verify the project builds successfully. The build passed (2.04s).
+
+**Observation**: This verification step isn't part of the /review-context command, but it's valuable context.
+
+**Why it matters**:
+- Documentation can be perfect but code broken
+- Build errors affect confidence in resuming work
+- Quick sanity check adds real value
+
+**Suggestion**: Add optional build verification step:
+
+```bash
+# Step 3.5: Optional Build Verification (if build command exists)
+if [ -n "$(jq -r '.project.commands.build // empty' $CONTEXT_DIR/.context-config.json)" ]; then
+  echo "🔨 Running build verification..."
+  npm run build --silent 2>&1 | tail -5
+  if [ $? -eq 0 ]; then
+    echo "  ✅ Build passes"
+  else
+    echo "  ❌ Build fails - investigate before resuming"
+  fi
+fi
+```
+
+Could be:
+- Always run (adds ~2-5 seconds)
+- Optional flag: `/review-context --with-build`
+- Skip if last build was recent (cache detection)
+
+**Severity**: Minor (enhancement, not bug)
+
+---
+
+### 2026-01-07 - /review-context - Overall Experience - Praise
+
+**What went well**:
+
+1. **Update check works reliably** - Found v4.1.1 correctly, clean output format
+2. **File detection is thorough** - Core + optional + config all checked
+3. **SESSIONS.md smart loading is clever** - Size detection and strategic loading is well-designed
+4. **Cross-document consistency checks add value** - Finding the date mismatch (even if expected) shows the system is checking
+5. **Confidence score framework is useful** - Clear criteria, actionable thresholds
+6. **Git integration is excellent** - Status, log, branch all incorporated
+7. **Report format is clear** - Easy to scan, actionable sections
+
+**Best parts**:
+- The comprehensive checklist approach ensures nothing is missed
+- Staleness detection catches drift before it's a problem
+- The "Trust But Verify" philosophy is sound
+- Session count validation prevents numbering errors
+
+**Overall**: Solid command. Issues are mostly edge cases and UX polish. The core functionality is robust.
+
+---
+
+## Summary of New Feedback (2026-01-07 /review-context Session)
+
+**Bugs:**
+1. `days_since_file_modified` function doesn't exist (command references it)
+2. Git commit count immediately stale after /save-full commit
+
+**Improvements (Medium Priority):**
+3. Staleness thresholds hardcoded vs config - should read from .context-config.json
+4. Cross-document date mismatch warning is misleading (expected behavior flagged as issue)
+5. Non-core files included in staleness check without distinction
+
+**UX Polish (Low Priority):**
+6. Update check interrupts review flow (should be in final report)
+7. PUSH_APPROVED flag conceptually confusing (looks like real code)
+8. Copy-paste prompt is redundant (AI already has instructions)
+
+**Enhancements:**
+9. Add optional build verification step
+
+---
+
 *Your feedback will be reviewed when you run `/update-context-system` or manually share it with the maintainers.*
