@@ -1,6 +1,6 @@
 # Project Status
 
-**Last Updated:** 2026-01-06
+**Last Updated:** 2026-01-07
 **Status:** 🟢 Active
 
 ---
@@ -27,14 +27,14 @@ npm run build        # Production build
 npm run preview      # Preview build locally
 ```
 
-**Current Focus:** AI Context System installed - ready for use
+**Current Focus:** ACS fully installed, migrated, and tested with first /save-full
 
-**Last Session:** 2026-01-06 - Installed ACS
+**Last Session:** 2026-01-07 - ACS Migration & First /save-full
 
 **Documentation Health:** 🟢 Excellent
-- CLAUDE.md: Comprehensive (19KB)
-- context/: Just initialized
-- All critical docs current
+- CLAUDE.md: Comprehensive (19KB) + ACS section added
+- context/: Fully initialized with 3 sessions documented
+- 14 feedback entries captured for system improvement
 
 ---
 
@@ -44,7 +44,7 @@ npm run preview      # Preview build locally
 **Started:** Ongoing
 **Target:** N/A (personal project, continuous updates)
 
-**Focus:** Content updates and occasional feature additions
+**Focus:** Content updates and occasional feature additions. ACS now provides session continuity.
 
 ## Active Tasks
 
@@ -52,16 +52,19 @@ npm run preview      # Preview build locally
 - [ ] None currently
 
 **Completed Recently:**
-- [x] Added male lion photo to featured carousel
-- [x] Added optimized carousel images for faster loading
-- [x] Randomized featured photos order on page load
-- [x] Fixed thumbnail URLs for mixed R2 naming conventions
-- [x] Added 26 new photos and renamed Underwater category to Animals
 - [x] Installed AI Context System v4.0.2
+- [x] Ran /migrate-context for mature project setup
+- [x] Migrated tasks/todo.md content to DECISIONS.md and SESSIONS.md
+- [x] Added D006 (Performance Optimization) to DECISIONS.md
+- [x] Added Session 0 (pre-ACS historical work) to SESSIONS.md
+- [x] Created 14 detailed feedback entries for ACS improvement
+- [x] Completed first /save-full execution
+- [x] Committed all changes (3 commits ready to push)
 
 **Next Up:**
-- [ ] Run first /save or /save-full to test ACS workflow
+- [ ] Push 3 commits to origin
 - [ ] Consider running /code-review for site audit
+- [ ] Use /save for quick updates at end of future sessions
 
 ## Blockers & Decisions
 
@@ -69,8 +72,9 @@ npm run preview      # Preview build locally
 - None
 
 **Recent Decisions:**
-- **Installed ACS:** Added AI Context System for session continuity across weeks/months between work sessions
-- **Keep CLAUDE.md:** Existing CLAUDE.md is comprehensive - ACS supplements rather than replaces
+- **Keep CLAUDE.md at root:** Auto-loaded by Claude Code, serves as primary reference (D005)
+- **Migrate tasks/todo.md content:** Extract decisions to DECISIONS.md, history to SESSIONS.md (D006)
+- **Supplement don't replace:** ACS adds session state layer without duplicating CLAUDE.md
 
 **Pending Decisions:**
 - None
@@ -78,39 +82,50 @@ npm run preview      # Preview build locally
 ## Work In Progress
 
 **Current Files:**
-- N/A (just completed ACS installation)
+- N/A (documentation/setup session complete)
 
 **Mental Model:**
-Site is stable and in maintenance mode. Content updates happen via JSON files. ACS now provides session tracking for future development work.
+ACS provides two-layer documentation:
+1. **Static layer** (CONTEXT.md, DECISIONS.md) - Project orientation, rarely changes
+2. **Dynamic layer** (STATUS.md, SESSIONS.md) - Session state, updated frequently
+
+For this project, CLAUDE.md is the comprehensive static reference. ACS supplements it.
 
 **Next Specific Action:**
-When starting a new task, use TodoWrite to track it, then /save at end of session.
+Push the 3 commits to origin, then use /save at end of future sessions.
 
 ## Recent Accomplishments
 
-**Last Session (2026-01-06):**
-- Installed AI Context System v4.0.2
-- Created context/ folder with core documentation
-- Customized CONTEXT.md for project specifics
-- Preserved existing comprehensive CLAUDE.md
+**Session 2 (2026-01-07):**
+- Ran /migrate-context for proper mature project setup
+- Migrated legacy tasks/todo.md:
+  - Decisions → D006 in DECISIONS.md
+  - History → Session 0 in SESSIONS.md
+  - Original → archived to .archive/
+- Augmented CLAUDE.md with ACS section
+- Created comprehensive installation feedback (14 entries)
+- Completed first /save-full execution
 
-**Key Files Created:**
-- `context/CONTEXT.md` - Project orientation
-- `context/STATUS.md` - This file (current state)
-- `context/DECISIONS.md` - Decision log
-- `context/SESSIONS.md` - Session history
-- `.claude/commands/` - 22 slash commands
+**Key Files Modified:**
+- `CLAUDE.md` - Added AI Context System section
+- `context/DECISIONS.md` - Added D006
+- `context/SESSIONS.md` - Added Sessions 0, 1, 2
+- `context/context-feedback.md` - 14 feedback entries
+
+**Git Status:**
+- 3 commits ahead of origin (ready to push)
+- No uncommitted changes
 
 ## Next Session
 
-**Priority 1:** Continue with whatever task is needed
-**Priority 2:** Run /code-review if wanting site audit
-**Priority 3:** Update photos/content as needed
+**Priority 1:** Push commits to origin
+**Priority 2:** Use /save for quick session updates going forward
+**Priority 3:** Run /code-review for periodic site audits
 
 **Context Notes:**
-ACS is installed and ready. Use /save at end of sessions, /save-full before long breaks.
+ACS is fully operational. The feedback file contains actionable improvements for the system. Session continuity is now enabled for this project.
 
 ---
 
-**Last Updated:** 2026-01-06
-**Session:** ACS Installation
+**Last Updated:** 2026-01-07
+**Session:** ACS Migration & First /save-full

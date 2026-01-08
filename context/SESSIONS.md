@@ -13,6 +13,7 @@
 |---|------|-------|-------|--------|
 | 0 | 2024-10 | Development | Performance Optimization (pre-ACS) | Complete |
 | 1 | 2026-01-06 | Maintenance | ACS Installation | Complete |
+| 2 | 2026-01-07 | Maintenance | ACS Migration & First /save-full | Complete |
 
 ---
 
@@ -140,6 +141,114 @@ For this project, CLAUDE.md serves as the comprehensive static context. ACS's co
 
 - **Tests:** Not applicable (documentation only)
 - **Build:** Not run (no code changes)
+
+---
+
+## Session 2 | 2026-01-07 | Maintenance
+
+**Duration:** 1.5h | **Focus:** ACS Installation, Migration & First /save-full | **Status:** Complete
+
+### TL;DR
+
+Installed AI Context System v4.0.2, ran /migrate-context to properly set up context for mature project with existing CLAUDE.md. Migrated legacy tasks/todo.md content to DECISIONS.md and SESSIONS.md. Created comprehensive installation feedback documenting 14 issues/improvements. Now running first /save-full to establish baseline.
+
+### Problem Solved
+
+**Issue:** Project had sporadic development (weeks between sessions) with no session continuity system. Existing CLAUDE.md was comprehensive but lacked session state tracking.
+
+**Constraints:**
+- Already have comprehensive CLAUDE.md (19KB) - don't want duplication
+- Have legacy tasks/todo.md with valuable historical info
+- Need to preserve existing documentation structure
+- Must work with IPFS deployment constraints
+
+**Approach:**
+1. Install ACS via curl script
+2. Run /init-context → detected mature project → switched to /migrate-context
+3. Analyze and migrate tasks/todo.md content (not just move/archive)
+4. Add ACS reference section to CLAUDE.md
+5. Create comprehensive installation feedback
+
+**Why this approach:** ACS supplements existing docs rather than replacing them. The migration command handles mature projects better than init, and content analysis of legacy files preserves valuable decision rationale.
+
+### Decisions
+
+- **Keep CLAUDE.md at root:** Auto-loaded by Claude Code, serves as primary reference → See DECISIONS.md D005
+- **Migrate tasks/todo.md content:** Extract decisions to D006, history to Session 0, then archive → See DECISIONS.md D006
+- **Supplement don't replace:** ACS adds session state layer without duplicating CLAUDE.md content
+
+### Files
+
+**NEW:**
+- `context/CONTEXT.md` - Project orientation (supplements CLAUDE.md)
+- `context/STATUS.md` - Current state tracking
+- `context/DECISIONS.md` - 6 decisions documented (D001-D006)
+- `context/SESSIONS.md` - Session history (Sessions 0-2)
+- `context/.context-config.json` - ACS configuration
+- `context/DEPLOYMENT.md` - Moved from root
+- `context/context-feedback.md` - 14 installation feedback entries
+- `.claude/commands/*.md` - 22 slash commands
+- `docs/UPDATE-INSTRUCTIONS.md` - Moved from root
+
+**MOD:**
+- `CLAUDE.md:430-444` - Added AI Context System section with commands reference
+
+**DEL:**
+- `tasks/todo.md` - Content migrated, original archived to .archive/
+
+### Mental Models
+
+**Current understanding:**
+ACS provides a two-layer documentation system:
+1. **Static layer** (CONTEXT.md, DECISIONS.md) - Project orientation, rarely changes
+2. **Dynamic layer** (STATUS.md, SESSIONS.md) - Session state, updated frequently
+
+For projects with comprehensive CLAUDE.md, it serves as the primary static layer, and ACS's context/ files provide the dynamic layer. No duplication needed.
+
+**Key insights:**
+- /init-context vs /migrate-context matters - mature projects need migration path
+- Legacy files need content analysis, not just preserve/skip/delete options
+- Session 0 convention works for pre-ACS historical work
+- Feedback file is valuable for capturing installation experience
+
+**Gotchas discovered:**
+- Step 1 bash command chain has precedence bug (all conditions execute)
+- Session number detection picks up template placeholders
+- .archive/ is gitignored - archived content not in version control
+- Multiple .claude detection finds siblings (false positives)
+
+### Work In Progress
+
+**Task:** First /save-full execution complete
+**Location:** N/A - documentation only session
+**Current approach:** Following /save-full command step-by-step exactly as written
+**Why this approach:** Testing the system, identifying bugs/improvements
+**Next specific action:** Push commits, then use /save for quick updates going forward
+**Context needed:** Three commits ready to push (ACS install, migration, feedback)
+
+### TodoWrite State
+
+**Completed:**
+- Install ACS v4.0.2
+- Run /init-context (detected mature project)
+- Switch to /migrate-context
+- Move DEPLOYMENT.md, UPDATE-INSTRUCTIONS.md
+- Analyze and migrate tasks/todo.md content
+- Add D006 to DECISIONS.md
+- Add Session 0 to SESSIONS.md
+- Archive tasks/todo.md
+- Augment CLAUDE.md with ACS section
+- Create comprehensive installation feedback
+- Commit all changes (3 commits)
+- Run first /save-full
+
+**In Progress:**
+- None
+
+### Next Session
+
+**Priority:** Push the 3 commits to origin, then use /save for quick updates going forward
+**Blockers:** None - system is fully set up and tested
 
 ---
 

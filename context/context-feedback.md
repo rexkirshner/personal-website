@@ -377,6 +377,64 @@ This catches issues immediately rather than waiting for user to discover them la
 
 ---
 
+### 2026-01-07 - /save-full Step 1 - Bug
+
+**What happened**: Running Step 1 to detect context directory location. The bash command chain uses:
+
+```bash
+test -d "context" && echo "..." || test -d "../context" && echo "..." || echo "not found"
+```
+
+**Expected behavior**: Should detect `context` in current directory and stop.
+
+**Actual behavior**: All three conditions execute because `&&` has higher precedence than `||`. The chain `A && B || C && D || E` is parsed as `((A && B) || (C && D)) || E`, not as intended.
+
+**Suggestion**: Use proper if-else logic:
+
+```bash
+if [ -d "context" ]; then
+  echo "✅ Found context/ in current directory"
+elif [ -d "../context" ]; then
+  echo "⚠️  Found context/ in parent directory"
+else
+  echo "❌ No context/ directory found"
+fi
+```
+
+**Severity**: Moderate (outputs are confusing but doesn't break functionality)
+
+---
+
+### 2026-01-07 - /save-full Step 3 - Bug
+
+**What happened**: Session number detection in Step 3 uses:
+
+```bash
+grep -oE "^## Session [0-9]+" context/SESSIONS.md | tail -1
+```
+
+**Expected behavior**: Find the last actual numbered session (e.g., "Session 1").
+
+**Actual behavior**: The regex picks up:
+- "Session Index" heading
+- "Session Template" section
+- "[N]" placeholders in template examples
+
+Result showed "9" (from some template text) when only Sessions 0 and 1 actually existed.
+
+**Suggestion**: Refine the regex to only match actual session entries:
+
+```bash
+# Match "## Session [digit]" at start of line, excluding template/index sections
+grep -E "^## Session [0-9]+ \|" context/SESSIONS.md | tail -1 | grep -oE "[0-9]+"
+```
+
+The ` |` suffix ensures we're matching actual session headers (format: `## Session 2 | 2026-01-07 | Phase`) not template placeholders.
+
+**Severity**: Moderate (could cause incorrect session numbering)
+
+---
+
 ## Template for Future Entries
 
 ```markdown
