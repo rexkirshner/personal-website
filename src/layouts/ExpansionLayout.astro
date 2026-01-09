@@ -30,11 +30,9 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://rexkirshner.com');
     <!-- Canonical URL -->
     <link rel="canonical" href={canonicalURL.href} />
 
-    <!-- Alternate links for ENS domains -->
+    <!-- hreflang for language targeting (mirrors use canonical for deduplication) -->
     <link rel="alternate" hreflang="x-default" href="https://rexkirshner.com/expansion" />
     <link rel="alternate" hreflang="en" href="https://rexkirshner.com/expansion" />
-    <link rel="alternate" hreflang="en" href="https://logrex.eth.limo/expansion" />
-    <link rel="alternate" hreflang="en" href="https://rexkirshner.eth.limo/expansion" />
 
     <!-- Open Graph -->
     <meta property="og:title" content={title} />

@@ -70,11 +70,9 @@ const fullOgImageURL = ogImageURL.startsWith('http') ? ogImageURL : `https://rex
     <meta name="theme-color" content="#ffffff" />
     <meta name="format-detection" content="telephone=no" />
 
-    <!-- Alternative URLs -->
-    <link rel="alternate" href="https://rexkirshner.com" hreflang="x-default" />
-    <link rel="alternate" href="https://rexkirshner.com" hreflang="en" />
-    <link rel="alternate" href="https://logrex.eth.limo" hreflang="en" />
-    <link rel="alternate" href="https://rexkirshner.eth.limo" hreflang="en" />
+    <!-- hreflang for language targeting (mirrors use canonical for deduplication) -->
+    <link rel="alternate" href="https://rexkirshner.com/" hreflang="x-default" />
+    <link rel="alternate" href="https://rexkirshner.com/" hreflang="en" />
 
     <!-- Schema.org JSON-LD for Person -->
     <script type="application/ld+json" set:html={JSON.stringify({
