@@ -414,20 +414,24 @@ const featuredPhotos = photos.filter(p => p.featured);
         photoCard.setAttribute('data-photo-index', i);
         photoCard.setAttribute('data-categories', photo.categories.join(' '));
 
-        photoCard.innerHTML = `
-          <img
-            src="${photo.thumbnailUrl}"
-            alt="${photo.alt}"
-            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-            loading="lazy"
-            decoding="async"
-          />
-          <div class="absolute inset-0 bg-transparent group-hover:bg-black/30 transition-all flex items-end p-4 pointer-events-none">
-            <p class="text-white opacity-0 group-hover:opacity-100 transition-opacity text-sm font-semibold">
-              ${photo.location}
-            </p>
-          </div>
-        `;
+        // Build card elements using DOM API for safe text insertion
+        const img = document.createElement('img');
+        img.src = photo.thumbnailUrl;
+        img.alt = photo.alt;
+        img.className = 'w-full h-full object-cover group-hover:scale-110 transition-transform duration-300';
+        img.loading = 'lazy';
+        img.decoding = 'async';
+
+        const overlay = document.createElement('div');
+        overlay.className = 'absolute inset-0 bg-transparent group-hover:bg-black/30 transition-all flex items-end p-4 pointer-events-none';
+
+        const locationText = document.createElement('p');
+        locationText.className = 'text-white opacity-0 group-hover:opacity-100 transition-opacity text-sm font-semibold';
+        locationText.textContent = photo.location;
+
+        overlay.appendChild(locationText);
+        photoCard.appendChild(img);
+        photoCard.appendChild(overlay);
 
         photoGrid?.appendChild(photoCard);
       }
