@@ -1,6 +1,6 @@
 #!/bin/bash
 # Common functions used across AI Context System commands
-# Version: 4.2.0
+# Version: 4.2.1
 #
 # This file extracts duplicate code from multiple commands into shared utilities.
 # Source this file at the beginning of any command that needs these functions.
@@ -476,12 +476,17 @@ get_system_version() {
 
 # Check for available updates (non-blocking)
 # Improvement #5 (auto-update notifications)
+# v4.2.1: Added ACS_UPDATING check to suppress notice during update
 check_for_updates() {
   local check_file=".claude/.last-update-check"
   local check_interval=86400  # 24 hours
 
   # Skip if verbosity is quiet
   [ "$VERBOSITY" = "quiet" ] && return 0
+
+  # Skip if we're already running /update-context-system (v4.2.1)
+  # Prevents confusing "Run /update-context-system" message during update
+  [ "$ACS_UPDATING" = "true" ] && return 0
 
   # Check once per day
   if [ -f "$check_file" ]; then
@@ -1634,4 +1639,4 @@ if [ "$VERBOSITY" != "quiet" ] && [ -z "$UPDATE_CHECK_RUNNING" ]; then
 fi
 
 # Log that common functions were loaded (debug only)
-log_debug "Loaded common-functions.sh v4.1.1"
+log_debug "Loaded common-functions.sh v4.2.1"

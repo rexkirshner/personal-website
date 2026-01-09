@@ -1,219 +1,171 @@
 # AI Context System - Feedback Log
 
-**Version**: 4.2.0
+**Version**: 4.2.1
 **Project**: Rex Kirshner Personal Website
-
----
-
-## Purpose
-
-This file helps improve the AI Context System for everyone. Your feedback matters!
-
-**Please document:**
-- Bugs - Errors, unexpected behavior, crashes
-- Improvements - Ideas to make ACS better
-- Questions - Confusion, unclear documentation
-- Feature Requests - New capabilities you'd like
-- Praise - What's working well (we need this too!)
+**Upgrade Path**: 4.2.0 → 4.2.1
 
 ---
 
 ## Feedback Entries
 
-### 2026-01-08 - /update-context-system - Installer Smooth
+### 2026-01-08 - /update-context-system - Patch Update Smooth
 
-**What happened**: Ran upgrade from v4.0.2 to v4.2.0.
+**What happened**: Ran patch upgrade from v4.2.0 to v4.2.1.
 
 **What went well**:
-1. Installer downloaded and ran without issues
-2. Backup created automatically (.claude-backup-20260108-081639/)
-3. All 22 commands, 16 templates, 6 scripts downloaded successfully
-4. Version mismatch in config auto-detected and auto-fixed
-5. Verification step confirmed all critical files present
-6. Clear output showing each file downloaded with checkmarks
+1. Only 6 files modified (vs. 37+ in major update) - clean patch
+2. Version auto-sync worked correctly
+3. Backup created automatically
+4. New script (export-sessions-json.sh) added seamlessly
+5. No errors or warnings
 
 **Severity**: N/A (praise)
 
----
-
-### 2026-01-08 - /update-context-system - Version Jump Surprise
-
-**What happened**: /review-context earlier showed update available as v4.1.1, but the actual installer downloaded v4.2.0.
-
-**Expected behavior**: Version shown in update check should match what gets installed.
-
-**Actual behavior**: Review showed 4.1.1 available, installer installed 4.2.0.
-
-**Why this happened**: The version on GitHub was updated between the review check and running the installer (or the check was cached).
-
-**Suggestion**: This is fine - getting the latest is good. But could note in update check: "Note: Installing latest version (may be newer than shown if recently updated)".
-
-**Severity**: Minor (not a bug, just surprising)
+**Environment**:
+- OS: macOS (Darwin 24.6.0)
+- Claude Code: Opus 4.5
+- ACS: 4.2.0 → 4.2.1
 
 ---
 
-### 2026-01-08 - /update-context-system - "What's New" Section Hardcoded
+### 2026-01-08 - /update-context-system - New Script Not Announced
 
-**What happened**: Step 3 displays "What's New in v4.0.0" but we're installing v4.2.0.
+**What happened**: v4.2.1 adds `scripts/export-sessions-json.sh` but it's not mentioned in the installer output.
 
-**Expected behavior**: Should show what's new in the version being installed (v4.2.0), or at least say "What's New since v4.0.0".
+**Expected behavior**: New features/scripts should be highlighted in "What's New" or at least listed.
 
-**Actual behavior**: Hardcoded to say "v4.0.0" regardless of version.
+**Actual behavior**: Script appears silently in the download list with no explanation of what it does.
 
-**Suggestion**: Either:
-1. Dynamically fetch CHANGELOG.md and show relevant section
-2. Update the heading to "What's New in v4.x" (covers all 4.x versions)
-3. Store version-specific release notes in a file that gets updated with releases
-
-**Severity**: Minor (cosmetic, but creates confusion about what version you're on)
-
----
-
-### 2026-01-08 - /update-context-system - common-functions.sh Auto-Shows Update Notice
-
-**What happened**: When sourcing `scripts/common-functions.sh` in Step 0, it automatically displayed:
-
+**Suggestion**: Add a "New in this version" section that highlights additions:
 ```
-💡 Update available: v4.0.2 → v4.2.0
-   Run /update-context-system to upgrade
+📦 New in v4.2.1:
+   - scripts/export-sessions-json.sh - Export session history to JSON format
 ```
 
-**Expected behavior**: During the update process itself, shouldn't show "run /update-context-system" since we're already running it.
+**Severity**: 🟢 Minor (discovery issue, not functional)
 
-**Actual behavior**: Shows update prompt even when we're actively updating.
+---
 
-**Suggestion**: Add a flag or environment variable to suppress the update notice:
+### 2026-01-08 - /update-context-system - Update Notice Inconsistency Fixed
 
-```bash
-# At start of /update-context-system
-export ACS_UPDATING=true
+**What happened**: In v4.2.0, sourcing `common-functions.sh` displayed an update notice even during the update process. In v4.2.1, this didn't happen.
 
-# In common-functions.sh
-if [ "$ACS_UPDATING" != "true" ]; then
-  # Show update notice
-fi
+**Expected behavior**: No update notice during active update.
+
+**Actual behavior**: ✅ Correct - no notice shown.
+
+**Observation**: Either this was intentionally fixed, or patch updates (4.2.0→4.2.1) don't trigger the notice while major updates (4.0.2→4.2.0) do. Either way, the behavior is now better.
+
+**Severity**: N/A (improvement observed)
+
+---
+
+### 2026-01-08 - /update-context-system - Cleaner Messaging
+
+**What happened**: The installer messaging is cleaner in v4.2.1:
+
+**Improvements observed**:
+1. Removed stale "QUICK_REF.template.md removed in v2.1" note (finally!)
+2. "v4.0.0 Features" renamed to "Key Features" (not version-locked)
+3. Helpful commands list is well-organized
+
+**Severity**: N/A (praise - good polish)
+
+---
+
+### 2026-01-08 - context-feedback.template.md - Template Has Emoji and Examples
+
+**What happened**: The new template from v4.2.x includes:
+- Emoji icons in category headers (🐛, 💡, ❓, ✨, 👍)
+- 3 detailed example entries (~70 lines)
+- "Delete after reading" instruction for examples
+
+**Observation**: The template is more helpful for new users but adds bulk:
+- Fresh file is 156 lines (vs. ~45 lines in simpler template)
+- Examples are useful but need manual deletion
+- Emoji usage conflicts with some project preferences (our CLAUDE.md says "no emoji unless requested")
+
+**Suggestion**: Options to consider:
+1. Offer "minimal" vs "full" template choice
+2. Put examples in separate file (context/feedback-examples.md)
+3. Use HTML comments for examples so they're hidden but available
+
+**Severity**: 🟢 Minor (preference, not functional)
+
+---
+
+### 2026-01-08 - Installer - Documentation Directory Not Updated
+
+**What happened**: The installer downloads to `.claude/docs/` (command-philosophy.md) but I noticed `update-guide.md` exists there from a previous install, yet wasn't in the v4.2.1 download list.
+
+**Observation**: Either:
+1. update-guide.md was removed from the distribution in v4.2.1
+2. The installer doesn't refresh all docs files
+
+**Question**: Should the docs directory be fully synced on update, or only specific files?
+
+**Severity**: 🟢 Minor (informational)
+
+---
+
+### 2026-01-08 - Audit Migration - Pre-existing Audits Not Handled
+
+**What happened**: `docs/audits/SEO_AUDIT_01.md` exists from December 19 (before ACS installation). The v4.0.0 audit migration only moves files from `artifacts/code-reviews/`.
+
+**Expected behavior**: Any existing audit-like files in docs/audits/ should be noted or handled.
+
+**Actual behavior**: Pre-existing file left in place alongside new INDEX.md.
+
+**Observation**: This is actually correct behavior - don't move user files without asking. But could add a notice:
+```
+ℹ️  Found existing audit files in docs/audits/
+   SEO_AUDIT_01.md (Dec 19) - keeping in place
 ```
 
-**Severity**: Minor (confusing but not blocking)
+**Severity**: 🟢 Minor (informational, current behavior is safe)
 
 ---
 
-### 2026-01-08 - /update-context-system - Inconsistent Archive Locations
+### 2026-01-08 - Template Observation - Inconsistent Archive Locations Persist
 
-**What happened**: The command's Step 2.5 archives feedback to `artifacts/feedback/`, but we manually archived to `.archive/context/` earlier.
+**What happened**: Reviewing the template and commands, archive locations are still inconsistent:
 
-**Observation**: ACS uses multiple archive locations:
-- `.archive/` - Project's existing archive (gitignored)
-- `artifacts/feedback/` - ACS feedback archives
-- `docs/audits/archive/` - Code review archives
-- `.claude-backup-*/` - Installation backups
+| Content Type | Archive Location |
+|--------------|------------------|
+| Feedback | `artifacts/feedback/` |
+| Audits | `docs/audits/archive/` |
+| Backups | `.claude-backup-TIMESTAMP/` |
+| User archives | `.archive/` (gitignored) |
 
-**Suggestion**: Standardize archive locations. Options:
-1. Use `.archive/` for everything (but it's gitignored)
-2. Use `artifacts/` for everything ACS-related
-3. Document the different locations and their purposes
+**Observation**: This was noted in v4.2.0 feedback but persists. Not necessarily wrong, but could be confusing.
 
-**Current behavior isn't wrong, just inconsistent.**
+**Suggestion**: Document the archive location strategy somewhere, or standardize to one of:
+1. `artifacts/` for all ACS-generated archives
+2. `.archive/` for everything (but it's gitignored)
+3. Keep current but add explanation to docs
 
-**Severity**: Minor (organizational, not functional)
-
----
-
-### 2026-01-08 - /update-context-system - New Templates for Other AI Tools
-
-**What happened**: Noticed new templates: `cursor.md.template`, `aider.md.template`, `codex.md.template`, `generic-ai-header.template.md`.
-
-**Observation**: Great addition! These support other AI coding tools:
-- Cursor (cursor.md)
-- Aider (aider.md)
-- Codex/GitHub Copilot (codex.md)
-- Generic fallback
-
-**Question**: What's the workflow for using these? Is there a command to generate them, or should users copy manually?
-
-**Suggestion**: Document multi-tool workflow in README or add a `/setup-ai-headers` command that asks which tools you use and generates appropriate files.
-
-**Severity**: Minor (feature request / documentation gap)
+**Severity**: 🟢 Minor (organizational, not functional)
 
 ---
 
-### 2026-01-08 - /update-context-system - Restart Reminder Is Critical
+### 2026-01-08 - Overall v4.2.1 Upgrade - Praise
 
-**What happened**: The installer correctly warns:
+**Summary**: Patch updates are much smoother than major updates:
+- Fewer files changed (6 vs. 37+)
+- Faster execution
+- Less to review
+- Cleaner messaging
 
-```
-⚠️  IMPORTANT: Restart Claude Code to use new commands
-   Claude Code caches slash commands at session start.
-```
+**Comparison to v4.2.0 upgrade**:
+| Aspect | v4.0.2→4.2.0 | v4.2.0→4.2.1 |
+|--------|--------------|--------------|
+| Files changed | 37 | 6 |
+| New features | Many | 1 script |
+| Issues observed | 8 | 3 (minor) |
+| Overall experience | Good | Excellent |
 
-**Observation**: This is a critical UX issue with Claude Code itself. New/updated slash commands won't work until restart. The warning is good, but users might forget.
-
-**Suggestion**: Could add a more prominent visual warning, or suggest running a verification command after restart:
-
-```
-After restarting Claude Code, run:
-  /validate-context --check-commands
-
-This verifies all commands are loaded correctly.
-```
-
-**Severity**: Minor (good warning exists, enhancement would help)
+**Conclusion**: The update system is maturing nicely. Patch releases are clean.
 
 ---
 
-### 2026-01-08 - /update-context-system - Overall Experience - Praise
-
-**What went well**:
-
-1. **Zero errors** - Entire update completed without failures
-2. **Clear progress** - Each file download shown with checkmark
-3. **Auto-fix** - Version mismatch detected and fixed automatically
-4. **Backup created** - Safety net in place before changes
-5. **Non-interactive mode** - `--yes` flag worked smoothly
-6. **Verification step** - Confirmed critical files present
-7. **Migration handled** - Audit system structure created automatically
-8. **CLAUDE.md check** - Verified correct location
-
-**Compared to previous /review-context run**: The update process is more polished. Fewer edge cases, clearer output, better automation.
-
-**Overall**: Solid upgrade experience. Main issues are cosmetic (version display, archive locations).
-
----
-
-### 2026-01-08 - /update-context-system - Copy-Paste Prompt Still Present
-
-**What happened**: The command file includes the same "copy-paste git workflow prompt" at the end that we noted in /review-context feedback.
-
-**Observation**: This is repeated across multiple commands. Same feedback applies:
-- Redundant since AI already has the instructions
-- Long and adds noise
-- "Understood?" expects response to AI's own statement
-
-**Suggestion**: Either:
-1. Remove from all commands (AI knows the rules from loading the command)
-2. Replace with 1-line reminder: "Git workflow: commits OK, push needs approval"
-3. Only show in /review-context (session start), not every command
-
-**Severity**: Minor (UX consistency)
-
----
-
-## Template for Entries
-
-```markdown
-### YYYY-MM-DD - [Command/Feature] - [Category]
-
-**What happened**: [Description]
-
-**Expected behavior**: [What you thought would happen]
-
-**Actual behavior**: [What actually happened]
-
-**Suggestion**: [Your idea for improvement]
-
-**Severity**: [Critical / Moderate / Minor]
-```
-
----
-
-*Your feedback will be reviewed when you run `/update-context-system` or manually share it with the maintainers.*
+*Feedback documented during v4.2.0 → v4.2.1 upgrade on 2026-01-08*
