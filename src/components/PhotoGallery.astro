@@ -40,7 +40,7 @@ const featuredPhotos = photos.filter(p => p.featured);
     <!-- Carousel Controls -->
     <button
       id="carousel-prev"
-      class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-3 rounded-full shadow-lg transition-all z-10"
+      class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-3 rounded-full shadow-lg transition-all z-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
       aria-label="Previous photo"
     >
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -50,7 +50,7 @@ const featuredPhotos = photos.filter(p => p.featured);
 
     <button
       id="carousel-next"
-      class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-3 rounded-full shadow-lg transition-all z-10"
+      class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-3 rounded-full shadow-lg transition-all z-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
       aria-label="Next photo"
     >
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -74,7 +74,7 @@ const featuredPhotos = photos.filter(p => p.featured);
   <div class="text-center mb-8">
     <button
       id="toggle-gallery"
-      class="px-8 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors font-semibold inline-flex items-center gap-2"
+      class="px-8 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors font-semibold inline-flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
     >
       <span id="toggle-text">View All Photos</span>
       <svg id="toggle-icon" class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -184,6 +184,11 @@ const featuredPhotos = photos.filter(p => p.featured);
     background: rgba(0, 0, 0, 0.7);
   }
 
+  .close-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #3b82f6;
+  }
+
   .nav-button {
     position: absolute;
     top: 50%;
@@ -201,12 +206,22 @@ const featuredPhotos = photos.filter(p => p.featured);
     background: rgba(0, 0, 0, 0.7);
   }
 
+  .nav-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #3b82f6;
+  }
+
   .nav-button-prev {
     left: 1rem;
   }
 
   .nav-button-next {
     right: 1rem;
+  }
+
+  .carousel-dot:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #3b82f6;
   }
 
   .image-container {
@@ -360,19 +375,19 @@ const featuredPhotos = photos.filter(p => p.featured);
 
       <!-- Desktop: Tab buttons -->
       <div class="hidden md:flex justify-center gap-4 mb-8 border-b border-gray-200">
-        <button class="tab-button active px-6 py-3 font-semibold border-b-2 border-blue-600 text-blue-600" data-category="all">
+        <button class="tab-button active px-6 py-3 font-semibold border-b-2 border-blue-600 text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-category="all">
           All
         </button>
-        <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900" data-category="landscapes">
+        <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-category="landscapes">
           Landscapes
         </button>
-        <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900" data-category="cities">
+        <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-category="cities">
           Cities
         </button>
-        <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900" data-category="animals">
+        <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-category="animals">
           Animals
         </button>
-        <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900" data-category="nature">
+        <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-category="nature">
           Nature
         </button>
       </div>

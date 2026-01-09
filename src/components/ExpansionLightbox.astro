@@ -29,7 +29,7 @@ const { episodes } = Astro.props;
         <h2 id="lightbox-title" class="text-xl font-bold text-gray-900"></h2>
         <p id="lightbox-episode-number" class="text-gray-600 text-sm mt-1"></p>
       </div>
-      <button id="close-lightbox" class="text-gray-500 hover:text-gray-700 p-1" aria-label="Close">
+      <button id="close-lightbox" class="text-gray-500 hover:text-gray-700 p-1 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded" aria-label="Close">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
@@ -83,14 +83,14 @@ const { episodes } = Astro.props;
 
       <!-- Navigation -->
       <div class="flex justify-between items-center pt-3 border-t">
-        <button id="prev-episode" class="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1">
+        <button id="prev-episode" class="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
           </svg>
           Previous
         </button>
         <span id="episode-counter" class="text-sm text-gray-600"></span>
-        <button id="next-episode" class="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1">
+        <button id="next-episode" class="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">
           Next
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
