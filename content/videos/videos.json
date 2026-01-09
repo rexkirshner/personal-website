@@ -6,7 +6,7 @@
     "order": 17,
     "vimeoId": "1150925010?h=ba312e2326",
     "description": "A video summary of 2025",
-    "thumbnail": "/images/videos/year-review-2025.jpg"
+    "thumbnail": "/images/videos/year-review-2025.webp"
   },
   {
     "id": "palisades-fire-anniversary",
@@ -15,7 +15,7 @@
     "order": 16,
     "vimeoId": "1147856186",
     "description": "Made for the 1 year anniversary of the Jan 2025 Palisades Fire; more content at PalisadesFire2025.org",
-    "thumbnail": "/images/videos/palisades-fire-anniversary.jpg"
+    "thumbnail": "/images/videos/palisades-fire-anniversary.webp"
   },
   {
     "id": "palisades-fire",
@@ -24,7 +24,7 @@
     "order": 15,
     "vimeoId": "1066386947",
     "description": "Documenting the January 2025 Palisades Fire that destroyed my home town",
-    "thumbnail": "/images/videos/palisades-fire.jpg"
+    "thumbnail": "/images/videos/palisades-fire.webp"
   },
   {
     "id": "15k-miles",
@@ -33,7 +33,7 @@
     "order": 13,
     "vimeoId": "1014193043",
     "description": "A commemoration of 15k total miles run",
-    "thumbnail": "/images/videos/15k-miles.jpg"
+    "thumbnail": "/images/videos/15k-miles.webp"
   },
   {
     "id": "year-review-2024",
@@ -42,7 +42,7 @@
     "order": 14,
     "vimeoId": "1046917349",
     "description": "A video summary of 2024",
-    "thumbnail": "/images/videos/year-review-2024.jpg"
+    "thumbnail": "/images/videos/year-review-2024.webp"
   },
   {
     "id": "incredible-earth",
@@ -51,7 +51,7 @@
     "order": 12,
     "vimeoId": "847740968",
     "description": "",
-    "thumbnail": "/images/videos/incredible-earth.jpg"
+    "thumbnail": "/images/videos/incredible-earth.webp"
   },
   {
     "id": "year-review-2023",
@@ -60,7 +60,7 @@
     "order": 13,
     "vimeoId": "900304090",
     "description": "A video summary of 2023",
-    "thumbnail": "/images/videos/year-review-2023.jpg"
+    "thumbnail": "/images/videos/year-review-2023.webp"
   },
   {
     "id": "10k-miles",
@@ -69,7 +69,7 @@
     "order": 9,
     "vimeoId": "705945909",
     "description": "A commemoration of 10k total miles run",
-    "thumbnail": "/images/videos/10k-miles.jpg"
+    "thumbnail": "/images/videos/10k-miles.webp"
   },
   {
     "id": "year-review-2022",
@@ -78,7 +78,7 @@
     "order": 10,
     "vimeoId": "785840456",
     "description": "A video summary of 2022",
-    "thumbnail": "/images/videos/year-review-2022.jpg"
+    "thumbnail": "/images/videos/year-review-2022.webp"
   },
   {
     "id": "year-review-2021",
@@ -87,7 +87,7 @@
     "order": 8,
     "vimeoId": "662683242",
     "description": "A video summary of 2021",
-    "thumbnail": "/images/videos/year-review-2021.jpg"
+    "thumbnail": "/images/videos/year-review-2021.webp"
   },
   {
     "id": "wanderlust",
@@ -96,7 +96,7 @@
     "order": 6,
     "vimeoId": "482862691",
     "description": "A summary of the time after I left my first career, moved home and found the love of my life",
-    "thumbnail": "/images/videos/wanderlust.jpg"
+    "thumbnail": "/images/videos/wanderlust.webp"
   },
   {
     "id": "year-of-change-2020",
@@ -105,7 +105,7 @@
     "order": 7,
     "vimeoId": "495962967",
     "description": "A video summary of 2020",
-    "thumbnail": "/images/videos/year-of-change-2020.jpg"
+    "thumbnail": "/images/videos/year-of-change-2020.webp"
   },
   {
     "id": "quarantina-wine-mixer",
@@ -114,7 +114,7 @@
     "order": 5,
     "vimeoId": "426765858",
     "description": "Documenting the experience of the 2020 COVID-19 Quarantine",
-    "thumbnail": "/images/videos/quarantina-wine-mixer.jpg"
+    "thumbnail": "/images/videos/quarantina-wine-mixer.webp"
   },
   {
     "id": "5k-miles",
@@ -123,7 +123,7 @@
     "order": 3,
     "vimeoId": "368111439",
     "description": "A commemoration of 5k total miles run",
-    "thumbnail": "/images/videos/5k-miles.jpg"
+    "thumbnail": "/images/videos/5k-miles.webp"
   },
   {
     "id": "year-in-numbers-2019",
@@ -132,7 +132,7 @@
     "order": 4,
     "vimeoId": "382466518",
     "description": "A video summary of 2019",
-    "thumbnail": "/images/videos/year-in-numbers-2019.jpg"
+    "thumbnail": "/images/videos/year-in-numbers-2019.webp"
   },
   {
     "id": "year-review-2018",
@@ -141,7 +141,7 @@
     "order": 2,
     "vimeoId": "311262560",
     "description": "A video summary of 2018",
-    "thumbnail": "/images/videos/year-review-2018.jpg"
+    "thumbnail": "/images/videos/year-review-2018.webp"
   },
   {
     "id": "anheuser-busch",
@@ -150,6 +150,6 @@
     "order": 1,
     "vimeoId": "339851102",
     "description": "A video summary of my first career at Anheuser-Busch InBev",
-    "thumbnail": "/images/videos/anheuser-busch.jpg"
+    "thumbnail": "/images/videos/anheuser-busch.webp"
   }
 ]
