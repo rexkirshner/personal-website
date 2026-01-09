@@ -22,7 +22,7 @@ const sortedVideos = [...videos].sort((a, b) => b.order - a.order);
   <!-- Tab Navigation -->
   <!-- Mobile: Dropdown selector -->
   <div class="md:hidden mb-8">
-    <select class="tab-select w-full px-4 py-3 font-semibold border border-gray-300 rounded-lg bg-white text-gray-900" name="video-tab-selector" id="video-tab-select">
+    <select class="tab-select w-full px-4 py-3 font-semibold border border-gray-300 rounded-lg bg-white text-gray-900" name="video-tab-selector" id="video-tab-select" aria-label="Select video category">
       <option value="featured">Featured</option>
       <option value="stories">Stories</option>
       <option value="year-reviews">Year in Review</option>
