@@ -235,18 +235,22 @@ import profilePics from '../../content/site/profile-pics.json';
       <h2 class="text-4xl font-bold mb-12 text-center">Blockchain</h2>
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {ethereumProjects.map((project) => (
-          <div class="ethereum-project border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow cursor-pointer md:cursor-default">
-            <!-- Header with chevron -->
-            <div class="flex justify-between items-start mb-4">
+          <div class="ethereum-project border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
+            <!-- Header with chevron - button for mobile accessibility -->
+            <button
+              type="button"
+              class="ethereum-toggle w-full text-left flex justify-between items-start mb-4 md:cursor-default focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 md:focus:ring-0 md:focus:ring-offset-0 rounded"
+              aria-expanded="false"
+            >
               <div class="flex-1">
                 <h3 class="text-2xl font-bold mb-2">{project.title}</h3>
                 <p class="text-sm text-gray-500">{project.type}</p>
               </div>
               <!-- Chevron icon (mobile only) -->
-              <svg class="ethereum-chevron md:hidden w-6 h-6 flex-shrink-0 transition-transform ml-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="ethereum-chevron md:hidden w-6 h-6 flex-shrink-0 transition-transform ml-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
-            </div>
+            </button>
 
             <!-- Collapsible content (hidden on mobile by default, always visible on desktop) -->
             <div class="ethereum-content hidden md:block">
@@ -282,31 +286,28 @@ import profilePics from '../../content/site/profile-pics.json';
 
   <script>
     // Ethereum project accordion toggle (mobile only)
-    const ethereumProjects = document.querySelectorAll('.ethereum-project');
+    const ethereumToggles = document.querySelectorAll('.ethereum-toggle');
 
-    ethereumProjects.forEach((project) => {
-      project.addEventListener('click', (e) => {
+    ethereumToggles.forEach((toggle) => {
+      toggle.addEventListener('click', () => {
         // Only work on mobile (when chevron is visible)
-        const chevron = project.querySelector('.ethereum-chevron');
+        const chevron = toggle.querySelector('.ethereum-chevron');
         if (!chevron || window.getComputedStyle(chevron).display === 'none') {
           return; // Desktop view, do nothing
         }
 
-        // Prevent link clicks from toggling
-        if (e.target.tagName === 'A' || e.target.closest('a')) {
-          return;
-        }
+        const project = toggle.closest('.ethereum-project');
+        const content = project?.querySelector('.ethereum-content');
+        const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
 
-        // Toggle content visibility
-        const content = project.querySelector('.ethereum-content');
-        const isHidden = content?.classList.contains('hidden');
-
-        if (isHidden) {
-          content?.classList.remove('hidden');
-          chevron?.classList.add('rotate-180');
-        } else {
+        if (isExpanded) {
+          toggle.setAttribute('aria-expanded', 'false');
           content?.classList.add('hidden');
           chevron?.classList.remove('rotate-180');
+        } else {
+          toggle.setAttribute('aria-expanded', 'true');
+          content?.classList.remove('hidden');
+          chevron?.classList.add('rotate-180');
         }
       });
     });
