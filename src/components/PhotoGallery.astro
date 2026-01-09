@@ -374,20 +374,20 @@ const featuredPhotos = photos.filter(p => p.featured);
       </div>
 
       <!-- Desktop: Tab buttons -->
-      <div class="hidden md:flex justify-center gap-4 mb-8 border-b border-gray-200">
-        <button class="tab-button active px-6 py-3 font-semibold border-b-2 border-blue-600 text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-category="all">
+      <div class="hidden md:flex justify-center gap-4 mb-8 border-b border-gray-200" role="tablist" aria-label="Photo categories">
+        <button class="tab-button active px-6 py-3 font-semibold border-b-2 border-blue-600 text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-category="all" role="tab" aria-selected="true" aria-controls="photo-grid">
           All
         </button>
-        <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-category="landscapes">
+        <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-category="landscapes" role="tab" aria-selected="false" aria-controls="photo-grid" tabindex="-1">
           Landscapes
         </button>
-        <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-category="cities">
+        <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-category="cities" role="tab" aria-selected="false" aria-controls="photo-grid" tabindex="-1">
           Cities
         </button>
-        <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-category="animals">
+        <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-category="animals" role="tab" aria-selected="false" aria-controls="photo-grid" tabindex="-1">
           Animals
         </button>
-        <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-category="nature">
+        <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-category="nature" role="tab" aria-selected="false" aria-controls="photo-grid" tabindex="-1">
           Nature
         </button>
       </div>
@@ -477,6 +477,7 @@ const featuredPhotos = photos.filter(p => p.featured);
   function attachGalleryEventListeners() {
     const tabButtons = document.querySelectorAll('#full-gallery .tab-button');
     const tabSelect = document.querySelector('#full-gallery .tab-select');
+    const tabList = document.querySelector('#full-gallery [role="tablist"]');
     const photoCards = document.querySelectorAll('.photo-card');
 
     function filterPhotos(category) {
@@ -490,16 +491,21 @@ const featuredPhotos = photos.filter(p => p.featured);
       });
     }
 
-    function switchTab(category) {
-      // Update button styles (desktop)
+    function switchTab(category, focusTab = false) {
+      // Update button styles and ARIA attributes (desktop)
       tabButtons.forEach(btn => {
         btn.classList.remove('active', 'border-blue-600', 'text-blue-600');
         btn.classList.add('border-transparent', 'text-gray-600');
+        btn.setAttribute('aria-selected', 'false');
+        btn.setAttribute('tabindex', '-1');
       });
       const activeButton = document.querySelector(`#full-gallery .tab-button[data-category="${category}"]`);
       if (activeButton) {
         activeButton.classList.add('active', 'border-blue-600', 'text-blue-600');
         activeButton.classList.remove('border-transparent', 'text-gray-600');
+        activeButton.setAttribute('aria-selected', 'true');
+        activeButton.removeAttribute('tabindex');
+        if (focusTab) activeButton.focus();
       }
 
       // Filter photos
@@ -516,6 +522,35 @@ const featuredPhotos = photos.filter(p => p.featured);
           if (tabSelect) tabSelect.value = category;
         }
       });
+    });
+
+    // Keyboard navigation for tabs
+    tabList?.addEventListener('keydown', (e) => {
+      const tabs = Array.from(tabButtons);
+      const currentIndex = tabs.findIndex(tab => tab.getAttribute('aria-selected') === 'true');
+
+      let newIndex = currentIndex;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        newIndex = (currentIndex + 1) % tabs.length;
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        newIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        newIndex = 0;
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        newIndex = tabs.length - 1;
+      }
+
+      if (newIndex !== currentIndex) {
+        const category = tabs[newIndex].getAttribute('data-category');
+        if (category) {
+          switchTab(category, true);
+          if (tabSelect) tabSelect.value = category;
+        }
+      }
     });
 
     // Mobile: Dropdown change

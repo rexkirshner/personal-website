@@ -32,20 +32,20 @@ const sortedVideos = [...videos].sort((a, b) => b.order - a.order);
   </div>
 
   <!-- Desktop: Tab buttons -->
-  <div class="hidden md:flex justify-center gap-4 mb-8 border-b border-gray-200">
-    <button class="tab-button active px-6 py-3 font-semibold border-b-2 border-blue-600 text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tab="featured">
+  <div class="hidden md:flex justify-center gap-4 mb-8 border-b border-gray-200" role="tablist" aria-label="Video categories">
+    <button class="tab-button active px-6 py-3 font-semibold border-b-2 border-blue-600 text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tab="featured" role="tab" aria-selected="true" aria-controls="video-grid">
       Featured
     </button>
-    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tab="stories">
+    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tab="stories" role="tab" aria-selected="false" aria-controls="video-grid" tabindex="-1">
       Stories
     </button>
-    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tab="year-reviews">
+    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tab="year-reviews" role="tab" aria-selected="false" aria-controls="video-grid" tabindex="-1">
       Year in Review
     </button>
-    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tab="running">
+    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tab="running" role="tab" aria-selected="false" aria-controls="video-grid" tabindex="-1">
       Running
     </button>
-    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tab="all">
+    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tab="all" role="tab" aria-selected="false" aria-controls="video-grid" tabindex="-1">
       All Videos
     </button>
   </div>
@@ -306,6 +306,7 @@ const sortedVideos = [...videos].sort((a, b) => b.order - a.order);
   // Tab filtering
   const tabButtons = document.querySelectorAll('.video-gallery .tab-button');
   const tabSelect = document.querySelector('.video-gallery .tab-select');
+  const tabList = document.querySelector('.video-gallery [role="tablist"]');
   const videoCards = document.querySelectorAll('.video-card');
 
   function filterVideos(category) {
@@ -325,16 +326,21 @@ const sortedVideos = [...videos].sort((a, b) => b.order - a.order);
     }
   }
 
-  function switchTab(category) {
-    // Update button styles (desktop)
+  function switchTab(category, focusTab = false) {
+    // Update button styles and ARIA attributes (desktop)
     tabButtons.forEach(btn => {
       btn.classList.remove('active', 'border-blue-600', 'text-blue-600');
       btn.classList.add('border-transparent', 'text-gray-600');
+      btn.setAttribute('aria-selected', 'false');
+      btn.setAttribute('tabindex', '-1');
     });
     const activeButton = document.querySelector(`.video-gallery .tab-button[data-tab="${category}"]`);
     if (activeButton) {
       activeButton.classList.add('active', 'border-blue-600', 'text-blue-600');
       activeButton.classList.remove('border-transparent', 'text-gray-600');
+      activeButton.setAttribute('aria-selected', 'true');
+      activeButton.removeAttribute('tabindex');
+      if (focusTab) activeButton.focus();
     }
 
     // Filter videos
@@ -349,6 +355,33 @@ const sortedVideos = [...videos].sort((a, b) => b.order - a.order);
       // Update dropdown to match (in case user resizes window)
       if (tabSelect) tabSelect.value = category;
     });
+  });
+
+  // Keyboard navigation for tabs
+  tabList?.addEventListener('keydown', (e) => {
+    const tabs = Array.from(tabButtons);
+    const currentIndex = tabs.findIndex(tab => tab.getAttribute('aria-selected') === 'true');
+
+    let newIndex = currentIndex;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      newIndex = (currentIndex + 1) % tabs.length;
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      newIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      newIndex = 0;
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      newIndex = tabs.length - 1;
+    }
+
+    if (newIndex !== currentIndex) {
+      const category = tabs[newIndex].dataset.tab;
+      switchTab(category, true);
+      if (tabSelect) tabSelect.value = category;
+    }
   });
 
   // Mobile: Dropdown change

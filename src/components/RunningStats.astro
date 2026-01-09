@@ -52,26 +52,26 @@ const formatMiles = (miles: number) => {
   </div>
 
   <!-- Desktop: Tab buttons -->
-  <div class="hidden md:flex justify-center gap-4 mb-8 border-b border-gray-200">
-    <button class="tab-button active px-6 py-3 font-semibold border-b-2 border-blue-600 text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tab="overview">
+  <div class="hidden md:flex justify-center gap-4 mb-8 border-b border-gray-200" role="tablist" aria-label="Running statistics views">
+    <button class="tab-button active px-6 py-3 font-semibold border-b-2 border-blue-600 text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tab="overview" role="tab" id="tab-overview" aria-selected="true" aria-controls="overview-tab">
       Overview
     </button>
-    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tab="countries">
+    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tab="countries" role="tab" id="tab-countries" aria-selected="false" aria-controls="countries-tab" tabindex="-1">
       By Country
     </button>
-    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tab="states">
+    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tab="states" role="tab" id="tab-states" aria-selected="false" aria-controls="states-tab" tabindex="-1">
       US States
     </button>
-    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tab="home-travel">
+    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tab="home-travel" role="tab" id="tab-home-travel" aria-selected="false" aria-controls="home-travel-tab" tabindex="-1">
       Home vs Travel
     </button>
-    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tab="timeline">
+    <button class="tab-button px-6 py-3 font-semibold border-b-2 border-transparent text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-tab="timeline" role="tab" id="tab-timeline" aria-selected="false" aria-controls="timeline-tab" tabindex="-1">
       Timeline
     </button>
   </div>
 
   <!-- Overview Tab -->
-  <div id="overview-tab" class="tab-content">
+  <div id="overview-tab" class="tab-content" role="tabpanel" aria-labelledby="tab-overview">
     <p class="text-center text-sm text-gray-600 italic mb-6">As of December 5, 2025</p>
     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
       <div class="bg-white p-6 rounded-lg shadow-md text-center">
@@ -145,7 +145,7 @@ const formatMiles = (miles: number) => {
   </div>
 
   <!-- By Country Tab -->
-  <div id="countries-tab" class="tab-content hidden">
+  <div id="countries-tab" class="tab-content hidden" role="tabpanel" aria-labelledby="tab-countries">
     <p class="text-center text-sm text-gray-600 italic mb-6">As of December 5, 2025</p>
     <div class="bg-white p-6 rounded-lg shadow-md">
       <h4 class="text-2xl font-bold mb-4">Miles by Country</h4>
@@ -179,7 +179,7 @@ const formatMiles = (miles: number) => {
   </div>
 
   <!-- By State Tab -->
-  <div id="states-tab" class="tab-content hidden">
+  <div id="states-tab" class="tab-content hidden" role="tabpanel" aria-labelledby="tab-states">
     <p class="text-center text-sm text-gray-600 italic mb-6">As of December 5, 2025</p>
     <div class="bg-white p-6 rounded-lg shadow-md">
       <h4 class="text-2xl font-bold mb-4">Miles by US State</h4>
@@ -213,7 +213,7 @@ const formatMiles = (miles: number) => {
   </div>
 
   <!-- Home vs Travel Tab -->
-  <div id="home-travel-tab" class="tab-content hidden">
+  <div id="home-travel-tab" class="tab-content hidden" role="tabpanel" aria-labelledby="tab-home-travel">
     <p class="text-center text-sm text-gray-600 italic mb-6">As of December 5, 2025</p>
     <div class="grid md:grid-cols-2 gap-8">
       <div class="bg-white p-6 rounded-lg shadow-md">
@@ -252,7 +252,7 @@ const formatMiles = (miles: number) => {
   </div>
 
   <!-- Timeline Tab -->
-  <div id="timeline-tab" class="tab-content hidden">
+  <div id="timeline-tab" class="tab-content hidden" role="tabpanel" aria-labelledby="tab-timeline">
     <p class="text-center text-sm text-gray-600 italic mb-6">As of December 5, 2025</p>
     <div class="bg-white p-6 rounded-lg shadow-md">
       <h4 class="text-2xl font-bold mb-6">Miles by Year</h4>
@@ -289,18 +289,24 @@ const formatMiles = (miles: number) => {
   const tabButtons = document.querySelectorAll('.running-stats .tab-button');
   const tabSelect = document.querySelector('.running-stats .tab-select');
   const tabContents = document.querySelectorAll('.running-stats .tab-content');
+  const tabList = document.querySelector('.running-stats [role="tablist"]');
 
   // Function to switch tabs
-  const switchTab = (targetTab) => {
-    // Update button styles (desktop)
+  const switchTab = (targetTab, focusTab = false) => {
+    // Update button styles and ARIA attributes (desktop)
     tabButtons.forEach(btn => {
       btn.classList.remove('active', 'border-blue-600', 'text-blue-600');
       btn.classList.add('border-transparent', 'text-gray-600');
+      btn.setAttribute('aria-selected', 'false');
+      btn.setAttribute('tabindex', '-1');
     });
     const activeButton = document.querySelector(`.running-stats .tab-button[data-tab="${targetTab}"]`);
     if (activeButton) {
       activeButton.classList.add('active', 'border-blue-600', 'text-blue-600');
       activeButton.classList.remove('border-transparent', 'text-gray-600');
+      activeButton.setAttribute('aria-selected', 'true');
+      activeButton.removeAttribute('tabindex');
+      if (focusTab) activeButton.focus();
     }
 
     // Show/hide tab content
@@ -321,6 +327,33 @@ const formatMiles = (miles: number) => {
       // Update dropdown to match (in case user resizes window)
       if (tabSelect) tabSelect.value = targetTab;
     });
+  });
+
+  // Keyboard navigation for tabs
+  tabList?.addEventListener('keydown', (e) => {
+    const tabs = Array.from(tabButtons);
+    const currentIndex = tabs.findIndex(tab => tab.getAttribute('aria-selected') === 'true');
+
+    let newIndex = currentIndex;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      newIndex = (currentIndex + 1) % tabs.length;
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      newIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      newIndex = 0;
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      newIndex = tabs.length - 1;
+    }
+
+    if (newIndex !== currentIndex) {
+      const targetTab = tabs[newIndex].dataset.tab;
+      switchTab(targetTab, true);
+      if (tabSelect) tabSelect.value = targetTab;
+    }
   });
 
   // Mobile: Dropdown change
