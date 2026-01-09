@@ -21,7 +21,7 @@ interface Props {
 const { episodes } = Astro.props;
 ---
 
-<dialog id="episode-lightbox" class="p-0 rounded-lg shadow-2xl max-w-3xl w-full mx-auto">
+<dialog id="episode-lightbox" class="p-0 rounded-lg shadow-2xl max-w-3xl w-full mx-auto" aria-labelledby="lightbox-title">
   <div class="bg-white rounded-lg overflow-hidden">
     <!-- Header -->
     <div class="flex justify-between items-start p-4 border-b">
