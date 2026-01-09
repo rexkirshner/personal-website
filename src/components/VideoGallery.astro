@@ -245,10 +245,11 @@ const sortedVideos = [...videos].sort((a, b) => b.order - a.order);
       modalTitle.textContent = video.title;
       modalDescription.textContent = video.description;
 
-      // Create Vimeo iframe
+      // Create Vimeo iframe (handle privacy hash in vimeoId)
+      const separator = video.vimeoId.includes('?') ? '&' : '?';
       embedContainer.innerHTML = `
         <iframe
-          src="https://player.vimeo.com/video/${video.vimeoId}?autoplay=1&badge=0&autopause=0"
+          src="https://player.vimeo.com/video/${video.vimeoId}${separator}autoplay=1&badge=0&autopause=0"
           frameborder="0"
           allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
           title="${video.title}"
