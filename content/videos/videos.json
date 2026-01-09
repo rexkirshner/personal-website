@@ -1,5 +1,23 @@
 [
   {
+    "id": "year-review-2025",
+    "title": "2025 Year in Review",
+    "year": 2025,
+    "order": 17,
+    "vimeoId": "1150925010?h=ba312e2326",
+    "description": "A video summary of 2025",
+    "thumbnail": "/images/videos/year-review-2025.jpg"
+  },
+  {
+    "id": "palisades-fire-anniversary",
+    "title": "Palisades Fire - Anniversary",
+    "year": 2025,
+    "order": 16,
+    "vimeoId": "1147856186",
+    "description": "Made for the 1 year anniversary of the Jan 2025 Palisades Fire; more content at PalisadesFire2025.org",
+    "thumbnail": "/images/videos/palisades-fire-anniversary.jpg"
+  },
+  {
     "id": "palisades-fire",
     "title": "Palisades Fire",
     "year": 2025,
