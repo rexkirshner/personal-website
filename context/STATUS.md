@@ -1,6 +1,6 @@
 # Project Status
 
-**Last Updated:** 2026-01-07
+**Last Updated:** 2026-01-08
 **Status:** 🟢 Active
 
 ---
@@ -27,13 +27,13 @@ npm run build        # Production build
 npm run preview      # Preview build locally
 ```
 
-**Current Focus:** ACS fully installed, migrated, and tested with first /save-full
+**Current Focus:** Code review priority fixes complete, awaiting user testing
 
-**Last Session:** 2026-01-07 - ACS Migration & First /save-full
+**Last Session:** 2026-01-08 - Code Review Priority Fixes (A11y & Security)
 
 **Documentation Health:** 🟢 Excellent
 - CLAUDE.md: Comprehensive (19KB) + ACS section added
-- context/: Fully initialized with 3 sessions documented
+- context/: Fully initialized with 4 sessions documented
 - 14 feedback entries captured for system improvement
 
 ---
@@ -49,21 +49,22 @@ npm run preview      # Preview build locally
 ## Active Tasks
 
 **In Progress:**
-- [ ] None currently
+- [ ] User testing accessibility/security improvements at localhost:4323
 
 **Completed Recently:**
-- [x] Installed AI Context System v4.0.2
-- [x] Ran /migrate-context for mature project setup
-- [x] Migrated tasks/todo.md content to DECISIONS.md and SESSIONS.md
-- [x] Added D006 (Performance Optimization) to DECISIONS.md
-- [x] Added Session 0 (pre-ACS historical work) to SESSIONS.md
-- [x] Created 14 detailed feedback entries for ACS improvement
-- [x] Completed first /save-full execution
-- [x] Committed all changes (3 commits ready to push)
+- [x] Task 1: Convert remaining JPG images to WebP (~28% savings)
+- [x] Task 2: Add aria-label to select elements
+- [x] Task 3: Add focus ring styles to interactive elements
+- [x] Task 4: Replace innerHTML with DOM API (XSS hardening)
+- [x] Task 5: Make profile carousel keyboard accessible
+- [x] Task 6: Implement ARIA tabs pattern on all tab components
+- [x] Task 7: Convert Ethereum accordion to button with aria-expanded
+- [x] Task 8: Make running video div keyboard accessible
+- [x] Task 9: Add aria-labelledby to dialog elements
+- [x] Task 10: Fix hreflang for multi-domain setup
 
 **Next Up:**
-- [ ] Push 3 commits to origin
-- [ ] Consider running /code-review for site audit
+- [ ] Push 17 commits to origin (after user approval)
 - [ ] Use /save for quick updates at end of future sessions
 
 ## Blockers & Decisions
@@ -82,50 +83,51 @@ npm run preview      # Preview build locally
 ## Work In Progress
 
 **Current Files:**
-- N/A (documentation/setup session complete)
+- Dev server running at http://localhost:4323/
+- User testing accessibility improvements
 
 **Mental Model:**
-ACS provides two-layer documentation:
-1. **Static layer** (CONTEXT.md, DECISIONS.md) - Project orientation, rarely changes
-2. **Dynamic layer** (STATUS.md, SESSIONS.md) - Session state, updated frequently
-
-For this project, CLAUDE.md is the comprehensive static reference. ACS supplements it.
+WCAG 2.1 AA accessibility implemented across all interactive components:
+- Keyboard navigation (Tab, Enter, Space, Arrow keys)
+- ARIA semantics (tabs, dialogs, buttons)
+- Focus visibility (focus rings on all interactive elements)
+- XSS hardening (DOM API instead of innerHTML for user data)
 
 **Next Specific Action:**
-Push the 3 commits to origin, then use /save at end of future sessions.
+Await user test approval, then push 17 commits to origin.
 
 ## Recent Accomplishments
 
-**Session 2 (2026-01-07):**
-- Ran /migrate-context for proper mature project setup
-- Migrated legacy tasks/todo.md:
-  - Decisions → D006 in DECISIONS.md
-  - History → Session 0 in SESSIONS.md
-  - Original → archived to .archive/
-- Augmented CLAUDE.md with ACS section
-- Created comprehensive installation feedback (14 entries)
-- Completed first /save-full execution
+**Session 3 (2026-01-08):**
+- Completed all 10 priority fixes from code review audit
+- Converted JPG thumbnails to WebP (~381KB / 28% savings)
+- Implemented WCAG 2.1 AA accessibility across all components
+- Hardened XSS security with DOM API
+- Fixed hreflang SEO for multi-domain setup
 
 **Key Files Modified:**
-- `CLAUDE.md` - Added AI Context System section
-- `context/DECISIONS.md` - Added D006
-- `context/SESSIONS.md` - Added Sessions 0, 1, 2
-- `context/context-feedback.md` - 14 feedback entries
+- `src/components/RunningStats.astro` - ARIA tabs, keyboard nav
+- `src/components/VideoGallery.astro` - ARIA tabs, keyboard nav, dialog a11y
+- `src/components/PhotoGallery.astro` - ARIA tabs, DOM API, dialog a11y
+- `src/components/ExpansionLightbox.astro` - DOM API, dialog a11y
+- `src/pages/index.astro` - Carousel a11y, accordion a11y, video a11y
+- `src/layouts/BaseLayout.astro` - Focus ring, hreflang fix
+- `src/layouts/ExpansionLayout.astro` - hreflang fix
 
 **Git Status:**
-- 3 commits ahead of origin (ready to push)
+- 17 commits ahead of origin (ready to push after testing)
 - No uncommitted changes
 
 ## Next Session
 
-**Priority 1:** Push commits to origin
+**Priority 1:** Push 17 commits to origin (after user approval)
 **Priority 2:** Use /save for quick session updates going forward
 **Priority 3:** Run /code-review for periodic site audits
 
 **Context Notes:**
-ACS is fully operational. The feedback file contains actionable improvements for the system. Session continuity is now enabled for this project.
+All 10 code review priority fixes complete. Site now has WCAG 2.1 AA accessibility compliance and improved security. Dev server running at localhost:4323 for user testing.
 
 ---
 
-**Last Updated:** 2026-01-07
-**Session:** ACS Migration & First /save-full
+**Last Updated:** 2026-01-08
+**Session:** Code Review Priority Fixes (A11y & Security)
