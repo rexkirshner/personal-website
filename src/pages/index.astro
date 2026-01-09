@@ -22,7 +22,7 @@ import profilePics from '../../content/site/profile-pics.json';
       <div class="flex flex-col md:flex-row gap-8 mb-12 items-start">
         <!-- Profile Image Carousel -->
         <div class="flex-shrink-0 w-full md:w-64">
-          <div id="profile-carousel" class="relative aspect-[4/5] rounded-lg overflow-hidden shadow-lg">
+          <div id="profile-carousel" class="relative aspect-[4/5] rounded-lg overflow-hidden shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500" tabindex="0" role="region" aria-label="Profile photos, use arrow keys to navigate" aria-live="polite">
             {profilePics.map((pic, index) => (
               <img
                 src={pic.src}
@@ -134,21 +134,53 @@ import profilePics from '../../content/site/profile-pics.json';
     window.addEventListener('load', () => {
       let currentProfileIndex = 0;
       const profileImages = document.querySelectorAll('.profile-image');
+      const carousel = document.getElementById('profile-carousel');
       const rotationInterval = 10000; // 10 seconds
+      let intervalId = null;
+      let isPaused = false;
 
-      function rotateProfile() {
-        // Fade out current image
-        profileImages[currentProfileIndex].style.opacity = '0';
-
-        // Move to next image
-        currentProfileIndex = (currentProfileIndex + 1) % profilePicsCount;
-
-        // Fade in next image
-        profileImages[currentProfileIndex].style.opacity = '1';
+      function showImage(index) {
+        // Fade out all images
+        profileImages.forEach(img => img.style.opacity = '0');
+        // Fade in target image
+        profileImages[index].style.opacity = '1';
+        currentProfileIndex = index;
       }
 
+      function rotateProfile() {
+        if (isPaused) return;
+        showImage((currentProfileIndex + 1) % profilePicsCount);
+      }
+
+      function goToNext() {
+        showImage((currentProfileIndex + 1) % profilePicsCount);
+      }
+
+      function goToPrev() {
+        showImage((currentProfileIndex - 1 + profilePicsCount) % profilePicsCount);
+      }
+
+      // Keyboard navigation
+      carousel?.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          e.preventDefault();
+          goToNext();
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          goToPrev();
+        }
+      });
+
+      // Pause on focus, resume on blur
+      carousel?.addEventListener('focus', () => {
+        isPaused = true;
+      });
+      carousel?.addEventListener('blur', () => {
+        isPaused = false;
+      });
+
       // Start rotation
-      setInterval(rotateProfile, rotationInterval);
+      intervalId = setInterval(rotateProfile, rotationInterval);
     });
   </script>
 
