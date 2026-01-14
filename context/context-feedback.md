@@ -17,6 +17,94 @@ This file captures bugs, issues, unclear instructions, and improvement suggestio
 
 <!-- Add entries below in reverse chronological order -->
 
+### 2026-01-14 - /validate-context: CRITICAL - Script Has Outdated Command Names
+
+**Severity:** CRITICAL (False positive error)
+
+**What happened:** The validation script `scripts/validate-context.sh` (reports v3.6.0) checks for old command names:
+```
+Looking for: save-context.md
+Actually exists: save.md
+
+Looking for: quick-save-context.md
+Does not exist in v5.0.0
+```
+
+**Impact:** Script reports 1 error and exits with code 2, even though all files are correctly present. This is a FALSE POSITIVE that will confuse users.
+
+**Root cause:** The installer updated `.claude/commands/` to v5.0.0 names but didn't update `scripts/validate-context.sh` to match.
+
+**Fix required:** Update `scripts/validate-context.sh` line ~67 to check for new command names:
+- `save-context.md` → `save.md`
+- `quick-save-context.md` → (remove, doesn't exist in v5.0.0)
+
+---
+
+### 2026-01-14 - /validate-context: Script Has Executable Implementation
+
+**Severity:** N/A (Positive)
+
+**What worked:** Unlike /code-review which is pure specification, /validate-context has an actual executable script (`scripts/validate-context.sh`). This is much better because:
+- Consistent execution across sessions
+- No AI interpretation variance
+- Faster execution
+- Reliable exit codes
+
+This is the RIGHT pattern. Other commands should follow this model.
+
+---
+
+### 2026-01-14 - /validate-context: Command Instructions Are Mostly Redundant
+
+**Severity:** MEDIUM (Bloat)
+
+**What happened:** The `/validate-context` command file is ~400 lines, but Step 1 just says "run `./scripts/validate-context.sh`". Steps 2.5, 2.7, 2.8 provide detailed bash code that partially duplicates what the script already does.
+
+**Impact:**
+- AI might execute both the script AND the inline bash, doing redundant work
+- Inconsistency between script logic and inline bash
+- Harder to maintain (two places to update)
+
+**Suggestion:** Simplify command to:
+1. Run `./scripts/validate-context.sh`
+2. Interpret exit code
+3. Display summary
+4. Provide recommendations
+
+Remove the inline bash that duplicates script functionality. If additional checks are needed, add them to the script.
+
+---
+
+### 2026-01-14 - /validate-context: Git Push Protocol Audit is Manual
+
+**Severity:** LOW (Implementation gap)
+
+**What happened:** Step 2.5 "Git Push Protocol Validation" has inline bash code but this isn't in the actual script. The script doesn't check git push compliance.
+
+**Impact:** The audit only runs if AI executes the inline bash manually. Inconsistent with "just run the script" philosophy.
+
+**Suggestion:** Either:
+1. Add git protocol audit to `validate-context.sh`, OR
+2. Remove from command instructions (it's already checked during /review-context)
+
+---
+
+### 2026-01-14 - /validate-context: Staleness Check Works Well
+
+**Severity:** N/A (Positive)
+
+**What worked:** The staleness check with configurable thresholds from `.context-config.json` is useful. Color-coded output (green/yellow/red) is immediately clear. Thresholds for different file types makes sense (STATUS.md needs frequent updates, CONTEXT.md doesn't).
+
+---
+
+### 2026-01-14 - /validate-context: Organization Check is Helpful
+
+**Severity:** N/A (Positive)
+
+**What worked:** The file organization check (Step 2.8) that looks for loose files in root and documentation in src/ is a good quality check. The 100-point scoring system gives clear feedback.
+
+---
+
 ### 2026-01-14 - /save-full: Successfully Created Session Entry
 
 **Severity:** N/A (Positive)
