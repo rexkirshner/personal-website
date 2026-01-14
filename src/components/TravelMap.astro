@@ -128,15 +128,16 @@
         const props = feature.properties;
         const coordinates = (feature.geometry as any).coordinates.slice();
 
-        const popupContent = `
-          <div class="font-sans">
-            <h3 class="font-bold text-sm">${props.name}</h3>
-          </div>
-        `;
+        const popupEl = document.createElement('div');
+        popupEl.className = 'font-sans';
+        const heading = document.createElement('h3');
+        heading.className = 'font-bold text-sm';
+        heading.textContent = props.name;
+        popupEl.appendChild(heading);
 
         new maplibregl.default.Popup({ offset: 8 })
           .setLngLat(coordinates as [number, number])
-          .setHTML(popupContent)
+          .setDOMContent(popupEl)
           .addTo(map);
       });
 
