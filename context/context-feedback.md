@@ -17,6 +17,79 @@ This file captures bugs, issues, unclear instructions, and improvement suggestio
 
 <!-- Add entries below in reverse chronological order -->
 
+### 2026-01-14 - /review-context: Command Length is Overwhelming
+
+**Severity:** MEDIUM (UX)
+
+**What happened:** The `/review-context` command prompt is ~600 lines of markdown. While comprehensive, it's difficult for an AI to parse and execute perfectly. Many steps reference bash scripts that may not exist or have different behavior.
+
+**Specific issues:**
+1. Step 1.7 "Documentation Health Check" references `check_documentation_health` and `format_documentation_health` functions that don't exist in `scripts/common-functions.sh`
+2. Step 0 loads `scripts/common-functions.sh` but the script may not have all referenced functions
+3. The command mixes bash code blocks with prose instructions, making it unclear what's executable vs. descriptive
+
+**Impact:** AI may skip steps or execute them incorrectly due to information overload.
+
+**Suggestion:** Consider:
+1. Splitting into smaller focused commands (e.g., `/review-staleness`, `/review-consistency`)
+2. Or providing a "quick mode" vs "full mode" option
+3. Or moving executable bash into actual scripts that the AI can just run
+
+---
+
+### 2026-01-14 - /review-context: Version Check Worked Well
+
+**Severity:** N/A (Positive)
+
+**What worked:** Step 1.5 version check correctly identified we're on v5.0.0 (latest) and skipped the update prompt. The curl command with fallback logic worked correctly.
+
+**Output:**
+```
+Current version: 5.0.0
+Latest version: 5.0.0
+UP_TO_DATE|5.0.0
+```
+
+---
+
+### 2026-01-14 - /review-context: Staleness Check is Useful
+
+**Severity:** N/A (Positive)
+
+**What worked:** The staleness analysis with color-coded output (green/yellow/red) is immediately useful. It correctly identified:
+- Recent files as current (6-7 days)
+- CONTEXT.md as "getting stale" (8 days)
+- DEPLOYMENT.md as stale (105 days)
+
+This gives actionable insight at a glance.
+
+---
+
+### 2026-01-14 - /review-context: Git Workflow Reminder is Redundant
+
+**Severity:** LOW (UX)
+
+**What happened:** Step 9 "Session Start: Git Workflow Reminder" provides a copy-paste prompt for git workflow rules. However, these rules are already in CLAUDE.md and were already stated in the user's initial prompt.
+
+**Impact:** Unnecessary duplication. The prompt at the end feels like boilerplate.
+
+**Suggestion:** Remove this section or make it conditional (only show if not already configured in .context-config.json or CLAUDE.md).
+
+---
+
+### 2026-01-14 - /review-context: Cross-Document Consistency Note Confusing
+
+**Severity:** LOW (Clarity)
+
+**What happened:** The consistency check notes that CONTEXT.md and STATUS.md have different "Last Updated" dates and adds:
+```
+Note: Different dates are normal. CONTEXT.md is static, STATUS.md is dynamic.
+```
+
+**Observation:** This is helpful, but the check itself then becomes somewhat pointless if different dates are "normal." It would be more useful to check if STATUS.md is newer than SESSIONS.md latest entry (actual inconsistency) rather than comparing static vs dynamic docs.
+
+---
+
 ### 2026-01-14 - WORKAROUND: Manually Downloaded Missing v5.0.0 Components
 
 **Severity:** N/A (Resolution)
