@@ -17,6 +17,47 @@ This file captures bugs, issues, unclear instructions, and improvement suggestio
 
 <!-- Add entries below in reverse chronological order -->
 
+### 2026-01-14 - /session-summary: Command Works Well
+
+**Severity:** N/A (Positive)
+
+**What worked:** The /session-summary command provides exactly what it promises - a quick way to scan session history via TL;DR summaries. The format is clear and scannable.
+
+**Why this matters:** Quick catch-up at session start is a common need. This command delivers.
+
+---
+
+### 2026-01-14 - /session-summary: No Script Implementation
+
+**Severity:** MEDIUM (Manual execution required)
+
+**What happened:** Unlike /validate-context which has a shell script, /session-summary is pure AI interpretation. The command file provides formatting guidance but no executable script.
+
+**Impact:**
+- Different AIs may format output differently
+- More work for AI to parse SESSIONS.md manually
+- Potential for inconsistent results
+
+**Suggestion:** Either:
+1. Create `scripts/session-summary.sh` that extracts and formats TL;DRs
+2. Or document this as intentional (AI should read and summarize)
+
+---
+
+### 2026-01-14 - /session-summary: --last and --full Flags Not Tested
+
+**Severity:** LOW (Incomplete testing)
+
+**What happened:** The command supports `--last N` and `--full` flags but these couldn't be easily tested because:
+1. Skill invocation doesn't pass arguments
+2. Would need to manually implement flag parsing
+
+**Impact:** Unknown if flag handling works correctly.
+
+**Suggestion:** Document how to pass arguments to skills, or test flags in a different way.
+
+---
+
 ### 2026-01-14 - /export-context: CRITICAL - JSON Export Script Broken on macOS
 
 **Severity:** CRITICAL (Feature completely broken)
