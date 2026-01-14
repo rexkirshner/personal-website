@@ -28,6 +28,13 @@ jobs:
       - name: Fix paths for IPFS
         run: node scripts/fix-ipfs-paths.js
 
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ github.sha }}
+          path: dist/
+          retention-days: 7
+
       - name: Deploy to IPFS
         id: ipfs
         uses: aquiladev/ipfs-action@v0.3.1
