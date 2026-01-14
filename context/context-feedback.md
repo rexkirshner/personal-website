@@ -17,6 +17,68 @@ This file captures bugs, issues, unclear instructions, and improvement suggestio
 
 <!-- Add entries below in reverse chronological order -->
 
+### 2026-01-14 - /export-context: CRITICAL - JSON Export Script Broken on macOS
+
+**Severity:** CRITICAL (Feature completely broken)
+
+**What happened:** The `scripts/export-sessions-json.sh` script fails with awk syntax error:
+```
+awk: syntax error at source line 18
+ context is
+     match($0, /Session >>> ([0-9]+)/, <<< session_num)
+awk: illegal statement at source line 18
+```
+
+**Root cause:** The script uses GNU awk syntax (`match($0, /pattern/, array)`) which is not supported by BSD awk (macOS default). This third argument to `match()` is a GNU extension.
+
+**Impact:** JSON export functionality is completely non-functional on macOS. The `sessions-data.json` file is never created.
+
+**Fix required:** Either:
+1. Use portable awk syntax that works on both GNU and BSD awk
+2. Use `gawk` explicitly and document as dependency
+3. Rewrite in a different language (Node.js, Python, etc.)
+
+---
+
+### 2026-01-14 - /export-context: Markdown Export Works Well
+
+**Severity:** N/A (Positive)
+
+**What worked:** The core markdown export functionality works correctly:
+- All 6 context files combined into single README.md
+- Source file markers added as HTML comments
+- Proper table of contents generated
+- Config file copied
+- Clean output directory structure
+
+**Result:** 76KB README.md with 2162 lines, fully self-contained.
+
+---
+
+### 2026-01-14 - /export-context: Command Instructions Are Overly Detailed
+
+**Severity:** LOW (Verbosity)
+
+**What happened:** The command file is ~350 lines with extensive bash code examples. However, much of this is educational/explanatory rather than necessary for execution.
+
+**Impact:** Takes time to read through and understand what's actually needed.
+
+**Suggestion:** Consider a "Quick Execution" section at the top with just the essential steps, followed by detailed explanations for those who want to understand the internals.
+
+---
+
+### 2026-01-14 - /export-context: Missing JSON Export Not Warned Clearly
+
+**Severity:** LOW (UX)
+
+**What happened:** When JSON export fails (due to awk error), the command doesn't provide clear guidance on what was missed. The script just errors and continues.
+
+**Expected behavior:** Should clearly state "JSON export skipped due to error" and explain impact.
+
+**Suggestion:** Add better error handling with user-friendly messages.
+
+---
+
 ### 2026-01-14 - /save: Skill Is Appropriately Minimal
 
 **Severity:** N/A (Positive)
