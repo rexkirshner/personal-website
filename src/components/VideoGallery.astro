@@ -252,14 +252,13 @@ const sortedVideos = [...videos].sort((a, b) => b.order - a.order);
 
       // Create Vimeo iframe (handle privacy hash in vimeoId)
       const separator = video.vimeoId.includes('?') ? '&' : '?';
-      embedContainer.innerHTML = `
-        <iframe
-          src="https://player.vimeo.com/video/${video.vimeoId}${separator}autoplay=1&badge=0&autopause=0"
-          frameborder="0"
-          allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
-          title="${video.title}"
-        ></iframe>
-      `;
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://player.vimeo.com/video/${video.vimeoId}${separator}autoplay=1&badge=0&autopause=0`;
+      iframe.setAttribute('frameborder', '0');
+      iframe.allow = 'autoplay; fullscreen; picture-in-picture; clipboard-write';
+      iframe.title = video.title;
+      embedContainer.innerHTML = '';
+      embedContainer.appendChild(iframe);
     }
 
     modal?.showModal();
