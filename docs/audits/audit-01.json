@@ -1,0 +1,190 @@
+{
+  "metadata": {
+    "schemaVersion": "1.0.0",
+    "timestamp": "2026-01-14T16:30:00Z",
+    "projectName": "Rex Kirshner Personal Website",
+    "agentsRun": ["security", "performance", "accessibility", "seo", "testing", "infrastructure"],
+    "agentsSkipped": [
+      { "agent": "typescript", "reason": "structure.primaryLanguage is 'astro', not 'typescript'" },
+      { "agent": "database", "reason": "structure.hasDatabase is false" }
+    ],
+    "filesScanned": 13
+  },
+  "summary": {
+    "grade": "A",
+    "criticalCount": 0,
+    "highCount": 0,
+    "mediumCount": 0,
+    "lowCount": 8
+  },
+  "findings": [
+    {
+      "id": "SEC-001",
+      "severity": "low",
+      "category": "security",
+      "title": "innerHTML usage with unsanitized map data",
+      "description": "TravelMap component uses setHTML() with template literals that include data from map-data.json without HTML escaping. Risk is LOW because data source is owner-controlled.",
+      "location": {
+        "file": "src/components/TravelMap.astro",
+        "line": 133,
+        "snippet": "const popupContent = `<div class=\"font-sans\"><h3 class=\"font-bold text-sm\">${props.name}</h3></div>`;"
+      },
+      "verified": {
+        "vulnPatternSearched": "innerHTML|setHTML",
+        "mitigationPatternSearched": "DOMPurify|sanitize|escapeHtml|textContent",
+        "mitigationFound": false,
+        "verificationNotes": "Data comes from owner-controlled JSON. Risk is theoretical."
+      },
+      "remediation": "Use textContent or escape HTML entities before interpolation",
+      "effort": "trivial"
+    },
+    {
+      "id": "SEC-002",
+      "severity": "low",
+      "category": "security",
+      "title": "innerHTML usage with video embed data",
+      "description": "VideoGallery component uses innerHTML with video.vimeoId and video.title interpolated directly. Data comes from owner-controlled JSON.",
+      "location": {
+        "file": "src/components/VideoGallery.astro",
+        "line": 255,
+        "snippet": "embedContainer.innerHTML = `<iframe src=\"https://player.vimeo.com/video/${video.vimeoId}...`"
+      },
+      "verified": {
+        "vulnPatternSearched": "innerHTML",
+        "mitigationPatternSearched": "DOMPurify|sanitize|createElement",
+        "mitigationFound": false,
+        "verificationNotes": "Static site content from trusted JSON"
+      },
+      "remediation": "Use createElement/setAttribute pattern",
+      "effort": "small"
+    },
+    {
+      "id": "SEC-003",
+      "severity": "low",
+      "category": "security",
+      "title": "innerHTML usage with episode embed data",
+      "description": "ExpansionLightbox component uses innerHTML for YouTube iframes with episode data interpolated directly.",
+      "location": {
+        "file": "src/components/ExpansionLightbox.astro",
+        "line": 171,
+        "snippet": "videoContainer.innerHTML = `<iframe src=\"https://www.youtube.com/embed/${episode.youtubeId}...`"
+      },
+      "verified": {
+        "vulnPatternSearched": "innerHTML",
+        "mitigationPatternSearched": "DOMPurify|sanitize|createElement",
+        "mitigationFound": false,
+        "verificationNotes": "Static site content from trusted JSON"
+      },
+      "remediation": "Use createElement/setAttribute pattern",
+      "effort": "small"
+    },
+    {
+      "id": "TEST-001",
+      "severity": "low",
+      "category": "testing",
+      "title": "No test infrastructure exists",
+      "description": "No test files, directories, or testing framework configuration. Acceptable for static portfolio site.",
+      "location": {
+        "file": "package.json",
+        "line": null,
+        "snippet": "No 'test' script defined"
+      },
+      "verified": {
+        "vulnPatternSearched": "*.test.*, *.spec.*, test/, __tests__/",
+        "mitigationPatternSearched": "vitest.config.*, jest.config.*",
+        "mitigationFound": false,
+        "verificationNotes": "Acceptable for content-driven static site"
+      },
+      "remediation": "Consider tests only if utility scripts become shared",
+      "effort": "large"
+    },
+    {
+      "id": "TEST-002",
+      "severity": "low",
+      "category": "testing",
+      "title": "Utility scripts lack test coverage",
+      "description": "25 JavaScript utility scripts in /scripts/ for content management lack tests. Acceptable for one-time migration tools.",
+      "location": {
+        "file": "scripts/",
+        "line": null,
+        "snippet": "25 JS files including upload-photos.js, parse-travel-kml.js, etc."
+      },
+      "verified": {
+        "vulnPatternSearched": "scripts/*.js data transformation functions",
+        "mitigationPatternSearched": "scripts/*.test.js",
+        "mitigationFound": false,
+        "verificationNotes": "CLI tools run manually for content updates"
+      },
+      "remediation": "Low priority - consider if logic becomes reused",
+      "effort": "medium"
+    },
+    {
+      "id": "INFRA-001",
+      "severity": "low",
+      "category": "infrastructure",
+      "title": "Missing environment variable validation",
+      "description": "upload-photos.js reads R2 credentials from env vars without validating they exist before use.",
+      "location": {
+        "file": "scripts/upload-photos.js",
+        "line": 11,
+        "snippet": "const R2_ACCOUNT_ID = process.env.R2_ACCOUNT_ID;"
+      },
+      "verified": {
+        "vulnPatternSearched": "process.env without validation",
+        "mitigationPatternSearched": "if.*!.*process.env",
+        "mitigationFound": false,
+        "verificationNotes": "Script will fail with unclear error if .env missing"
+      },
+      "remediation": "Add validation: if (!R2_ACCOUNT_ID) { console.error('Missing R2_ACCOUNT_ID'); process.exit(1); }",
+      "effort": "trivial"
+    },
+    {
+      "id": "INFRA-002",
+      "severity": "low",
+      "category": "infrastructure",
+      "title": "No .env.example file",
+      "description": "Project uses environment variables but no .env.example documents required variables for developer onboarding.",
+      "location": {
+        "file": ".",
+        "line": null,
+        "snippet": "R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET_NAME, R2_PUBLIC_URL"
+      },
+      "verified": {
+        "vulnPatternSearched": ".env.example",
+        "mitigationPatternSearched": "**/.env.example",
+        "mitigationFound": false,
+        "verificationNotes": ".gitignore has .env but no example file exists"
+      },
+      "remediation": "Create .env.example with placeholder values",
+      "effort": "trivial"
+    },
+    {
+      "id": "INFRA-003",
+      "severity": "low",
+      "category": "infrastructure",
+      "title": "No artifact retention in CI workflow",
+      "description": "GitHub Actions workflow builds but does not retain build artifacts for debugging.",
+      "location": {
+        "file": ".github/workflows/deploy.yml",
+        "line": 26,
+        "snippet": "- name: Build site\\n  run: npm run build"
+      },
+      "verified": {
+        "vulnPatternSearched": "upload-artifact",
+        "mitigationPatternSearched": "actions/upload-artifact",
+        "mitigationFound": false,
+        "verificationNotes": "Optional - builds can be reproduced locally"
+      },
+      "remediation": "Add actions/upload-artifact step after build (optional)",
+      "effort": "trivial"
+    }
+  ],
+  "positives": [
+    "Excellent performance optimization (lazy loading, deferred scripts, image optimization)",
+    "Comprehensive WCAG 2.1 AA accessibility implementation",
+    "Complete SEO setup (Open Graph, JSON-LD, sitemap, robots.txt)",
+    "Proper secrets handling in CI (${{ secrets.* }} syntax)",
+    "npm caching enabled in GitHub Actions",
+    ".env files properly gitignored"
+  ]
+}

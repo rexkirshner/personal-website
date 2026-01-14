@@ -17,6 +17,120 @@ This file captures bugs, issues, unclear instructions, and improvement suggestio
 
 <!-- Add entries below in reverse chronological order -->
 
+### 2026-01-14 - /code-review: Successfully Completed Full Agent-Based Review
+
+**Severity:** N/A (Positive)
+
+**What happened:** Successfully ran /code-review using the new v5.0.0 agent-based architecture. The system worked as designed:
+- Codebase scanner created context cache
+- Discovered 8 specialist agents, selected 6 based on applicability rules
+- Ran 6 specialists in parallel using Task tool
+- Generated audit-01.json and audit-01.md reports
+
+**Result:** Grade A with 8 low-severity findings. The agent system is functional after manual component download.
+
+---
+
+### 2026-01-14 - /code-review: CRITICAL - No Execution Instructions in Command
+
+**Severity:** CRITICAL (Usability)
+
+**What happened:** The `/code-review` command file describes WHAT the agent system does but not HOW to execute it. Compare:
+
+- `/review-context`: Has detailed "Execution Steps" with Step 0, Step 1, etc., specific bash commands, and clear instructions
+- `/code-review`: Says "This command invokes the `code-reviewer` agent" but provides no execution steps
+
+**Impact:** An AI must:
+1. Realize it needs to read `.claude/agents/code-reviewer.md`
+2. Understand the orchestrator workflow
+3. Implement the scanning, discovery, selection, and execution logic itself
+4. Know to use Task tool for parallel specialist execution
+
+**Expected:** The command file should either:
+1. Include execution steps like other commands, OR
+2. Clearly state "Read and follow `.claude/agents/code-reviewer.md` for execution"
+
+**Current behavior forces AI to figure out the execution model independently.**
+
+---
+
+### 2026-01-14 - /code-review: Agents are Specifications, Not Executable Code
+
+**Severity:** MEDIUM (Architecture clarity)
+
+**What happened:** The "agent" files in `.claude/agents/` are specification documents that describe:
+- What patterns to search for
+- What constitutes a finding
+- How to format output
+
+They are NOT executable code. The AI must implement all the logic itself:
+- Scanning files
+- Matching patterns
+- Verifying mitigations
+- Formatting AuditFinding objects
+
+**Observation:** This is an interesting design choice. Each AI execution may produce different results based on how it interprets the spec.
+
+**Suggestion:** Document this clearly - "Agents are specifications that the AI implements at runtime" - so users understand the model.
+
+---
+
+### 2026-01-14 - /code-review: Scanner Agent Requires Manual Cache Implementation
+
+**Severity:** MEDIUM (Implementation burden)
+
+**What happened:** The codebase-scanner.md describes the output schema but the AI must:
+1. Create `.claude/cache/` directory
+2. Implement project type detection
+3. Build the JSON structure manually
+4. Write to `codebase-context.json`
+
+The scanner spec describes 7 detection methods (hasTests, hasCI, hasDatabase, etc.) that the AI must implement.
+
+**Impact:** Complex implementation burden on AI. Different AIs may implement detection differently, leading to inconsistent agent selection.
+
+**Suggestion:** Consider providing a bash script or TypeScript that actually generates the cache, rather than relying on AI interpretation of the spec.
+
+---
+
+### 2026-01-14 - /code-review: Parallel Specialist Execution Worked Well
+
+**Severity:** N/A (Positive)
+
+**What worked:** Using the Task tool with 6 parallel agent prompts worked correctly:
+- All 6 specialists ran concurrently
+- Each returned structured findings
+- Results were properly synthesized
+
+The parallel execution pattern is effective and efficient.
+
+---
+
+### 2026-01-14 - /code-review: Agent Contract System is Elegant
+
+**Severity:** N/A (Positive)
+
+**What worked:** The self-declaring agent contract system is well-designed:
+- Each agent declares its applicability via JSON contract
+- Selection algorithm is clear (always → presets → requires conditions)
+- Adding new specialists = creating one file (no central registry)
+
+This is a good architecture for extensibility.
+
+---
+
+### 2026-01-14 - /code-review: Missing Synthesis Agent Usage
+
+**Severity:** LOW (Incomplete implementation)
+
+**What happened:** The code-reviewer.md says to "Run synthesis-agent" for deduplication and grade calculation. I read the synthesis-agent.md but implemented the logic myself rather than launching another Task.
+
+**Observation:** The synthesis agent could have been invoked as another Task, but the orchestrator doesn't clearly indicate whether synthesis should be a separate agent invocation or inline logic.
+
+**Suggestion:** Clarify whether synthesis-agent should be invoked via Task tool or implemented inline.
+
+---
+
 ### 2026-01-14 - /review-context: Command Length is Overwhelming
 
 **Severity:** MEDIUM (UX)

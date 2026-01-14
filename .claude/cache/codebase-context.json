@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "1.2.0",
+  "metadata": {
+    "scannedAt": "2026-01-14T16:00:00Z",
+    "commit": "5c5b347127e95ac2177c8e12eee647a6319bebfd",
+    "isGitRepo": true,
+    "filesScanned": 13,
+    "linesScanned": 0
+  },
+  "structure": {
+    "projectType": "webapp",
+    "primaryLanguage": "astro",
+    "frameworks": ["astro", "tailwindcss", "maplibre-gl", "sharp"],
+    "hasTests": false,
+    "hasCI": true,
+    "hasDatabase": false,
+    "hasUI": true,
+    "isServerless": false,
+    "isMonorepo": false
+  },
+  "files": [
+    {"path": "src/components/ExpansionGrid.astro", "language": "astro", "lines": 0, "exports": [], "complexity": "low"},
+    {"path": "src/components/ExpansionLightbox.astro", "language": "astro", "lines": 0, "exports": [], "complexity": "medium"},
+    {"path": "src/components/PhotoGallery.astro", "language": "astro", "lines": 0, "exports": [], "complexity": "high"},
+    {"path": "src/components/RunningStats.astro", "language": "astro", "lines": 0, "exports": [], "complexity": "medium"},
+    {"path": "src/components/StravaHeatmap.astro", "language": "astro", "lines": 0, "exports": [], "complexity": "low"},
+    {"path": "src/components/TravelMap.astro", "language": "astro", "lines": 0, "exports": [], "complexity": "medium"},
+    {"path": "src/components/VideoGallery.astro", "language": "astro", "lines": 0, "exports": [], "complexity": "high"},
+    {"path": "src/components/VimeoEmbed.astro", "language": "astro", "lines": 0, "exports": [], "complexity": "low"},
+    {"path": "src/layouts/BaseLayout.astro", "language": "astro", "lines": 0, "exports": [], "complexity": "high"},
+    {"path": "src/layouts/ExpansionLayout.astro", "language": "astro", "lines": 0, "exports": [], "complexity": "medium"},
+    {"path": "src/pages/expansion.astro", "language": "astro", "lines": 0, "exports": [], "complexity": "medium"},
+    {"path": "src/pages/index.astro", "language": "astro", "lines": 0, "exports": [], "complexity": "high"},
+    {"path": "src/styles/global.css", "language": "css", "lines": 0, "exports": [], "complexity": "low"}
+  ],
+  "dependencies": {
+    "production": ["astro", "@astrojs/partytown", "@astrojs/sitemap", "@astrojs/tailwind", "@mapbox/togeojson", "maplibre-gl", "sharp", "tailwindcss", "xml2js"],
+    "development": []
+  },
+  "entryPoints": ["src/pages/index.astro", "src/pages/expansion.astro"],
+  "securityRelevant": [],
+  "databaseFiles": [],
+  "uiComponents": [
+    "src/components/ExpansionGrid.astro",
+    "src/components/ExpansionLightbox.astro",
+    "src/components/PhotoGallery.astro",
+    "src/components/RunningStats.astro",
+    "src/components/StravaHeatmap.astro",
+    "src/components/TravelMap.astro",
+    "src/components/VideoGallery.astro",
+    "src/components/VimeoEmbed.astro",
+    "src/layouts/BaseLayout.astro",
+    "src/layouts/ExpansionLayout.astro",
+    "src/pages/expansion.astro",
+    "src/pages/index.astro"
+  ],
+  "ciWorkflows": [".github/workflows/deploy.yml"]
+}
