@@ -15,6 +15,7 @@
 | 1 | 2026-01-06 | Maintenance | ACS Installation | Complete |
 | 2 | 2026-01-07 | Maintenance | ACS Migration & First /save-full | Complete |
 | 3 | 2026-01-08 | Maintenance | Code Review Priority Fixes (A11y & Security) | Complete |
+| 4 | 2026-01-14 | Maintenance | QA Testing AI Context System v5.0.0 | Complete |
 
 ---
 
@@ -411,5 +412,121 @@ WCAG 2.1 AA accessibility requires three key patterns:
 
 - **Tests:** Not applicable (static site)
 - **Build:** Verified with `npm run dev` - no errors, running at http://localhost:4323/
+
+---
+
+## Session 4 | 2026-01-14 | Maintenance
+
+**Duration:** 2h | **Focus:** QA Testing AI Context System v5.0.0 | **Status:** Complete
+
+### TL;DR
+
+Tested AI Context System v5.0.0 major upgrade. Discovered critical installer bug (missing agents/schemas/skills/hooks directories), manually downloaded components, then successfully tested /review-context and /code-review agent-based system. Documented 19 QA feedback entries. Generated first audit report (Grade A, 8 low findings).
+
+### Accomplishments
+
+- Upgraded from ACS v4.2.1 to v5.0.0
+- Discovered critical installer bug: missing .claude/agents/, schemas/, skills/, hooks/
+- Manually downloaded all missing v5.0.0 components (12 agents, 7 schemas, 7 skills, 1 hook)
+- Tested /review-context command - documented 5 feedback entries
+- Tested /code-review agent-based system - ran 6 specialists in parallel
+- Generated audit-01.json and audit-01.md (Grade A, 8 low-severity findings)
+- Documented 7 /code-review feedback entries
+- Created codebase scanner cache (.claude/cache/codebase-context.json)
+
+### Problem Solved
+
+**Issue:** Need to QA test v5.0.0 before it's used in production.
+
+**Constraints:**
+- Must document ALL issues found for ACS developers
+- Must test new agent-based architecture thoroughly
+- Cannot push without explicit approval
+
+**Approach:** Systematic testing of each command, documenting feedback in real-time.
+
+### Decisions
+
+- No new architectural decisions - QA testing session only
+
+### Files
+
+**NEW:**
+- `.claude/agents/*.md` - 12 specialist agent files (manually downloaded)
+- `.claude/schemas/*.json` - 7 JSON schema files (manually downloaded)
+- `.claude/skills/*/SKILL.md` - 7 skill files (manually downloaded)
+- `.claude/hooks/session-start.sh` - Session hook (manually downloaded)
+- `.claude/cache/codebase-context.json` - Codebase scanner cache
+- `docs/audits/audit-01.json` - First machine-readable audit report
+- `docs/audits/audit-01.md` - First human-readable audit report
+
+**MOD:**
+- `context/context-feedback.md` - Added 19 QA feedback entries
+- `context/.context-config.json` - Version updated to 5.0.0
+- `VERSION` - Updated to 5.0.0
+- `.claude/commands/*.md` - Updated to v5.0.0 versions
+
+### Mental Models
+
+**Current understanding:**
+ACS v5.0.0 agent-based architecture:
+1. **Agents are specifications** - Not executable code; AI implements logic based on spec
+2. **Codebase scanner** - AI must manually create .claude/cache/codebase-context.json
+3. **Agent contracts** - JSON blocks in agent files declare applicability rules
+4. **Parallel execution** - Use Task tool to run multiple specialists concurrently
+5. **Synthesis** - Dedupe and grade findings after all specialists complete
+
+**Key insights:**
+- /code-review command lacks execution instructions (must read code-reviewer.md agent)
+- Different AIs may implement scanner/review logic differently based on spec interpretation
+- Agent contract system is elegant and extensible (no central registry)
+- Parallel Task execution for specialists is effective
+
+**Gotchas discovered:**
+- Installer doesn't download agents/, schemas/, skills/, hooks/ directories
+- Command file formats inconsistent (some have step-by-step, others just describe)
+- BEGIN/END session markers in template but not used in existing sessions
+- /save-full skill is much leaner than actual session entries in SESSIONS.md
+
+### QA Feedback Summary
+
+**Critical (2):**
+1. Installer missing v5.0.0 components (agents, schemas, skills, hooks)
+2. /code-review has no execution instructions
+
+**Medium (4):**
+1. /review-context command is 600+ lines (overwhelming)
+2. Agents are specs not code (needs documentation)
+3. Scanner requires manual implementation
+4. ACS_UPDATING notice order-of-operations bug
+
+**Low (4):**
+1. No "What's New in v5.0.0" summary after upgrade
+2. Installer verification incomplete
+3. Git workflow reminder redundant
+4. Cross-document consistency check confusing
+
+**Positive (4):**
+1. Version check works well
+2. Staleness check with color coding useful
+3. Parallel specialist execution effective
+4. Agent contract system elegant
+
+### Git Operations
+
+- **Commits:** 4 ahead of origin
+- **Pushed:** NO
+- **Approval:** Not requested (QA testing in progress)
+
+### Tests & Build
+
+- **Tests:** Not applicable (documentation/testing session)
+- **Build:** Not run (no code changes to site)
+
+### Next Session
+
+**Priority:** Continue QA testing with /save, /validate-context commands
+**Blockers:** None
+**Questions:** Should we test /update-context-system rollback capability?
 
 ---

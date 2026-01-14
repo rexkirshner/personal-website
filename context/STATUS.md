@@ -1,6 +1,6 @@
 # Project Status
 
-**Last Updated:** 2026-01-08
+**Last Updated:** 2026-01-14
 **Status:** 🟢 Active
 
 ---
@@ -27,14 +27,14 @@ npm run build        # Production build
 npm run preview      # Preview build locally
 ```
 
-**Current Focus:** Code review priority fixes complete, awaiting user testing
+**Current Focus:** QA testing ACS v5.0.0 - /review-context and /code-review tested
 
-**Last Session:** 2026-01-08 - Code Review Priority Fixes (A11y & Security)
+**Last Session:** 2026-01-14 - QA Testing AI Context System v5.0.0
 
 **Documentation Health:** 🟢 Excellent
 - CLAUDE.md: Comprehensive (19KB) + ACS section added
-- context/: Fully initialized with 4 sessions documented
-- 14 feedback entries captured for system improvement
+- context/: Fully initialized with 5 sessions documented
+- 19 feedback entries captured for v5.0.0 QA
 
 ---
 
@@ -49,23 +49,19 @@ npm run preview      # Preview build locally
 ## Active Tasks
 
 **In Progress:**
-- [ ] User testing accessibility/security improvements at localhost:4323
+- [ ] QA testing ACS v5.0.0 commands (/save, /validate-context remaining)
 
 **Completed Recently:**
-- [x] Task 1: Convert remaining JPG images to WebP (~28% savings)
-- [x] Task 2: Add aria-label to select elements
-- [x] Task 3: Add focus ring styles to interactive elements
-- [x] Task 4: Replace innerHTML with DOM API (XSS hardening)
-- [x] Task 5: Make profile carousel keyboard accessible
-- [x] Task 6: Implement ARIA tabs pattern on all tab components
-- [x] Task 7: Convert Ethereum accordion to button with aria-expanded
-- [x] Task 8: Make running video div keyboard accessible
-- [x] Task 9: Add aria-labelledby to dialog elements
-- [x] Task 10: Fix hreflang for multi-domain setup
+- [x] Upgrade to ACS v5.0.0 (with manual component download workaround)
+- [x] Test /review-context - documented 5 feedback entries
+- [x] Test /code-review agent-based system - 6 specialists ran in parallel
+- [x] Generate first audit report (audit-01.json, audit-01.md)
+- [x] Document 19 QA feedback entries in context-feedback.md
 
 **Next Up:**
-- [ ] Push 17 commits to origin (after user approval)
-- [ ] Use /save for quick updates at end of future sessions
+- [ ] Test /save (quick session update)
+- [ ] Test /validate-context
+- [ ] Push commits to origin (after user approval)
 
 ## Blockers & Decisions
 
@@ -83,51 +79,49 @@ npm run preview      # Preview build locally
 ## Work In Progress
 
 **Current Files:**
-- Dev server running at http://localhost:4323/
-- User testing accessibility improvements
+- `context/context-feedback.md` - 19 QA feedback entries
+- `docs/audits/audit-01.{json,md}` - First audit report
+- `.claude/cache/codebase-context.json` - Scanner cache
 
 **Mental Model:**
-WCAG 2.1 AA accessibility implemented across all interactive components:
-- Keyboard navigation (Tab, Enter, Space, Arrow keys)
-- ARIA semantics (tabs, dialogs, buttons)
-- Focus visibility (focus rings on all interactive elements)
-- XSS hardening (DOM API instead of innerHTML for user data)
+ACS v5.0.0 agent-based architecture:
+- Agents are specifications (not executable code)
+- AI must implement scanning/review logic based on specs
+- Agent contracts declare applicability via JSON
+- Use Task tool for parallel specialist execution
 
 **Next Specific Action:**
-Await user test approval, then push 17 commits to origin.
+Test /save command, then /validate-context.
 
 ## Recent Accomplishments
 
-**Session 3 (2026-01-08):**
-- Completed all 10 priority fixes from code review audit
-- Converted JPG thumbnails to WebP (~381KB / 28% savings)
-- Implemented WCAG 2.1 AA accessibility across all components
-- Hardened XSS security with DOM API
-- Fixed hreflang SEO for multi-domain setup
+**Session 4 (2026-01-14):**
+- Upgraded to ACS v5.0.0 (discovered and worked around installer bug)
+- Tested /review-context and /code-review commands
+- Generated first audit report: Grade A, 8 low-severity findings
+- Documented 19 QA feedback entries for ACS developers
 
-**Key Files Modified:**
-- `src/components/RunningStats.astro` - ARIA tabs, keyboard nav
-- `src/components/VideoGallery.astro` - ARIA tabs, keyboard nav, dialog a11y
-- `src/components/PhotoGallery.astro` - ARIA tabs, DOM API, dialog a11y
-- `src/components/ExpansionLightbox.astro` - DOM API, dialog a11y
-- `src/pages/index.astro` - Carousel a11y, accordion a11y, video a11y
-- `src/layouts/BaseLayout.astro` - Focus ring, hreflang fix
-- `src/layouts/ExpansionLayout.astro` - hreflang fix
+**Key Files Created/Modified:**
+- `.claude/agents/*.md` - 12 specialist agent files
+- `.claude/schemas/*.json` - 7 JSON schema files
+- `.claude/cache/codebase-context.json` - Scanner cache
+- `docs/audits/audit-01.{json,md}` - First audit report
+- `context/context-feedback.md` - 19 QA entries
 
 **Git Status:**
-- 17 commits ahead of origin (ready to push after testing)
+- 4 commits ahead of origin (QA testing commits)
 - No uncommitted changes
 
 ## Next Session
 
-**Priority 1:** Push 17 commits to origin (after user approval)
-**Priority 2:** Use /save for quick session updates going forward
-**Priority 3:** Run /code-review for periodic site audits
+**Priority 1:** Test /save (quick session update command)
+**Priority 2:** Test /validate-context
+**Priority 3:** Push commits to origin after QA complete
 
 **Context Notes:**
-All 10 code review priority fixes complete. Site now has WCAG 2.1 AA accessibility compliance and improved security. Dev server running at localhost:4323 for user testing.
+QA testing ACS v5.0.0 in progress. Major findings: installer missing components (fixed manually), /code-review lacks execution instructions. 19 feedback entries documented for ACS developers.
 
 ---
 
-**Last Updated:** 2026-01-08
-**Session:** Code Review Priority Fixes (A11y & Security)
+**Last Updated:** 2026-01-14
+**Session:** QA Testing AI Context System v5.0.0

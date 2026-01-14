@@ -17,6 +17,95 @@ This file captures bugs, issues, unclear instructions, and improvement suggestio
 
 <!-- Add entries below in reverse chronological order -->
 
+### 2026-01-14 - /save-full: Successfully Created Session Entry
+
+**Severity:** N/A (Positive)
+
+**What happened:** Successfully executed /save-full to create Session 4 entry in SESSIONS.md and update STATUS.md. The skill instructions were clear and concise.
+
+**Result:** Session 4 documented with TL;DR, accomplishments, files, mental models, and next steps.
+
+---
+
+### 2026-01-14 - /save-full: Skill is Much Leaner Than Existing Sessions
+
+**Severity:** MEDIUM (Inconsistency)
+
+**What happened:** The /save-full skill template shows a minimal structure:
+- TL;DR, Accomplishments, Decisions, Files Changed, Mental Models, Next Steps, Git
+
+But existing sessions in SESSIONS.md have many more sections:
+- TL;DR, Accomplishments, Problem Solved, Decisions, Files (NEW/MOD/DEL format), Mental Models, Gotchas discovered, Work In Progress, TodoWrite State, Next Session, Git Operations, Tests & Build
+
+**Impact:** Following the skill template produces entries that look different from existing sessions. I followed existing session format for consistency.
+
+**Suggestion:** Either:
+1. Update skill template to match actual expected format, OR
+2. Simplify existing sessions to match template, OR
+3. Document that template is minimal and users can expand
+
+---
+
+### 2026-01-14 - /save-full: BEGIN/END Markers Not Used in Practice
+
+**Severity:** LOW (Documentation mismatch)
+
+**What happened:** The skill output format shows:
+```
+<!-- BEGIN SESSION [N] -->
+...
+<!-- END SESSION [N] -->
+```
+
+But examining SESSIONS.md, no existing sessions use these markers. Sessions are delimited by `---` separators.
+
+**Impact:** Minor - I followed existing format without markers.
+
+**Suggestion:** Remove markers from template OR add them to existing sessions.
+
+---
+
+### 2026-01-14 - /save-full: No Details on Quick Reference Update
+
+**Severity:** MEDIUM (Incomplete instructions)
+
+**What happened:** Step 6 says "Update Quick Reference" and "Also update STATUS.md Quick Reference block (same as /save)."
+
+But the skill doesn't specify:
+- Which fields to update in Quick Reference
+- How to update "Current Focus", "Last Session", "Documentation Health"
+- Whether to update Active Tasks, Recent Accomplishments, Next Session sections
+
+**Impact:** I had to infer what needed updating by reading the current STATUS.md structure.
+
+**Suggestion:** Add explicit field list: "Update these STATUS.md fields: Last Updated, Current Focus, Last Session, Documentation Health session count, Active Tasks, Recent Accomplishments, Git Status, Next Session, footer"
+
+---
+
+### 2026-01-14 - /save-full: TL;DR Length Limit May Be Too Restrictive
+
+**Severity:** LOW (UX)
+
+**What happened:** Skill specifies TL;DR should be 50-300 characters. My Session 4 TL;DR was 333 characters - slightly over limit.
+
+For a comprehensive QA session with multiple accomplishments (upgrade, bug discovery, workaround, testing 2 commands, generating reports, documenting 19 feedback entries), 300 chars is tight.
+
+**Observation:** The existing Session 2 TL;DR is also quite long (appears to exceed 300 chars).
+
+**Suggestion:** Consider increasing limit to 400 chars, or making it a soft guideline rather than hard requirement.
+
+---
+
+### 2026-01-14 - /save-full: Skill is Appropriately Concise
+
+**Severity:** N/A (Positive)
+
+**What worked:** Unlike /review-context (600+ lines), /save-full skill is concise (~100 lines). The execution steps are clear and numbered. The verification checklist is helpful.
+
+This is a good model for other skills.
+
+---
+
 ### 2026-01-14 - /code-review: Successfully Completed Full Agent-Based Review
 
 **Severity:** N/A (Positive)
