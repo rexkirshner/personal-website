@@ -168,16 +168,15 @@ const { episodes } = Astro.props;
     episodeNumberElement.textContent = `Episode ${episode.number}${episode.displayDate ? ` • ${episode.displayDate}` : ''}`;
 
     // Update video embed (only load when opened)
-    videoContainer.innerHTML = `
-      <iframe
-        src="https://www.youtube.com/embed/${episode.youtubeId}?rel=0"
-        title="${episode.title}"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-        class="w-full h-full"
-      ></iframe>
-    `;
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.youtube.com/embed/${episode.youtubeId}?rel=0`;
+    iframe.title = episode.title;
+    iframe.setAttribute('frameborder', '0');
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+    iframe.allowFullscreen = true;
+    iframe.className = 'w-full h-full';
+    videoContainer.innerHTML = '';
+    videoContainer.appendChild(iframe);
 
     // Update guests section using DOM API for safe text insertion
     if (episode.isRoundup || episode.guests.length === 0) {
