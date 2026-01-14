@@ -17,6 +17,73 @@ This file captures bugs, issues, unclear instructions, and improvement suggestio
 
 <!-- Add entries below in reverse chronological order -->
 
+### 2026-01-14 - /save: Skill Is Appropriately Minimal
+
+**Severity:** N/A (Positive)
+
+**What worked:** The /save skill does exactly what it should - updates only STATUS.md. The clear guardrails about NOT modifying SESSIONS.md, DECISIONS.md, or CONTEXT.md are helpful.
+
+**Why this matters:** Quick session saves should be fast and low-friction. This skill achieves that goal.
+
+---
+
+### 2026-01-14 - /save: Good Resume Point Format Guidance
+
+**Severity:** N/A (Positive)
+
+**What worked:** The requirement for resume points to "Start with action verb" and "Include location" is excellent guidance. Examples like `Continue implementing auth middleware in src/middleware/auth.ts` vs. bad example `Work on auth` make expectations clear.
+
+**Why this matters:** Specific resume points enable seamless session continuity.
+
+---
+
+### 2026-01-14 - /save: Template Expects Non-Existent Markers
+
+**Severity:** MEDIUM (Template mismatch)
+
+**What happened:** The skill template says to "Replace content between markers" with `<!-- BEGIN AUTO:QUICK_REFERENCE -->` and `<!-- END AUTO:QUICK_REFERENCE -->` markers. However, the actual STATUS.md file created by /init-context does NOT have these markers.
+
+**Expected behavior:** Either:
+1. /init-context should create STATUS.md with these markers, OR
+2. /save skill should not reference markers that don't exist
+
+**Workaround:** Ignored the markers and updated the Quick Reference section directly.
+
+**Suggestion:** Add these markers to STATUS.md template or remove marker references from /save skill.
+
+---
+
+### 2026-01-14 - /save: Quick Reference Format Mismatch
+
+**Severity:** LOW (Minor inconsistency)
+
+**What happened:** The skill shows a minimal Quick Reference format:
+```markdown
+**Project:** [name] | **Phase:** [phase] | **Health:** --/100
+**Focus:** [current focus - max 60 chars]
+**Resume:** [resume point with verb + location]
+```
+
+But the actual STATUS.md has a much more expanded format with URLs, Tech Stack, Commands section, Documentation Health breakdown, etc.
+
+**Impact:** Not clear whether /save should compress to the minimal format or preserve the expanded format. I preserved the expanded format.
+
+**Suggestion:** Either update the skill to match reality OR provide guidance on when to use minimal vs. expanded format.
+
+---
+
+### 2026-01-14 - /save: Health Score Not Implemented
+
+**Severity:** LOW (Feature gap)
+
+**What happened:** The skill template shows `**Health:** --/100` but there's no implementation for calculating or displaying a health score in STATUS.md.
+
+**Current state:** STATUS.md uses "Documentation Health: 🟢 Excellent" with qualitative indicators, not a numeric score.
+
+**Suggestion:** Either implement the numeric health score or remove from template.
+
+---
+
 ### 2026-01-14 - /validate-context: CRITICAL - Script Has Outdated Command Names
 
 **Severity:** CRITICAL (False positive error)
