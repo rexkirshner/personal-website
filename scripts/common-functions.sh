@@ -1,6 +1,6 @@
 #!/bin/bash
 # Common functions used across AI Context System commands
-# Version: 4.2.1
+# Version: See VERSION file at repository root
 #
 # This file extracts duplicate code from multiple commands into shared utilities.
 # Source this file at the beginning of any command that needs these functions.
@@ -263,6 +263,278 @@ clear_cache() {
     rm -rf "$CACHE_DIR"
     log_success "Cache cleared"
   fi
+}
+
+# =============================================================================
+# Platform-Portable Helpers (v5.0.1)
+# =============================================================================
+# These helpers provide consistent behavior across macOS (BSD) and Linux (GNU).
+# Use these instead of platform-specific commands to ensure portability.
+
+# In-place sed that works on both macOS (BSD) and Linux (GNU)
+#
+# The `sed -i` command requires different syntax on different platforms:
+#   - Linux (GNU sed):  sed -i 's/a/b/' file
+#   - macOS (BSD sed):  sed -i '' 's/a/b/' file
+#
+# This helper detects the platform and uses the correct syntax automatically.
+#
+# Usage:
+#   inplace_sed 's/old/new/' file.txt
+#   inplace_sed 's/old/new/g' file.txt
+#
+# Args:
+#   $1 - sed expression (e.g., 's/foo/bar/g')
+#   $2 - file to modify
+#
+# Returns:
+#   0 on success, 1 on failure
+#
+# Example:
+#   inplace_sed 's/TODO/DONE/' tasks.md
+#   inplace_sed 's|/old/path|/new/path|g' config.txt
+#
+inplace_sed() {
+  local expression="$1"
+  local file="$2"
+
+  # Validate arguments
+  if [ -z "$expression" ]; then
+    log_error "inplace_sed: requires expression argument"
+    return 1
+  fi
+
+  if [ -z "$file" ]; then
+    log_error "inplace_sed: requires file argument"
+    return 1
+  fi
+
+  if [ ! -f "$file" ]; then
+    log_error "inplace_sed: file not found: $file"
+    return 1
+  fi
+
+  # Detect sed variant and use appropriate syntax
+  if sed --version 2>&1 | grep -q GNU; then
+    # GNU sed (Linux)
+    sed -i "$expression" "$file"
+  else
+    # BSD sed (macOS)
+    sed -i '' "$expression" "$file"
+  fi
+}
+
+# Compute SHA-256 hash of a file (portable across macOS/Linux)
+#
+# Hash commands differ by platform:
+#   - Linux: sha256sum file
+#   - macOS: shasum -a 256 file
+#   - Fallback: openssl dgst -sha256 file
+#
+# This helper tries available commands in order of preference.
+#
+# Usage:
+#   hash=$(hash_file /path/to/file)
+#
+# Args:
+#   $1 - file to hash
+#
+# Returns:
+#   Prints SHA-256 hash (64 hex characters) to stdout
+#   Returns 1 if file not found or no hash command available
+#
+# Example:
+#   old_hash=$(hash_file config.json)
+#   # ... modify file ...
+#   new_hash=$(hash_file config.json)
+#   [ "$old_hash" != "$new_hash" ] && echo "File changed"
+#
+hash_file() {
+  local file="$1"
+
+  # Validate argument
+  if [ -z "$file" ]; then
+    log_error "hash_file: requires file argument"
+    return 1
+  fi
+
+  if [ ! -f "$file" ]; then
+    log_error "hash_file: file not found: $file"
+    return 1
+  fi
+
+  # Try hash commands in order of preference
+  if command -v sha256sum &>/dev/null; then
+    # Linux (GNU coreutils)
+    sha256sum "$file" | cut -d' ' -f1
+  elif command -v shasum &>/dev/null; then
+    # macOS / BSD
+    shasum -a 256 "$file" | cut -d' ' -f1
+  elif command -v openssl &>/dev/null; then
+    # Fallback: openssl (available on most systems)
+    openssl dgst -sha256 "$file" | sed 's/.*= //'
+  else
+    log_error "hash_file: no hash command available (need sha256sum, shasum, or openssl)"
+    return 1
+  fi
+}
+
+# Compare two files by hash (returns 0 if identical, 1 if different)
+#
+# More reliable than comparing file contents directly, especially for
+# binary files or files with different line endings.
+#
+# Usage:
+#   if files_identical file1.txt file2.txt; then
+#     echo "Same content"
+#   fi
+#
+# Args:
+#   $1 - first file
+#   $2 - second file
+#
+# Returns:
+#   0 if files have identical content
+#   1 if files differ or either doesn't exist
+#
+# Example:
+#   if files_identical "context/feedback.md" "templates/feedback.template.md"; then
+#     echo "Feedback file unmodified from template"
+#   fi
+#
+files_identical() {
+  local file1="$1"
+  local file2="$2"
+
+  # Both files must exist
+  if [ ! -f "$file1" ] || [ ! -f "$file2" ]; then
+    return 1
+  fi
+
+  local hash1 hash2
+  hash1=$(hash_file "$file1") || return 1
+  hash2=$(hash_file "$file2") || return 1
+
+  [ "$hash1" = "$hash2" ]
+}
+
+# Validate JSON file syntax (portable across systems)
+#
+# JSON validation tools differ by availability:
+#   - jq (fastest, most reliable)
+#   - python3 (common on macOS/Linux)
+#   - python (fallback for older systems)
+#
+# This helper tries available validators in order of preference.
+#
+# Usage:
+#   if json_validate config.json; then
+#     echo "Valid JSON"
+#   fi
+#
+# Args:
+#   $1 - JSON file to validate
+#
+# Returns:
+#   0 if valid JSON
+#   1 if invalid JSON or file not found
+#
+# Note: If no validator available, returns 0 with a warning.
+#       This allows scripts to continue on minimal systems.
+#
+# Example:
+#   if json_validate ".claude/schemas/agent-contract.json"; then
+#     echo "Schema file is valid JSON"
+#   else
+#     echo "Schema file has JSON syntax errors"
+#   fi
+#
+json_validate() {
+  local file="$1"
+
+  # Validate argument
+  if [ -z "$file" ]; then
+    log_error "json_validate: requires file argument"
+    return 1
+  fi
+
+  if [ ! -f "$file" ]; then
+    log_error "json_validate: file not found: $file"
+    return 1
+  fi
+
+  # Try validators in order of preference
+  if command -v jq &>/dev/null; then
+    # jq is the gold standard for JSON validation
+    jq empty "$file" 2>/dev/null
+    return $?
+  elif command -v python3 &>/dev/null; then
+    # python3 json module
+    python3 -c "import json; json.load(open('$file'))" 2>/dev/null
+    return $?
+  elif command -v python &>/dev/null; then
+    # python 2.x fallback (rare but possible)
+    python -c "import json; json.load(open('$file'))" 2>/dev/null
+    return $?
+  else
+    # No validator available - warn and assume valid
+    # This allows scripts to run on minimal systems
+    log_warn "json_validate: no JSON validator available (install jq for best results)"
+    return 0
+  fi
+}
+
+# Count files matching a pattern in a directory (deterministic)
+#
+# File counting with `ls | wc -l` is fragile:
+#   - Varies by platform (may include . and ..)
+#   - Affected by aliases and shell options
+#   - Counts directories too
+#
+# This helper uses `find` for deterministic, portable counting.
+#
+# Usage:
+#   count=$(count_files /path/to/dir "*.md")
+#   count=$(count_files /path/to/dir "*.json")
+#
+# Args:
+#   $1 - directory to search
+#   $2 - filename pattern (glob, optional - defaults to *)
+#
+# Returns:
+#   Prints count to stdout (integer >= 0)
+#   Returns 0 even if directory doesn't exist (count will be 0)
+#
+# Example:
+#   agent_count=$(count_files .claude/agents "*.md")
+#   if [ "$agent_count" -lt 12 ]; then
+#     echo "Missing agent files (found $agent_count, expected 12)"
+#   fi
+#
+count_files() {
+  local dir="$1"
+  local pattern="${2:-*}"
+
+  # Validate directory argument
+  if [ -z "$dir" ]; then
+    log_error "count_files: requires directory argument"
+    echo "0"
+    return 1
+  fi
+
+  # If directory doesn't exist, count is 0 (not an error)
+  if [ ! -d "$dir" ]; then
+    echo "0"
+    return 0
+  fi
+
+  # Use find for deterministic, portable counting
+  # -maxdepth 1: don't recurse into subdirectories
+  # -type f: only count files (not directories)
+  # -name: match the pattern
+  # wc -l: count lines
+  # tr -d ' ': remove whitespace (macOS wc adds leading spaces)
+  find "$dir" -maxdepth 1 -type f -name "$pattern" 2>/dev/null | wc -l | tr -d ' '
 }
 
 # =============================================================================
@@ -819,44 +1091,90 @@ git_current_branch() {
 # Session Management Functions
 # =============================================================================
 
-# Get the next session number from SESSIONS.md
-# This is the single source of truth for session numbering across all commands.
-# Usage: get_next_session_number [context_dir]
-# Returns: The next session number to use (e.g., if 13 sessions exist, returns 14)
+# Get the next session number (MAX + 1, not COUNT + 1)
+#
+# IMPORTANT: This finds the MAXIMUM existing session number, not the count.
+# This correctly handles gaps from archiving sessions.
+#
+# Example: If sessions 1-30 were archived and sessions 40, 41, 44 remain,
+# this returns 45 (max+1), NOT 4 (count+1).
+#
+# Supports both session header formats:
+#   - Pipe format: "## Session N | DATE | TITLE"
+#   - Dash format: "## Session N - DATE"
+#
+# Usage:
+#   next=$(get_next_session_number)
+#   next=$(get_next_session_number "context")
+#
+# Args:
+#   $1 - context directory (optional, default: "context")
+#
+# Returns:
+#   Prints next session number to stdout (MAX existing + 1)
+#
 get_next_session_number() {
   local context_dir="${1:-context}"
   local sessions_file="$context_dir/SESSIONS.md"
 
-  # Check if SESSIONS.md exists
+  # No file = start at 1
   if [ ! -f "$sessions_file" ]; then
     echo "1"
     return 0
   fi
 
-  # Count only actual session entries (not templates or examples)
-  # Strategy: Look for "## Session N" where N is a number, but exclude sections after "## Example"
-  local count=$(sed -n '1,/^## Example/p' "$sessions_file" | \
-                grep "^## Session [0-9]" | \
-                grep -v "Template" | \
-                wc -l | \
-                tr -d ' ' || echo "0")
+  # Find the MAXIMUM session number (not COUNT)
+  # 1. Stop before "## Example" sections (template content)
+  # 2. Match "## Session N" where N is a number
+  # 3. Exclude template references
+  # 4. Extract just the number
+  # 5. Sort numerically and take the largest
+  local max_session
+  max_session=$(
+    sed -n '1,/^## Example/p' "$sessions_file" 2>/dev/null | \
+    grep -E "^## Session [0-9]+" | \
+    grep -v -i "Template" | \
+    sed -E 's/^## Session ([0-9]+).*/\1/' | \
+    sort -n | \
+    tail -1
+  )
 
-  # Handle edge case where count is empty
-  if [ -z "$count" ] || [ "$count" = "" ]; then
-    count=0
+  # Default to 0 if no sessions found or invalid result
+  if [ -z "$max_session" ] || ! [[ "$max_session" =~ ^[0-9]+$ ]]; then
+    max_session=0
   fi
 
-  # Return next session number
-  echo $((count + 1))
+  echo $((max_session + 1))
 }
 
-# Get the current session count from SESSIONS.md
-# Usage: get_current_session_count [context_dir]
-# Returns: The number of existing sessions (e.g., if 13 sessions exist, returns 13)
-get_current_session_count() {
+# Get the highest existing session number
+#
+# Returns the maximum session number, not a count. After archiving sessions
+# 1-30, if sessions 40, 41, 44 remain, returns 44 (not 3).
+#
+# Usage:
+#   max=$(get_max_session_number)
+#   max=$(get_max_session_number "context")
+#
+# Returns:
+#   The highest session number that exists (0 if none)
+#
+get_max_session_number() {
   local context_dir="${1:-context}"
   local next=$(get_next_session_number "$context_dir")
   echo $((next - 1))
+}
+
+# DEPRECATED: Use get_max_session_number() instead
+#
+# This function name is misleading - it returns the max session number,
+# not a count of sessions. Kept for backward compatibility.
+# Will be removed in v6.0.0.
+#
+get_current_session_count() {
+  local context_dir="${1:-context}"
+  log_warn "get_current_session_count() is deprecated, use get_max_session_number()"
+  get_max_session_number "$context_dir"
 }
 
 # =============================================================================
@@ -888,14 +1206,9 @@ update_last_modified() {
 
   # Check if file has "Last Updated" pattern
   if grep -q '\*\*Last Updated:\*\*' "$file"; then
-    # Platform-independent sed
-    if sed --version 2>&1 | grep -q GNU; then
-      # GNU sed (Linux)
-      sed -i "s/\*\*Last Updated:\*\* .*/\*\*Last Updated:\*\* $today/" "$file"
-    else
-      # BSD sed (macOS)
-      sed -i '' "s/\*\*Last Updated:\*\* .*/\*\*Last Updated:\*\* $today/" "$file"
-    fi
+    # Only replace the date portion (YYYY-MM-DD), preserve any suffix like "(Session N)"
+    # Uses inplace_sed helper for cross-platform compatibility
+    inplace_sed "s/\\(\\*\\*Last Updated:\\*\\* \\)[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}/\\1$today/" "$file"
     log_debug "update_last_modified: Updated timestamp in $file to $today"
     return 0
   fi
@@ -1639,4 +1952,4 @@ if [ "$VERBOSITY" != "quiet" ] && [ -z "$UPDATE_CHECK_RUNNING" ]; then
 fi
 
 # Log that common functions were loaded (debug only)
-log_debug "Loaded common-functions.sh v4.2.1"
+log_debug "Loaded common-functions.sh (version: $(cat VERSION 2>/dev/null || echo 'unknown'))"

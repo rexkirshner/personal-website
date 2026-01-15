@@ -208,36 +208,50 @@ if [ -f "context/claude-context-feedback.md" ] && [ ! -f "context/context-feedba
 fi
 
 # Check if feedback file exists and has actual content (not just template)
+# v5.0.1: Uses hash comparison instead of entry counting for more reliable detection
 if [ -f "context/context-feedback.md" ]; then
-  # Count only REAL user entries in the Feedback section
-  # Uses sed to extract content between "## Feedback Entries" and "## Examples"
-  # This excludes the 3 template examples which should be deleted by users
-  # Note: grep -c outputs "0" when no matches and exits with code 1, so use || true
-  USER_ENTRIES=$(sed -n '/^## Feedback Entries/,/^## Examples/p' context/context-feedback.md 2>/dev/null | \
-    grep -c "^## [0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}" 2>/dev/null || true)
-  USER_ENTRIES="${USER_ENTRIES:-0}"
+  # Check if template exists for comparison
+  if [ -f "templates/context-feedback.template.md" ]; then
+    # Use files_identical helper (hash comparison) to detect modifications
+    if ! files_identical "context/context-feedback.md" "templates/context-feedback.template.md"; then
+      # File has been modified - archive it
+      ARCHIVE_DATE=$(date +%Y-%m-%d)
 
-  if [ "$USER_ENTRIES" -gt 0 ]; then  # Has actual user feedback entries
-    # Use PRE_UPGRADE_VERSION captured in Step 1 for archive filename
-    ARCHIVE_DATE=$(date +%Y-%m-%d)
+      # Create archive directory if needed
+      mkdir -p artifacts/feedback
 
-    # Create archive directory if needed
-    mkdir -p artifacts/feedback
+      # Archive with version and date (avoid overwriting existing archive)
+      ARCHIVE_FILE="artifacts/feedback/feedback-v${PRE_UPGRADE_VERSION}-${ARCHIVE_DATE}.md"
+      if [ -f "$ARCHIVE_FILE" ]; then
+        ARCHIVE_FILE="artifacts/feedback/feedback-v${PRE_UPGRADE_VERSION}-${ARCHIVE_DATE}-$(date +%H%M%S).md"
+      fi
 
-    # Archive with version and date
-    ARCHIVE_FILE="artifacts/feedback/feedback-v${PRE_UPGRADE_VERSION}-${ARCHIVE_DATE}.md"
-    mv context/context-feedback.md "$ARCHIVE_FILE"
+      mv context/context-feedback.md "$ARCHIVE_FILE"
 
-    log_success "✅ Archived feedback to $ARCHIVE_FILE"
-    log_info "   (Feedback from v${PRE_UPGRADE_VERSION} preserved)"
-  else
-    log_verbose "Feedback file exists but appears to be just template (no entries)"
-    # Deletion protection for potentially sensitive files
-    if confirm_deletion "context/context-feedback.md"; then
-      rm -f context/context-feedback.md
-      log_verbose "Removed empty feedback file"
+      log_success "✅ Archived feedback to $ARCHIVE_FILE"
+      log_info "   (Feedback from v${PRE_UPGRADE_VERSION} preserved)"
     else
-      log_warn "⚠️  Kept context/context-feedback.md (deletion cancelled)"
+      log_verbose "Feedback file exists but is identical to template (no modifications)"
+      # Deletion protection for potentially sensitive files
+      if confirm_deletion "context/context-feedback.md"; then
+        rm -f context/context-feedback.md
+        log_verbose "Removed unmodified feedback file"
+      else
+        log_warn "⚠️  Kept context/context-feedback.md (deletion cancelled)"
+      fi
+    fi
+  else
+    # No template to compare - fall back to entry counting
+    USER_ENTRIES=$(sed -n '/^## Feedback Entries/,/^## Examples/p' context/context-feedback.md 2>/dev/null | \
+      grep -c "^## [0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}" 2>/dev/null || true)
+    USER_ENTRIES="${USER_ENTRIES:-0}"
+
+    if [ "$USER_ENTRIES" -gt 0 ]; then
+      ARCHIVE_DATE=$(date +%Y-%m-%d)
+      mkdir -p artifacts/feedback
+      ARCHIVE_FILE="artifacts/feedback/feedback-v${PRE_UPGRADE_VERSION}-${ARCHIVE_DATE}.md"
+      mv context/context-feedback.md "$ARCHIVE_FILE"
+      log_success "✅ Archived feedback to $ARCHIVE_FILE"
     fi
   fi
 fi
@@ -317,6 +331,33 @@ if [[ "$PREV_MAJOR" == "3" ]]; then
   echo ""
   echo "No action required - migration is automatic!"
   echo ""
+elif [[ "$PREV_MAJOR" == "4" ]]; then
+  echo ""
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "📋 v4.x → v5.0.0 Migration Notes"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo ""
+  echo "v5.0.0 is a MAJOR redesign. Key changes:"
+  echo ""
+  echo "  📁 New Directories Added:"
+  echo "  • .claude/skills/    - 7 modular skills (replaces 22 commands)"
+  echo "  • .claude/agents/    - 9 specialized code review agents"
+  echo "  • .claude/schemas/   - JSON validation schemas"
+  echo "  • .claude/hooks/     - Session automation (session-start.sh)"
+  echo ""
+  echo "  🔄 What Changed:"
+  echo "  • Commands are now skills (same names, modular architecture)"
+  echo "  • Code review uses agents (parallel, specialized reviewers)"
+  echo "  • New hooks system for session start automation"
+  echo ""
+  echo "  ✅ What's Preserved:"
+  echo "  • All your context files (CONTEXT.md, STATUS.md, etc.)"
+  echo "  • All your session history"
+  echo "  • All your decisions"
+  echo ""
+  echo "No action required - your content is preserved!"
+  echo "See CHANGELOG.md for full details."
+  echo ""
 elif [[ "$PREV_MAJOR" -lt "3" ]]; then
   echo ""
   echo "⚠️  Upgrading from v$PRE_UPGRADE_VERSION (very old version)"
@@ -326,7 +367,7 @@ elif [[ "$PREV_MAJOR" -lt "3" ]]; then
   echo "  https://github.com/rexkirshner/ai-context-system/blob/main/CHANGELOG.md"
   echo ""
 else
-  echo "✅ Already on v4.x - no migration needed"
+  echo "✅ Already on v5.x - no migration needed"
 fi
 ```
 
@@ -341,6 +382,18 @@ fi
 | `.claude/checklists/*.md` | Integrated into audit commands |
 
 All existing files are preserved in `docs/audits/archive/`.
+
+**v5.0.0 Architecture Changes Summary:**
+
+| Before (v4.x) | After (v5.0.0) |
+|---------------|----------------|
+| 22 commands in `.claude/commands/` | 7 skills in `.claude/skills/` |
+| Sequential code review | 9 parallel specialist agents |
+| Manual session start | Hooks system (session-start.sh) |
+| No schema validation | JSON schemas for all outputs |
+| Single configuration | 3 settings profiles (minimal, standard, comprehensive) |
+
+Your context files are fully preserved - only the tooling architecture changed.
 
 ### Step 5: Review Template Updates (Optional)
 
@@ -367,6 +420,29 @@ fi
 if [ -f "context/DECISIONS.md" ] && [ -f "templates/DECISIONS.template.md" ]; then
   echo "ℹ️  DECISIONS.md template available in templates/"
   echo "   Review templates/DECISIONS.template.md for new guidelines"
+
+  # v5.0.1: Check if large DECISIONS.md needs Decision Index
+  DECISIONS_LINES=$(wc -l < "context/DECISIONS.md" 2>/dev/null | tr -d ' ')
+  if [ "$DECISIONS_LINES" -gt 1500 ]; then
+    if ! grep -q "^## Decision Index\|^## Active Decisions" "context/DECISIONS.md"; then
+      echo ""
+      echo -e "${YELLOW}⚠️  ACTION RECOMMENDED: Add Decision Index${NC}"
+      echo "   Your DECISIONS.md is $DECISIONS_LINES lines."
+      echo "   v5.0.1 uses smart loading for large files - needs an index."
+      echo ""
+      echo "   Add this section near the top of your DECISIONS.md:"
+      echo "   ┌──────────────────────────────────────────────────┐"
+      echo "   │ ## Decision Index                                 │"
+      echo "   │                                                   │"
+      echo "   │ | ID | Date | Topic | Status |                   │"
+      echo "   │ |----|------|-------|--------|                   │"
+      echo "   │ | D001 | 2025-01-15 | Topic | ✅ Accepted |      │"
+      echo "   │ | D002 | ... | ... | ... |                       │"
+      echo "   └──────────────────────────────────────────────────┘"
+      echo ""
+      echo "   This helps AI agents navigate your decisions efficiently."
+    fi
+  fi
 fi
 
 echo ""
@@ -488,6 +564,15 @@ echo "   docs/audits/                    - New audit reports"
 echo "   docs/audits/INDEX.md            - Audit history index"
 echo "   docs/audits/archive/            - Archived audits"
 echo ""
+
+# v4.0.0: Clean up obsolete .claude/checklists/ directory
+# Checklists are now integrated directly into audit commands
+if [ -d ".claude/checklists" ]; then
+  echo "🧹 Removing obsolete .claude/checklists/ directory..."
+  echo "   (Checklists are now integrated into audit commands)"
+  rm -rf .claude/checklists
+  echo "✅ Cleaned up .claude/checklists/"
+fi
 ```
 
 **What this does:**
@@ -670,5 +755,3 @@ Understood?
 **User action:** Copy the prompt above and paste it into your session to set ground rules with the AI.
 
 ---
-
-**Version:** 5.0.0

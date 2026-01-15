@@ -273,7 +273,7 @@ Read and parse all context files:
 Files to load:
 - $CONTEXT_DIR/CONTEXT.md (v2.0+) or context/CLAUDE.md (pre-v2.0)
 - $CONTEXT_DIR/STATUS.md (v2.1+ includes Quick Reference section)
-- $CONTEXT_DIR/DECISIONS.md
+- $CONTEXT_DIR/DECISIONS.md (see smart loading strategy below)
 - $CONTEXT_DIR/SESSIONS.md (see smart loading strategy below)
 - $CONTEXT_DIR/PRD.md (optional)
 - $CONTEXT_DIR/CODE_MAP.md (optional, v2.1+)
@@ -360,6 +360,78 @@ fi
 - Large files (>5000 lines): Index + current session only (500 lines total) + warning
 - Prevents token limit crashes on large files
 - Clear instructions, not mixed bash/tool calls
+
+#### DECISIONS.md Smart Loading (v5.0.1)
+
+**IMPORTANT:** DECISIONS.md files can grow very large in mature projects. The Read tool has a default limit of 2,000 lines. Since DECISIONS.md is append-only, the most recent (and often most relevant) decisions are at the bottom of the file. Without smart loading, recent decisions may be truncated.
+
+**Step 1: Detect file size**
+
+```bash
+if [ -f "$CONTEXT_DIR/DECISIONS.md" ]; then
+  DECISIONS_SIZE=$(wc -l < "$CONTEXT_DIR/DECISIONS.md" 2>/dev/null | tr -d ' ')
+
+  if ! [[ "$DECISIONS_SIZE" =~ ^[0-9]+$ ]]; then
+    echo "⚠️  Could not determine DECISIONS.md size"
+    DECISIONS_SIZE=0
+  fi
+
+  if [ "$DECISIONS_SIZE" -eq 0 ]; then
+    echo "⚠️  DECISIONS.md is empty"
+  else
+    echo "📖 DECISIONS.md size: $DECISIONS_SIZE lines"
+  fi
+else
+  echo "⚠️  DECISIONS.md not found"
+  DECISIONS_SIZE=0
+fi
+```
+
+**Step 2: Find Decision Index location**
+
+```bash
+# Find "Active Decisions" or "Decision Index" table (if exists)
+if [ "$DECISIONS_SIZE" -ge 1500 ]; then
+  INDEX_LINE=$(grep -n "^## Active Decisions\|^## Decision Index" "$CONTEXT_DIR/DECISIONS.md" | head -1 | cut -d: -f1)
+  if [ -n "$INDEX_LINE" ]; then
+    echo "📋 Decision index found at line $INDEX_LINE"
+  fi
+fi
+```
+
+**Step 3: Apply smart loading based on file size**
+
+**If file size < 1500 lines (small file):**
+- Use Read tool to load entire file: `Read "$CONTEXT_DIR/DECISIONS.md"`
+- Display: "📖 Loading DECISIONS.md fully ($DECISIONS_SIZE lines)"
+
+**If file size 1500-3000 lines (medium file):**
+- Display: "📖 Loading DECISIONS.md strategically ($DECISIONS_SIZE lines)"
+- Display: "   Reading: Header + index + recent decisions"
+- Part 1: Use Read tool with `limit=200` to get header and context
+- Part 2: If INDEX_LINE found, use Read tool with `offset=$INDEX_LINE limit=100` to get index
+- Part 3: Calculate offset: `OFFSET = DECISIONS_SIZE - 800`
+- Part 3: Use Read tool with `offset=$OFFSET limit=800` to get recent decisions
+
+**If file size > 3000 lines (large file):**
+- Display: "📖 Loading DECISIONS.md minimally ($DECISIONS_SIZE lines - very large)"
+- Display: "   Reading: Header + index + most recent decisions only"
+- Part 1: Use Read tool with `limit=150` to get header
+- Part 2: If INDEX_LINE found, use Read tool with `offset=$INDEX_LINE limit=100` to get index
+- Part 3: Calculate offset: `OFFSET = DECISIONS_SIZE - 500`
+- Part 3: Use Read tool with `offset=$OFFSET limit=500` to get recent decisions
+- Display warning:
+  ```
+  ⚠️  DECISIONS.md is very large ($DECISIONS_SIZE lines)
+     Only recent decisions loaded. For older decisions, search by ID.
+     Consider archiving superseded decisions to improve performance.
+  ```
+
+**Why this matters:**
+- DECISIONS.md is append-only, so newest decisions are at the bottom
+- Without smart loading, the most recent decisions get truncated
+- The Decision Index provides a quick reference to all decisions
+- Recent decisions are most likely to be relevant for current work
 
 ---
 
@@ -491,6 +563,49 @@ fi
 
 echo ""
 ```
+
+**KNOWN_ISSUES.md Staleness Check (v5.0.1):**
+
+```bash
+echo "🐛 Known Issues Check"
+echo ""
+
+if [ -f "$CONTEXT_DIR/KNOWN_ISSUES.md" ]; then
+  # Check staleness
+  KNOWN_ISSUES_DAYS=$(days_since_file_modified "$CONTEXT_DIR/KNOWN_ISSUES.md" 2>/dev/null || echo "-1")
+
+  if [ "$KNOWN_ISSUES_DAYS" != "-1" ] && [ "$KNOWN_ISSUES_DAYS" -gt 30 ]; then
+    echo "  ⚠️  KNOWN_ISSUES.md is $KNOWN_ISSUES_DAYS days old"
+    echo "     Review for resolved issues that should be removed"
+  fi
+
+  # Count issues marked as resolved (✅ or [RESOLVED] or similar)
+  RESOLVED_COUNT=$(grep -ciE "✅|resolved|\[fixed\]|\[done\]" "$CONTEXT_DIR/KNOWN_ISSUES.md" 2>/dev/null || echo "0")
+
+  if [ "$RESOLVED_COUNT" -gt 0 ]; then
+    echo "  ⚠️  Found $RESOLVED_COUNT potentially resolved issues"
+    echo "     Clean up KNOWN_ISSUES.md - remove fixed issues"
+  fi
+
+  # Count total issues
+  ISSUE_COUNT=$(grep -cE "^##\s+[A-Z]|^###\s+[A-Z]|^\*\s+\*\*" "$CONTEXT_DIR/KNOWN_ISSUES.md" 2>/dev/null || echo "0")
+
+  if [ "$ISSUE_COUNT" -gt 0 ] && [ "$RESOLVED_COUNT" -eq 0 ]; then
+    echo "  ✅ KNOWN_ISSUES.md tracking $ISSUE_COUNT issues"
+  fi
+else
+  echo "  ℹ️  KNOWN_ISSUES.md not found (optional file)"
+fi
+
+echo ""
+```
+
+**Why this matters:**
+- KNOWN_ISSUES.md often becomes stale (issues fixed but not removed)
+- AI agents should be aware of known blockers and gotchas
+- Stale issues mislead AI agents about project state
+
+---
 
 **Why this matters:**
 - Detects documentation drift before it becomes a problem
@@ -968,6 +1083,3 @@ Understood?
 **User action:** Copy the prompt above and paste it into your session to set ground rules with the AI.
 
 ---
-
-**Version:** 5.0.0
-**Updated:** v3.0.4 - Added git workflow reminder for session start
