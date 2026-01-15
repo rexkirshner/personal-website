@@ -1,0 +1,141 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "date": "2026-01-15",
+    "type": "comprehensive",
+    "grade": "C+",
+    "adjustedGrade": "B+",
+    "rawFindingsCount": 136,
+    "deduplicatedCount": 45,
+    "generatedBy": "AI Context System v5.0.1",
+    "command": "/code-review --all"
+  },
+  "specialists": [
+    {
+      "id": "security",
+      "prefix": "SEC",
+      "findingsCount": 12,
+      "score": "B+"
+    },
+    {
+      "id": "testing",
+      "prefix": "TEST",
+      "findingsCount": 25,
+      "score": "F"
+    },
+    {
+      "id": "performance",
+      "prefix": "PERF",
+      "findingsCount": 20,
+      "score": "A-"
+    },
+    {
+      "id": "accessibility",
+      "prefix": "A11Y",
+      "findingsCount": 30,
+      "score": "B"
+    },
+    {
+      "id": "seo",
+      "prefix": "SEO",
+      "findingsCount": 10,
+      "score": "A"
+    },
+    {
+      "id": "typescript",
+      "prefix": "TS",
+      "findingsCount": 20,
+      "score": "C"
+    },
+    {
+      "id": "database",
+      "prefix": "DB",
+      "findingsCount": 6,
+      "score": "B"
+    },
+    {
+      "id": "infrastructure",
+      "prefix": "INFRA",
+      "findingsCount": 13,
+      "score": "B+"
+    }
+  ],
+  "criticalFindings": [
+    {
+      "id": "TEST-001",
+      "category": "testing",
+      "severity": "critical",
+      "title": "No test framework configured",
+      "status": "acknowledged",
+      "note": "Conscious decision for personal portfolio"
+    },
+    {
+      "id": "TEST-002",
+      "category": "testing",
+      "severity": "critical",
+      "title": "0% code coverage",
+      "status": "acknowledged",
+      "note": "Conscious decision for personal portfolio"
+    }
+  ],
+  "highFindings": [
+    {
+      "id": "A11Y-001",
+      "category": "accessibility",
+      "severity": "high",
+      "title": "Dialog focus management incomplete",
+      "status": "partial"
+    },
+    {
+      "id": "SEC-006",
+      "category": "security",
+      "severity": "medium",
+      "title": "External scripts without SRI",
+      "status": "open"
+    }
+  ],
+  "falsePositives": [
+    {
+      "id": "INFRA-004",
+      "category": "infrastructure",
+      "claim": ".env committed to git",
+      "verification": "git ls-files | grep .env returned empty",
+      "result": "FALSE POSITIVE"
+    }
+  ],
+  "duplicates": [
+    {
+      "issue": "innerHTML usage",
+      "flaggedBy": ["security", "accessibility", "performance"]
+    },
+    {
+      "issue": "Missing tests",
+      "flaggedBy": ["testing", "typescript"]
+    },
+    {
+      "issue": "External scripts",
+      "flaggedBy": ["security", "infrastructure"]
+    },
+    {
+      "issue": "JSON validation",
+      "flaggedBy": ["database", "typescript"]
+    }
+  ],
+  "recommendations": {
+    "high": [
+      "Add SRI hashes for external scripts",
+      "Configure CSP headers in Cloudflare",
+      "Add skip link for keyboard navigation"
+    ],
+    "medium": [
+      "Improve focus management in dialogs",
+      "Add throttling to scroll listeners",
+      "Consider Zod validation for content JSON"
+    ],
+    "low": [
+      "Add basic smoke tests for build",
+      "Expand Schema.org markup",
+      "Add TypeScript to scripts/"
+    ]
+  }
+}

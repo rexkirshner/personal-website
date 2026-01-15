@@ -6,6 +6,7 @@ Track all code audits for this project.
 
 | Date | Type | File | Grade | Key Findings |
 |------|------|------|-------|--------------|
+| 2026-01-15 | Comprehensive | [audit-02.md](./audit-02.md) | C+ | No tests (intentional), innerHTML (build-time), A11y focus gaps |
 | 2026-01-08 | Combined | [combined-audit-01.md](./combined-audit-01.md) | B | Build size 3.9MB (exceeds 3MB), A11y keyboard gaps, XSS via innerHTML |
 <!-- New audit entries will be added above this line -->
 

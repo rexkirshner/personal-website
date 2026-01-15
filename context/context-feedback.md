@@ -502,3 +502,197 @@ Task(a11y-reviewer)     ─┴─→ All findings
 
 ---
 
+### 2026-01-15 - /code-review --all: Parallel Execution WORKS
+
+**Severity:** N/A (Positive - Major Feature Verified)
+
+**What worked:** Running `/code-review --all` with all 8 specialist agents launched in parallel via multiple Task tool calls in a single message:
+
+```
+Task(security-reviewer)      ─┬─→ 12 findings
+Task(testing-reviewer)       ─┤   25 findings
+Task(performance-reviewer)   ─┤   20 findings
+Task(accessibility-reviewer) ─┤   30 findings
+Task(seo-reviewer)          ─┤   10 findings
+Task(typescript-reviewer)    ─┤   20 findings
+Task(database-reviewer)      ─┤   6 findings
+Task(infrastructure-reviewer)─┴─→ 13 findings
+```
+
+All 8 agents completed successfully and returned structured findings.
+
+**Why this matters:** Parallel execution is critical for usability. Running 8 agents sequentially would be very slow.
+
+---
+
+### 2026-01-15 - /code-review --all: False Positive Detection - INFRA-004
+
+**Severity:** MEDIUM (Agent accuracy issue)
+
+**What happened:** The infrastructure-reviewer agent reported:
+```
+INFRA-004 | Critical | .env credentials committed to git
+```
+
+**Verification:** Ran `git ls-files | grep .env` - returned empty. The .env file is NOT in git.
+
+**Root cause:** Agent likely pattern-matched on `.env.example` or other references and incorrectly concluded .env was committed.
+
+**Impact:** False positives undermine trust in audit findings. Users must verify critical findings.
+
+**Suggestion:**
+1. Agents should verify claims with actual git commands before reporting
+2. Add verification step in synthesis phase
+3. Or mark findings as "needs verification" when based on heuristics
+
+---
+
+### 2026-01-15 - /code-review --all: Deduplication is Manual
+
+**Severity:** MEDIUM (Missing automation)
+
+**What happened:** Same issues were flagged by multiple agents:
+
+| Issue | Flagged By |
+|-------|------------|
+| innerHTML usage | Security, Accessibility, Performance |
+| Missing tests | Testing, TypeScript |
+| External scripts | Security, Infrastructure |
+| JSON validation | Database, TypeScript |
+
+Total raw findings: ~136
+After manual deduplication: ~45 unique issues
+
+**Expected behavior:** Synthesis step should automatically:
+1. Identify duplicate findings across agents
+2. Merge them with combined context
+3. Report deduplicated count
+
+**Impact:** Manual deduplication is time-consuming and error-prone.
+
+---
+
+### 2026-01-15 - /code-review --all: Agents Unaware of Documented Decisions
+
+**Severity:** MEDIUM (Context gap)
+
+**What happened:** Testing agent flagged "No test framework" and "0% coverage" as CRITICAL issues. However, this is a documented intentional decision for this personal portfolio project (see DECISIONS.md).
+
+Similarly:
+- TypeScript agent flagged vanilla JS usage (intentional for simplicity)
+- Database agent flagged no schema validation (acceptable for static JSON)
+
+**Expected behavior:** Agents should:
+1. Read DECISIONS.md before running
+2. Check if findings conflict with documented decisions
+3. Downgrade severity or add "Note: intentional per DECISIONS.md"
+
+**Impact:** Findings that are intentional decisions add noise and reduce report value.
+
+**Suggestion:** Add to orchestrator workflow:
+```
+Step 2.5: Load DECISIONS.md into each agent's context
+```
+
+---
+
+### 2026-01-15 - /code-review --all: Finding Counts Vary Wildly
+
+**Severity:** LOW (Observation)
+
+**What happened:** Agent finding counts ranged from 6 to 30:
+
+| Agent | Findings |
+|-------|----------|
+| Accessibility | 30 |
+| Testing | 25 |
+| Performance | 20 |
+| TypeScript | 20 |
+| Infrastructure | 13 |
+| Security | 12 |
+| SEO | 10 |
+| Database | 6 |
+
+**Analysis:**
+- Higher counts may indicate thorough review OR padding with low-value findings
+- Lower counts may indicate focused review OR missing issues
+- Database reviewer found only 6 findings (appropriate - no actual database)
+
+**Impact:** Hard to compare agent quality without understanding context.
+
+**Suggestion:** Consider adding "confidence" or "relevance" metrics per agent based on project type.
+
+---
+
+### 2026-01-15 - /code-review --all: Report Generation Still Manual
+
+**Severity:** MEDIUM (Missing automation)
+
+**What happened:** After all 8 agents returned findings, manual steps were required:
+1. Synthesize ~136 findings
+2. Identify duplicates
+3. Calculate grade
+4. Create audit-02.md and audit-02.json
+5. Update INDEX.md
+
+**Expected behavior:** Orchestrator should automatically:
+1. Collect all agent outputs
+2. Run deduplication algorithm
+3. Calculate weighted grade
+4. Generate report files
+5. Update index
+
+**Impact:** Without automation, users may skip report generation entirely.
+
+---
+
+### 2026-01-15 - /code-review --all: Cache Refresh Works Well
+
+**Severity:** N/A (Positive)
+
+**What worked:** After detecting stale cache, rebuilt scanner context with accurate data:
+```json
+{
+  "filesScanned": 56,
+  "linesScanned": 72784,
+  "securityRelevant": ["scripts/upload-photos.js", "scripts/migrate-to-cdn.js", ...]
+}
+```
+
+Previous cache had only 13 files and 0 lines scanned. New cache is comprehensive.
+
+**Why this matters:** Good scanner cache = better agent analysis.
+
+---
+
+### 2026-01-15 - /code-review --all: Overall QA Assessment
+
+**Severity:** N/A (Summary)
+
+**Overall assessment of /code-review --all:**
+
+**What works well:**
+- Parallel execution (8 agents simultaneously)
+- Agent discovery (finds all *-reviewer.md)
+- Contract parsing (extracts JSON from markdown)
+- Cache validity detection (knows when to rescan)
+- Individual agent quality (detailed findings)
+
+**What needs improvement:**
+- Automated synthesis/deduplication
+- False positive prevention
+- Context awareness (DECISIONS.md)
+- Report generation automation
+- Grade calculation standardization
+
+**Usability score:** 7/10
+- Would be 9/10 with automated synthesis and report generation
+- Current manual steps are significant friction
+
+**Recommendation:** Focus v5.0.2 on:
+1. Synthesis-agent automation
+2. Report file generation
+3. DECISIONS.md context injection
+
+---
+

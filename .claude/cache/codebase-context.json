@@ -1,11 +1,11 @@
 {
   "schemaVersion": "1.2.0",
   "metadata": {
-    "scannedAt": "2026-01-14T16:00:00Z",
-    "commit": "5c5b347127e95ac2177c8e12eee647a6319bebfd",
+    "scannedAt": "2026-01-15T15:17:20Z",
+    "commit": "69daa9d182e6387548cba98c5890c3956654dd4f",
     "isGitRepo": true,
-    "filesScanned": 13,
-    "linesScanned": 0
+    "filesScanned": 56,
+    "linesScanned": 72784
   },
   "structure": {
     "projectType": "webapp",
@@ -18,27 +18,18 @@
     "isServerless": false,
     "isMonorepo": false
   },
-  "files": [
-    {"path": "src/components/ExpansionGrid.astro", "language": "astro", "lines": 0, "exports": [], "complexity": "low"},
-    {"path": "src/components/ExpansionLightbox.astro", "language": "astro", "lines": 0, "exports": [], "complexity": "medium"},
-    {"path": "src/components/PhotoGallery.astro", "language": "astro", "lines": 0, "exports": [], "complexity": "high"},
-    {"path": "src/components/RunningStats.astro", "language": "astro", "lines": 0, "exports": [], "complexity": "medium"},
-    {"path": "src/components/StravaHeatmap.astro", "language": "astro", "lines": 0, "exports": [], "complexity": "low"},
-    {"path": "src/components/TravelMap.astro", "language": "astro", "lines": 0, "exports": [], "complexity": "medium"},
-    {"path": "src/components/VideoGallery.astro", "language": "astro", "lines": 0, "exports": [], "complexity": "high"},
-    {"path": "src/components/VimeoEmbed.astro", "language": "astro", "lines": 0, "exports": [], "complexity": "low"},
-    {"path": "src/layouts/BaseLayout.astro", "language": "astro", "lines": 0, "exports": [], "complexity": "high"},
-    {"path": "src/layouts/ExpansionLayout.astro", "language": "astro", "lines": 0, "exports": [], "complexity": "medium"},
-    {"path": "src/pages/expansion.astro", "language": "astro", "lines": 0, "exports": [], "complexity": "medium"},
-    {"path": "src/pages/index.astro", "language": "astro", "lines": 0, "exports": [], "complexity": "high"},
-    {"path": "src/styles/global.css", "language": "css", "lines": 0, "exports": [], "complexity": "low"}
-  ],
   "dependencies": {
     "production": ["astro", "@astrojs/partytown", "@astrojs/sitemap", "@astrojs/tailwind", "@mapbox/togeojson", "maplibre-gl", "sharp", "tailwindcss", "xml2js"],
     "development": []
   },
   "entryPoints": ["src/pages/index.astro", "src/pages/expansion.astro"],
-  "securityRelevant": [],
+  "securityRelevant": [
+    "scripts/upload-photos.js",
+    "scripts/migrate-to-cdn.js",
+    ".env.example",
+    ".github/workflows/deploy.yml",
+    "astro.config.mjs"
+  ],
   "databaseFiles": [],
   "uiComponents": [
     "src/components/ExpansionGrid.astro",
