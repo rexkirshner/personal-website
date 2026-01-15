@@ -330,3 +330,175 @@ This single character change (`[0-9]`) filters out "Session Index", "Session Tem
 
 ---
 
+### 2026-01-15 - /code-review: Skill Loads Instructions But Doesn't Execute
+
+**Severity:** MEDIUM (UX/Design issue)
+
+**What happened:** When running `/code-review`, the skill system loads the command instructions into context, but doesn't actually:
+1. Run the codebase scanner
+2. Discover agents
+3. Execute the review
+4. Generate reports
+
+The AI must manually interpret and execute all steps. This is different from a traditional CLI command that would execute automatically.
+
+**Expected behavior:** Either:
+1. The skill should auto-execute (preferred for CLI-like commands)
+2. OR the documentation should clearly state "This loads instructions - you must follow them manually"
+
+**Impact:** Confusing user experience. User types `/code-review` expecting a code review, but nothing happens until AI interprets the instructions.
+
+**Suggestion:** Add prominent note at top of skill: "This skill loads instructions. The AI will now execute these steps..."
+
+---
+
+### 2026-01-15 - /code-review: Codebase Scanner Cache Stale Detection Works
+
+**Severity:** N/A (Positive)
+
+**What worked:** The cache validity check correctly identified that:
+- Cached commit `5c5b347...` didn't match current HEAD `8b8b3f5...`
+- Uncommitted changes existed
+
+This means the scanner knows when to rescan.
+
+---
+
+### 2026-01-15 - /code-review: Codebase Scanner Cache Has Incomplete Data
+
+**Severity:** MEDIUM (Data quality)
+
+**What happened:** The cached `codebase-context.json` had issues:
+
+1. **linesScanned: 0** - All files showed 0 lines, which defeats the purpose of complexity analysis
+
+2. **securityRelevant: []** - Empty array, but project has `scripts/*.js` with credential handling
+
+3. **filesScanned: 13** - But `git ls-files` shows 57 scannable files
+
+**Evidence:**
+```json
+{
+  "metadata": { "filesScanned": 13, "linesScanned": 0 },
+  "securityRelevant": [],
+  "files": [{ "path": "src/components/...", "lines": 0, "complexity": "low" }]
+}
+```
+
+**Impact:** Specialist agents may miss files or make incorrect complexity assessments.
+
+**Root cause:** The scanner was likely run with incomplete implementation or the cache was manually created.
+
+---
+
+### 2026-01-15 - /code-review: Security Relevant File Detection Too Narrow
+
+**Severity:** LOW (Pattern improvement)
+
+**What happened:** The `securityRelevant` file list detection patterns don't catch:
+- `scripts/*.js` - Contains R2 credential handling, file uploads
+- `astro.config.mjs` - May contain security-relevant config
+
+Current patterns focus on: `*auth*`, `*login*`, `*session*`, `*token*`, etc.
+
+**Suggestion:** Add patterns:
+- `scripts/*` (any script that handles data)
+- `*.config.*` (configuration files)
+- `*upload*`, `*download*` (file operations)
+
+---
+
+### 2026-01-15 - /code-review: Agent Discovery Works Correctly
+
+**Severity:** N/A (Positive)
+
+**What worked:** Agent discovery correctly:
+- Found all 8 specialist agents
+- Extracted JSON contracts from `## Agent Contract` sections
+- Parsed id, prefix, and applicability.always fields
+- Correctly identified that `code-reviewer.md` (orchestrator) has no contract
+
+**Evidence:**
+```
+✅ accessibility-reviewer - ID: accessibility | Prefix: A11Y | Always: false
+✅ security-reviewer - ID: security | Prefix: SEC | Always: true
+...
+```
+
+---
+
+### 2026-01-15 - /code-review: Security Agent Produces High-Quality Findings
+
+**Severity:** N/A (Positive)
+
+**What worked:** The security reviewer agent:
+- Found 14 real issues (not just pattern matches)
+- Correctly noted mitigation status for each finding
+- Properly categorized severity levels
+- Provided specific line numbers and code snippets
+- Included remediation suggestions
+
+The agent correctly found issues we hadn't addressed:
+- PhotoGallery.astro innerHTML (line 363)
+- ExpansionLightbox.astro SVG innerHTML (line 207)
+- Missing CSP headers
+- External CDN without SRI
+
+---
+
+### 2026-01-15 - /code-review: No Automated Report Generation
+
+**Severity:** MEDIUM (Missing feature)
+
+**What happened:** After the security agent completed its review, there was no automated:
+1. Synthesis step (deduplication, grading)
+2. Report file generation (`docs/audits/audit-NN.{md,json}`)
+3. Summary display
+
+The orchestrator documentation describes these steps, but they must be manually executed.
+
+**Expected behavior:** The orchestrator should automatically:
+1. Collect findings from all specialists
+2. Run synthesis-agent
+3. Generate and save report files
+4. Display summary
+
+**Impact:** User must manually interpret agent output and create reports.
+
+---
+
+### 2026-01-15 - /code-review: Agent Selection Logic Not Tested
+
+**Severity:** LOW (Untested feature)
+
+**What happened:** Due to manual execution, the auto-selection logic wasn't fully tested:
+- Should select based on `applicability.always` and `requires` conditions
+- Should match scanner output against conditions like `structure.hasUI: true`
+- Should handle presets like `--prelaunch`, `--frontend`, etc.
+
+The documentation describes the logic well, but there's no validation that it works correctly in practice.
+
+**Suggestion:** Add a dry-run mode: `/code-review --dry-run` that shows which agents WOULD be selected without running them.
+
+---
+
+### 2026-01-15 - /code-review: Parallel Execution Not Demonstrated
+
+**Severity:** LOW (Performance concern)
+
+**What happened:** The orchestrator documentation says specialists should run in parallel using multiple Task tool calls. In manual execution, only one agent was run.
+
+**Expected behavior:** For a full review, all selected agents should be launched simultaneously:
+```
+Task(security-reviewer) ─┬─→ SEC findings
+Task(testing-reviewer)  ─┤
+Task(seo-reviewer)      ─┤
+Task(a11y-reviewer)     ─┴─→ All findings
+```
+
+**Impact:** Sequential execution would be much slower for full reviews.
+
+**Suggestion:** Document the expected parallel execution pattern more explicitly.
+
+---
+
