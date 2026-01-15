@@ -1,6 +1,6 @@
 # Project Status
 
-**Last Updated:** 2026-01-14
+**Last Updated:** 2026-01-15
 **Status:** 🟢 Active
 
 ---
@@ -27,14 +27,14 @@ npm run build        # Production build
 npm run preview      # Preview build locally
 ```
 
-**Current Focus:** QA testing ACS v5.0.0 - testing /save command (final command)
+**Current Focus:** QA testing complete - /code-review --all and /save-full tested
 
-**Last Session:** 2026-01-14 - QA Testing AI Context System v5.0.0
+**Last Session:** 2026-01-15 - QA Testing /code-review --all & /save-full
 
 **Documentation Health:** 🟢 Excellent
 - CLAUDE.md: Comprehensive (19KB) + ACS section added
-- context/: Fully initialized with 5 sessions documented
-- 33 feedback entries captured for v5.0.0 QA
+- context/: Fully initialized with 6 sessions documented
+- 33+ feedback entries captured for v5.0.x QA
 
 ---
 
@@ -49,20 +49,19 @@ npm run preview      # Preview build locally
 ## Active Tasks
 
 **In Progress:**
-- [ ] QA testing ACS v5.0.0 commands (testing /save now - final command)
+- [ ] Push commits to origin (after user approval)
 
 **Completed Recently:**
-- [x] Upgrade to ACS v5.0.0 (with manual component download workaround)
-- [x] Test /review-context - documented 5 feedback entries
-- [x] Test /code-review agent-based system - 6 specialists ran in parallel
-- [x] Test /save-full - documented 6 feedback entries
-- [x] Test /validate-context - documented 6 feedback entries (found CRITICAL bug)
-- [x] Generate first audit report (audit-01.json, audit-01.md)
-- [x] Document 33 QA feedback entries in context-feedback.md
+- [x] Test /code-review --all - 8 specialists in parallel (136 findings → 45 unique)
+- [x] Test /save-full - documented QA findings
+- [x] Generate audit-02 report (Grade C+/B+ adjusted)
+- [x] Upgrade to ACS v5.0.1 (from v5.0.0)
+- [x] Test /update-context-system, /validate-context, /export-context
+- [x] Document 33+ QA feedback entries in context-feedback.md
 
 **Next Up:**
-- [ ] Push commits to origin (after user approval)
 - [ ] Submit QA feedback to ACS developers
+- [ ] Resume normal website maintenance
 
 ## Blockers & Decisions
 
@@ -80,50 +79,54 @@ npm run preview      # Preview build locally
 ## Work In Progress
 
 **Current Files:**
-- `context/context-feedback.md` - 33 QA feedback entries
-- `docs/audits/audit-01.{json,md}` - First audit report
-- `.claude/cache/codebase-context.json` - Scanner cache
+- `context/context-feedback.md` - 33+ QA feedback entries
+- `docs/audits/audit-02.{json,md}` - Comprehensive audit (all 8 specialists)
+- `.claude/cache/codebase-context.json` - Scanner cache (56 files, 72784 lines)
 
 **Mental Model:**
-ACS v5.0.0 agent-based architecture:
-- Agents are specifications (not executable code)
-- AI must implement scanning/review logic based on specs
-- Agent contracts declare applicability via JSON
-- Use Task tool for parallel specialist execution
+ACS v5.0.x code review workflow:
+- /code-review --all runs 8 specialists in parallel via Task tool
+- Each agent returns structured findings (12-30 per agent)
+- Manual deduplication needed (67% overlap across agents)
+- Agents lack DECISIONS.md awareness (flag intentional choices)
+- Report generation requires manual synthesis
 
 **Next Specific Action:**
 Push commits to origin after user approval.
 
 ## Recent Accomplishments
 
+**Session 5 (2026-01-15):**
+- Tested /code-review --all with all 8 specialist agents in parallel
+- Generated audit-02 report: 136 raw findings → 45 unique (Grade C+/B+ adjusted)
+- Documented 9 QA feedback entries for --all mode
+- Tested /save-full command execution
+- Found: false positive (INFRA-004), deduplication gaps, context-awareness issues
+
 **Session 4 (2026-01-14):**
-- Upgraded to ACS v5.0.0 (discovered and worked around installer bug)
-- Tested all 5 commands: /review-context, /code-review, /save-full, /validate-context, /save
-- Generated first audit report: Grade A, 8 low-severity findings
-- Documented 33 QA feedback entries for ACS developers
-- Found CRITICAL bug: validate-context.sh has outdated command names
+- Upgraded ACS v5.0.0 → v5.0.1
+- Tested /update-context-system, /validate-context, /export-context
+- Found CRITICAL bugs: export-sessions-json.sh invalid JSON, exit code bug
 
 **Key Files Created/Modified:**
-- `.claude/agents/*.md` - 12 specialist agent files
-- `.claude/schemas/*.json` - 7 JSON schema files
-- `.claude/cache/codebase-context.json` - Scanner cache
-- `docs/audits/audit-01.{json,md}` - First audit report
-- `context/context-feedback.md` - 33 QA entries
+- `docs/audits/audit-02.{json,md}` - Comprehensive audit (8 specialists)
+- `.claude/cache/codebase-context.json` - Refreshed scanner cache
+- `context/context-feedback.md` - 33+ QA entries
 
 **Git Status:**
 - 6 commits ahead of origin (QA testing commits)
-- No uncommitted changes
+- Uncommitted: context/SESSIONS.md, context/STATUS.md
 
 ## Next Session
 
-**Priority 1:** Push commits to origin (6 commits, requires user approval)
+**Priority 1:** Push commits to origin (requires user approval)
 **Priority 2:** Submit QA feedback to ACS developers
 **Priority 3:** Resume normal website maintenance
 
 **Context Notes:**
-ACS v5.0.0 QA testing COMPLETE. All 5 commands tested. Major findings: installer missing components (fixed manually), /code-review lacks execution instructions, validate-context.sh has outdated command names. 33 feedback entries documented for ACS developers.
+ACS v5.0.x QA testing COMPLETE. Tested: /update-context-system, /validate-context, /export-context, /code-review, /code-review --all, /save-full. Major findings: export JSON bug, exit code bug, false positives in agents, manual deduplication needed. 33+ feedback entries documented.
 
 ---
 
-**Last Updated:** 2026-01-14
-**Session:** QA Testing AI Context System v5.0.0
+**Last Updated:** 2026-01-15
+**Session:** QA Testing /code-review --all & /save-full

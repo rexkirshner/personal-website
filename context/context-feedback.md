@@ -696,3 +696,227 @@ Previous cache had only 13 files and 0 lines scanned. New cache is comprehensive
 
 ---
 
+### 2026-01-15 - /save-full: Skill Template Differs from Actual Entries
+
+**Severity:** MEDIUM (Documentation mismatch)
+
+**What happened:** The /save-full skill template shows a minimal structure:
+
+```markdown
+### TL;DR
+### Accomplishments
+### Decisions
+### Files Changed
+### Mental Models
+### Next Steps
+### Git
+```
+
+But actual session entries in SESSIONS.md have much more detail:
+- `**Duration:**` field in header
+- `### Problem Solved` section with Issue/Constraints/Approach
+- `### Work In Progress` with Task/Location/Current approach
+- `### TodoWrite State`
+- `### Tests & Build`
+- `### Git Operations` (not just `### Git`)
+
+**Impact:** New users following the skill will create minimal entries that don't match the established pattern. Existing sessions have valuable structure that skill template doesn't preserve.
+
+**Suggestion:** Either:
+1. Update skill template to match actual SESSIONS.md structure
+2. Or document that existing entries use "extended format" beyond minimum
+
+---
+
+### 2026-01-15 - /save-full: No Session Number Collision Warning
+
+**Severity:** LOW (Edge case)
+
+**What happened:** Skill says "find last `## Session N`, increment by 1" but doesn't warn about:
+
+1. **Session Template section** - SESSIONS.md contains `## Session [N]` in the template which could confuse regex
+2. **Session Index table** - Contains `| 4 |` format that could be misread as session numbers
+
+**Impact:** Incorrect regex could pick up template placeholders or index entries instead of actual session numbers.
+
+**Suggestion:** Add explicit pattern: "Use `^## Session [0-9]+` to find actual sessions, ignoring template section and index table"
+
+---
+
+### 2026-01-15 - /save-full: No TL;DR Length Validation
+
+**Severity:** LOW (Missing automation)
+
+**What happened:** Skill specifies "50-300 characters" for TL;DR but there's no automated validation. AI must manually count or estimate.
+
+**Evidence:** My TL;DR was 271 characters - I had to manually verify it was in range.
+
+**Suggestion:** Add validation step:
+```bash
+TLDR_LENGTH=$(echo "$TLDR" | wc -c)
+if [ $TLDR_LENGTH -lt 50 ] || [ $TLDR_LENGTH -gt 300 ]; then
+  echo "⚠️  TL;DR length $TLDR_LENGTH chars (should be 50-300)"
+fi
+```
+
+Or just provide a character counter utility.
+
+---
+
+### 2026-01-15 - /save-full: BEGIN/END Markers Inconsistently Used
+
+**Severity:** LOW (Format inconsistency)
+
+**What happened:** Skill template shows BEGIN/END SESSION markers:
+```markdown
+<!-- BEGIN SESSION [N] -->
+...
+<!-- END SESSION [N] -->
+```
+
+But existing sessions 0-4 in SESSIONS.md don't use these markers. Only Session 5 (just created) has them.
+
+**Impact:**
+- Inconsistent parsing if tools look for markers
+- "Atomic write" protection doesn't exist for old sessions
+
+**Suggestion:** Either:
+1. Migrate old sessions to use markers (one-time cleanup)
+2. Or make markers optional in skill documentation
+
+---
+
+### 2026-01-15 - /save-full: Quick Reference Format Not Specified
+
+**Severity:** LOW (Incomplete documentation)
+
+**What happened:** Skill says "Also update STATUS.md Quick Reference block (same as /save)" but doesn't show:
+- What fields to update
+- Expected format
+- Which values to pull from where
+
+I had to reference STATUS.md directly to understand the Quick Reference structure.
+
+**Suggestion:** Add Quick Reference template to skill:
+```markdown
+**Current Focus:** [from this session's focus]
+**Last Session:** [date] - [focus]
+**Documentation Health:** [emoji] [status]
+```
+
+---
+
+### 2026-01-15 - /save-full: Git Info Gathering Not Automated
+
+**Severity:** LOW (Manual work)
+
+**What happened:** Skill lists git info to gather:
+- Branch name
+- Commit count
+- Push status
+
+But doesn't provide the commands. AI must know to run:
+```bash
+git branch --show-current
+git rev-list --count origin/main..HEAD
+git status  # to check push status
+```
+
+**Suggestion:** Add bash commands to skill for gathering git info.
+
+---
+
+### 2026-01-15 - /save-full: No Verification Script
+
+**Severity:** LOW (Missing automation)
+
+**What happened:** Skill has "Step 8: Verify" with 5 checks:
+- Session number sequential
+- TL;DR 50-300 chars
+- Has BEGIN/END markers
+- At least one accomplishment
+- At least one next step
+
+But no automated way to verify. Must manually check each.
+
+**Suggestion:** Add verification function or script that validates session entry structure.
+
+---
+
+### 2026-01-15 - /save-full: Session Index Table Not Mentioned
+
+**Severity:** LOW (Incomplete documentation)
+
+**What happened:** SESSIONS.md has a Session Index table at the top that summarizes all sessions:
+
+```markdown
+| # | Date | Phase | Focus | Status |
+|---|------|-------|-------|--------|
+| 0 | 2024-10 | Development | Performance Optimization | Complete |
+...
+```
+
+The /save-full skill doesn't mention updating this index. I had to notice it existed and add Session 5 entry manually.
+
+**Impact:** Session Index can become out of sync with actual sessions.
+
+**Suggestion:** Add step: "Update Session Index table at top of SESSIONS.md"
+
+---
+
+### 2026-01-15 - /save-full: Output Summary Not Displayed
+
+**Severity:** LOW (UX)
+
+**What happened:** Skill shows expected output:
+```
+✓ Session [N] Saved
+
+Focus: [area]
+TL;DR: [preview...]
+
+Accomplishments: [count]
+Decisions: [count]
+Next Steps: [count]
+
+Git: [N] commits on [branch]
+```
+
+But there's no automation to generate this summary. AI must manually format it.
+
+**Suggestion:** Add summary generation step or template.
+
+---
+
+### 2026-01-15 - /save-full: Overall QA Assessment
+
+**Severity:** N/A (Summary)
+
+**Overall assessment of /save-full:**
+
+**What works well:**
+- Clear purpose and when to use
+- Good TL;DR requirements (50-300 chars, past tense)
+- Mental Models section is valuable
+- BEGIN/END markers for atomic writes
+
+**What needs improvement:**
+- Template doesn't match actual SESSIONS.md structure
+- Session Index update not mentioned
+- No automated validation
+- Git commands not provided
+- Quick Reference format not specified
+
+**Usability score:** 6/10
+- Skill provides good guidance but is incomplete
+- Requires knowledge beyond what skill documents
+- Manual verification needed for everything
+
+**Recommendation:** Focus on:
+1. Update template to match actual SESSIONS.md structure
+2. Add Session Index update step
+3. Provide git commands
+4. Add validation script/function
+
+---
+

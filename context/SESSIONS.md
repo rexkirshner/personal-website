@@ -16,6 +16,7 @@
 | 2 | 2026-01-07 | Maintenance | ACS Migration & First /save-full | Complete |
 | 3 | 2026-01-08 | Maintenance | Code Review Priority Fixes (A11y & Security) | Complete |
 | 4 | 2026-01-14 | Maintenance | QA Testing AI Context System v5.0.0 | Complete |
+| 5 | 2026-01-15 | Maintenance | QA Testing /code-review --all & /save-full | Complete |
 
 ---
 
@@ -528,5 +529,88 @@ ACS v5.0.0 agent-based architecture:
 **Priority:** Continue QA testing with /save, /validate-context commands
 **Blockers:** None
 **Questions:** Should we test /update-context-system rollback capability?
+
+---
+
+<!-- BEGIN SESSION 5 -->
+## Session 5 | 2026-01-15 | Maintenance
+
+**Duration:** 1.5h | **Focus:** QA Testing /code-review --all & /save-full | **Status:** Complete
+
+### TL;DR
+
+Tested /code-review --all with all 8 specialist agents running in parallel. Generated audit-02 report (Grade C+/B+ adjusted). Documented 9 QA findings including false positive detection, manual deduplication issues, and context-awareness gaps. Now testing /save-full command.
+
+### Accomplishments
+
+- Ran all 8 specialist agents in parallel via Task tool (136 raw findings)
+- Verified false positive: INFRA-004 incorrectly claimed .env committed to git
+- Manually deduplicated findings (~136 → ~45 unique issues)
+- Generated audit-02.md and audit-02.json with comprehensive findings
+- Updated docs/audits/INDEX.md with new audit entry
+- Refreshed codebase scanner cache with accurate data (56 files, 72784 lines)
+- Documented 9 QA feedback entries for /code-review --all mode
+- Testing /save-full command (this entry)
+
+### Decisions
+
+- No new architectural decisions - QA testing session only
+
+### Files Changed
+
+**NEW:**
+- `docs/audits/audit-02.md` - Comprehensive audit report
+- `docs/audits/audit-02.json` - Machine-readable audit data
+
+**MOD:**
+- `.claude/cache/codebase-context.json` - Refreshed scanner cache
+- `context/context-feedback.md` - Added 9 QA entries (now 33 total)
+- `docs/audits/INDEX.md` - Added audit-02 entry
+
+### Mental Models
+
+**Current understanding:**
+/code-review --all orchestration works but requires manual synthesis:
+1. Parallel execution succeeds (8 Task calls in single message)
+2. Each agent produces valid structured output
+3. Deduplication is manual (same issues flagged by multiple agents)
+4. Context-awareness missing (agents don't know about DECISIONS.md)
+5. Report generation is manual (no automated file creation)
+
+**Key insights:**
+- False positives happen (INFRA-004) - always verify critical findings
+- Grade calculation needs context (testing F but intentional = B+ adjusted)
+- ~136 findings dedupe to ~45 unique issues (67% overlap)
+
+**Gotchas discovered:**
+- Agents flag intentional decisions as problems (no DECISIONS.md awareness)
+- Finding counts vary wildly (6-30 per agent) without quality correlation
+- innerHTML issues flagged by 3 different agents (security, a11y, perf)
+
+### Work In Progress
+
+**Task:** Testing /save-full command execution
+**Location:** context/SESSIONS.md, context/STATUS.md
+**Current approach:** Following skill spec step-by-step, documenting QA findings
+**Why this approach:** Systematic testing to find bugs and usability issues
+**Next specific action:** Update STATUS.md Quick Reference, commit feedback
+
+### Git Operations
+
+- **Commits:** 6 ahead of origin
+- **Pushed:** NO
+- **Approval:** Not requested
+
+### Tests & Build
+
+- **Tests:** Not applicable (QA testing session)
+- **Build:** Not run (no site code changes)
+
+### Next Session
+
+**Priority:** Push commits to origin after user approval
+**Blockers:** None
+**Questions:** None - QA testing complete
+<!-- END SESSION 5 -->
 
 ---
