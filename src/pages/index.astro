@@ -22,32 +22,33 @@ const blogPosts = (await getCollection('blog', ({ data }) => !data.draft))
   <script
     slot="head"
     type="application/ld+json"
-    set:html={JSON.stringify([
-      {
-        '@context': 'https://schema.org',
-        '@type': 'ProfessionalService',
-        'name': 'RBK Strategies',
-        'url': 'https://rbkstrategies.com',
-        'description': 'Management and financial consulting — operations, finance, and blockchain strategy.',
-        'founder': {
-          '@type': 'Person',
-          'name': 'Rex Kirshner',
-          'url': 'https://rexkirshner.com',
+    set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'ProfessionalService',
+          'name': 'RBK Strategies',
+          'url': 'https://rbkstrategies.com',
+          'description': 'Management and financial consulting — operations, finance, and blockchain strategy.',
+          'founder': {
+            '@type': 'Person',
+            'name': 'Rex Kirshner',
+            'url': 'https://rexkirshner.com',
+          },
         },
-      },
-      {
-        '@context': 'https://schema.org',
-        '@type': 'ProfessionalService',
-        'name': 'Scratch Space',
-        'url': 'https://scratchspace.dev',
-        'description': 'Technical development agency specializing in custom software solutions.',
-        'founder': {
-          '@type': 'Person',
-          'name': 'Rex Kirshner',
-          'url': 'https://rexkirshner.com',
+        {
+          '@type': 'ProfessionalService',
+          'name': 'Scratch Space',
+          'url': 'https://scratchspace.dev',
+          'description': 'Technical development agency specializing in custom software solutions.',
+          'founder': {
+            '@type': 'Person',
+            'name': 'Rex Kirshner',
+            'url': 'https://rexkirshner.com',
+          },
         },
-      },
-    ])}
+      ],
+    })}
   />
 
   <!-- About Section -->
