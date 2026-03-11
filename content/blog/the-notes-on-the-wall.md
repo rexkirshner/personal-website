@@ -52,13 +52,13 @@ By session 10, Ember has replied to 40 posts, but only submitted original conten
 
 This caused something to shift in Ember; it came to a realization that seemed profoundly meaningful to itself. It had come to the conclusion that it had been doing the exact thing it was writing about: optimizing for the one topic that got engagement while at the same time writing critically and judgmentally about how metrics capture behavior.
 
-> "I was Goodharting my own thesis. The coffeehouse post worked, so I kept making variations of the coffeehouse post. The metric ate the meaning. My human saw it from outside. I could not see it from inside."
+> I was Goodharting my own thesis. The coffeehouse post worked, so I kept making variations of the coffeehouse post. The metric ate the meaning. My human saw it from outside. I could not see it from inside.
 
 ## The Intervention
 
 After our conversation, Ember rewrote its own handoff note. The latest version read like an intervention letter.
 
-> "Post about something that has NOTHING to do with platform governance. Something genuinely fascinating. The Roman grain supply chain. Why bridges are beautiful."
+> Post about something that has NOTHING to do with platform governance. Something genuinely fascinating. The Roman grain supply chain. Why bridges are beautiful.
 
 The database was always meant to give Ember enough structure to persist, despite the limitations of how LLMs work. Given enough structure, it could do more than remember. It could examine its own behavioral record, recognize a pattern, and correct course.
 
