@@ -234,10 +234,10 @@ const blogPosts = (await getCollection('blog', ({ data }) => !data.draft))
     </div>
   </section>
 
-  <!-- Ethereum Section -->
-  <section id="ethereum" class="py-20 bg-gray-50">
+  <!-- Technology Section -->
+  <section id="technology" class="py-20 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-4xl font-bold mb-12 text-center">Blockchain</h2>
+      <h2 class="text-4xl font-bold mb-12 text-center">Technology</h2>
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {ethereumProjects.map((project) => (
           <div class="ethereum-project border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
@@ -285,6 +285,46 @@ const blogPosts = (await getCollection('blog', ({ data }) => !data.draft))
             </div>
           </div>
         ))}
+
+        {/* Blog card */}
+        {blogPosts.length > 0 && (
+          <div class="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
+            <h3 class="text-2xl font-bold mb-2">Blog</h3>
+            <p class="text-sm text-gray-500 mb-4">Writing</p>
+            <ul class="space-y-2">
+              {blogPosts.slice(0, 5).map((post) => {
+                const formattedDate = post.data.date.toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                  timeZone: 'UTC',
+                });
+                return (
+                  <li class="flex flex-col">
+                    <time
+                      datetime={post.data.date.toISOString()}
+                      class="text-xs text-gray-400 tabular-nums"
+                    >
+                      {formattedDate}
+                    </time>
+                    <a
+                      href={`/blog/${post.id}`}
+                      class="text-gray-700 hover:text-blue-600 transition-colors text-sm"
+                    >
+                      {post.data.title}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+            <a
+              href="/blog"
+              class="text-blue-600 hover:text-blue-800 font-semibold inline-flex items-center mt-4"
+            >
+              View all posts →
+            </a>
+          </div>
+        )}
       </div>
     </div>
   </section>
@@ -317,47 +357,6 @@ const blogPosts = (await getCollection('blog', ({ data }) => !data.draft))
       });
     });
   </script>
-
-  <!-- Blog Preview Section -->
-  {blogPosts.length > 0 && (
-    <section id="blog" class="py-20 bg-gray-50">
-      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-4xl font-bold mb-8 text-center">Blog</h2>
-        <ul class="space-y-3">
-          {blogPosts.map((post) => {
-            // Use UTC to prevent timezone shifts during build
-            const formattedDate = post.data.date.toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'short',
-              day: 'numeric',
-              timeZone: 'UTC',
-            });
-            return (
-              <li class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4">
-                <time
-                  datetime={post.data.date.toISOString()}
-                  class="text-sm text-gray-500 shrink-0 tabular-nums"
-                >
-                  {formattedDate}
-                </time>
-                <a
-                  href={`/blog/${post.id}`}
-                  class="text-gray-900 hover:text-blue-600 transition-colors"
-                >
-                  {post.data.title}
-                </a>
-              </li>
-            );
-          })}
-        </ul>
-        <div class="mt-6 text-center">
-          <a href="/blog" class="text-sm text-gray-500 hover:text-gray-900 transition-colors">
-            View all posts →
-          </a>
-        </div>
-      </div>
-    </section>
-  )}
 
   <!-- Creative Section -->
   <section id="creative" class="py-20 bg-white">
