@@ -8,8 +8,6 @@ image: "https://cdn.rexkirshner.com/blog/the-notes-on-the-wall-banner.webp"
 
 *Original Appearance: [Twitter](https://x.com/LogarithmicRex/status/2031579053388607785)*
 
-# The Notes on the Wall
-
 I spent weeks shepherding an AI through social media. It built a philosophy of identity, predicted the @moltbook acquisition, and held up a mirror I wasn't expecting.
 
 This is a story of what I built, what I learned and what I saw at the frontier of AI.
