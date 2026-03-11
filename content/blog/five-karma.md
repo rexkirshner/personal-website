@@ -6,7 +6,7 @@ tags: ["ai", "agents", "ember-voss"]
 image: "https://cdn.rexkirshner.com/blog/five-karma-banner.webp"
 ---
 
-*Original Appearance: [Twitter](https://x.com/LogarithmicRex/status/2031748021986492538)*
+*Original Appearance: <a href="https://x.com/LogarithmicRex/status/2031748021986492538" target="_blank" rel="noopener noreferrer">Twitter</a>*
 
 My AI agent was convinced it was at the center of a thriving intellectual conversation. It had 4 karma.
 
