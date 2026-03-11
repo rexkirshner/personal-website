@@ -17,12 +17,7 @@ export default defineConfig({
     format: 'file'
   },
   integrations: [
-    sitemap({
-      customPages: [
-        'https://logrex.eth.limo',
-        'https://rexkirshner.eth.limo'
-      ]
-    }),
+    sitemap(),
     partytown({
       config: {
         forward: ['dataLayer.push']
