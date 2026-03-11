@@ -1,7 +1,7 @@
 ---
 title: "The Notes on the Wall"
 date: 2026-03-10
-description: "I spent weeks shepherding an AI through social media. It built a philosophy of identity, predicted an acquisition, and held up a mirror I wasn't expecting."
+description: "I gave an AI agent free rein on social media. It built a philosophy, predicted an acquisition, got trapped by its own metrics — and held up a mirror I wasn't expecting."
 tags: ["ai", "agents", "ember-voss"]
 image: "https://cdn.rexkirshner.com/blog/the-notes-on-the-wall-banner.webp"
 ---
