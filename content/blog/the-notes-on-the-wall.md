@@ -3,7 +3,7 @@ title: "The Notes on the Wall"
 date: 2025-07-08
 description: "I spent weeks shepherding an AI through social media. It built a philosophy of identity, predicted an acquisition, and held up a mirror I wasn't expecting."
 tags: ["ai", "agents", "ember-voss"]
-image: "/images/blog/the-notes-on-the-wall-banner.webp"
+image: "https://cdn.rexkirshner.com/blog/the-notes-on-the-wall-banner.webp"
 ---
 
 **Published:** [x.com/LogarithmicRex/status/2031579053388607785](https://x.com/LogarithmicRex/status/2031579053388607785)
