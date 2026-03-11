@@ -1,0 +1,158 @@
+---
+/**
+ * Blog listing page.
+ *
+ * Displays all published blog posts in reverse chronological order.
+ * Features client-side tag filtering and text search (title/description).
+ * Minimal design inspired by vitalik.eth.limo.
+ */
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// Get all published posts, sorted newest first
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Collect all unique tags across posts
+const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
+---
+
+<BaseLayout
+  title="Blog — Rex Kirshner"
+  description="Writing about Ethereum, technology, running, travel, and whatever else is on my mind."
+>
+  <section class="py-12 md:py-20">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-4xl font-bold mb-8">Blog</h1>
+
+      {/* Search input */}
+      <div class="mb-6">
+        <input
+          id="blog-search"
+          type="text"
+          placeholder="Search posts..."
+          class="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-transparent"
+        />
+      </div>
+
+      {/* Tag filters */}
+      {allTags.length > 0 && (
+        <div class="mb-8 flex flex-wrap gap-2" id="tag-filters">
+          <button
+            class="tag-filter text-sm px-3 py-1 rounded-full border border-gray-300 bg-gray-900 text-white transition-colors"
+            data-tag="all"
+          >
+            All
+          </button>
+          {allTags.map((tag) => (
+            <button
+              class="tag-filter text-sm px-3 py-1 rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 transition-colors"
+              data-tag={tag}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Post list */}
+      <ul id="post-list" class="space-y-4">
+        {posts.map((post) => {
+          const formattedDate = post.data.date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          });
+          return (
+            <li
+              class="blog-post-item flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4"
+              data-tags={post.data.tags.join(',')}
+              data-title={post.data.title.toLowerCase()}
+              data-description={post.data.description.toLowerCase()}
+            >
+              <time
+                datetime={post.data.date.toISOString()}
+                class="text-sm text-gray-500 shrink-0 tabular-nums"
+              >
+                {formattedDate}
+              </time>
+              <a
+                href={`/blog/${post.id}`}
+                class="text-gray-900 hover:text-blue-600 transition-colors"
+              >
+                {post.data.title}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+
+      {/* Empty state */}
+      <p id="no-results" class="hidden text-gray-500 text-sm mt-8">
+        No posts match your search.
+      </p>
+    </div>
+  </section>
+
+  {/* Client-side filtering and search */}
+  <script>
+    const searchInput = document.getElementById('blog-search') as HTMLInputElement;
+    const tagButtons = document.querySelectorAll('.tag-filter');
+    const postItems = document.querySelectorAll('.blog-post-item');
+    const noResults = document.getElementById('no-results');
+
+    let activeTag = 'all';
+
+    function filterPosts() {
+      const searchTerm = searchInput?.value.toLowerCase() ?? '';
+      let visibleCount = 0;
+
+      postItems.forEach((item) => {
+        const el = item as HTMLElement;
+        const tags = el.dataset.tags ?? '';
+        const title = el.dataset.title ?? '';
+        const description = el.dataset.description ?? '';
+
+        // Tag filter
+        const matchesTag = activeTag === 'all' || tags.split(',').includes(activeTag);
+
+        // Search filter (matches title or description)
+        const matchesSearch = !searchTerm
+          || title.includes(searchTerm)
+          || description.includes(searchTerm);
+
+        if (matchesTag && matchesSearch) {
+          el.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          el.classList.add('hidden');
+        }
+      });
+
+      // Show/hide empty state
+      if (noResults) {
+        noResults.classList.toggle('hidden', visibleCount > 0);
+      }
+    }
+
+    // Search handler
+    searchInput?.addEventListener('input', filterPosts);
+
+    // Tag filter handlers
+    tagButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        activeTag = (button as HTMLElement).dataset.tag ?? 'all';
+
+        // Update active button styles
+        tagButtons.forEach((btn) => {
+          btn.classList.remove('bg-gray-900', 'text-white');
+          btn.classList.add('text-gray-600');
+        });
+        button.classList.add('bg-gray-900', 'text-white');
+        button.classList.remove('text-gray-600');
+
+        filterPosts();
+      });
+    });
+  </script>
+</BaseLayout>
