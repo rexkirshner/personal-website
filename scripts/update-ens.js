@@ -60,13 +60,16 @@ function encodeContenthash(cidStr) {
   const cleaned = cidStr.replace(/^ipfs:\/\//, '');
 
   let cid;
-  if (cleaned.startsWith('Qm')) {
-    // CIDv0 → parse and upgrade to CIDv1
-    cid = CID.parse(cleaned, base58btc).toV1();
-  } else if (cleaned.startsWith('bafy') || cleaned.startsWith('b')) {
-    cid = CID.parse(cleaned);
-  } else {
-    throw new Error(`Unrecognized CID format: ${cleaned}`);
+  try {
+    if (cleaned.startsWith('Qm')) {
+      // CIDv0 (base58btc) → parse and upgrade to CIDv1
+      cid = CID.parse(cleaned, base58btc).toV1();
+    } else {
+      // CIDv1 (base32, base58btc, etc.) — let multiformats detect the encoding
+      cid = CID.parse(cleaned);
+    }
+  } catch (err) {
+    throw new Error(`Invalid IPFS CID "${cleaned}": ${err.message}`);
   }
 
   // IPFS namespace 0xe3 as unsigned varint = [0xe3, 0x01]
@@ -106,7 +109,7 @@ function fetchLatestCID() {
 
     // Get the jobs for this run and extract CID from logs
     const logsRaw = execSync(
-      `gh run view ${run.databaseId} --log 2>/dev/null`,
+      `gh run view ${run.databaseId} --log`,
       { encoding: 'utf-8', stdio: ['pipe', 'pipe', 'pipe'], maxBuffer: 10 * 1024 * 1024 }
     );
 
