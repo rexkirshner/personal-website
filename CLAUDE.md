@@ -353,8 +353,12 @@ Comprehensive SEO setup for multi-domain deployment:
 
 **ENS Script Setup (one-time):**
 1. Create a dedicated EOA wallet (e.g., via MetaMask "Create Account")
-2. In the ENS app, set this wallet as **manager** (not owner) on both names
-3. Fund wallet with ~0.005 ETH for gas
+2. From your main wallet, approve the deploy wallet as an operator:
+   Call `setApprovalForAll(deployerAddress, true)` on the ENS Registry
+   (`0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e`).
+   This grants record-update permissions without transferring manager role.
+   Revoke anytime with `setApprovalForAll(deployerAddress, false)`.
+3. Fund deploy wallet with ~0.005 ETH for gas
 4. Create `~/coding/admin/cloud-accounts/ens-deployer.json` with privateKey, names, and Alchemy rpcUrl
 5. Ensure `gh` CLI is installed for auto CID fetching
 

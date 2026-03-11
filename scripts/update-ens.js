@@ -7,15 +7,20 @@
  *   npm run update-ens -- --dry-run     # Shows what would happen without sending transactions
  *
  * Prerequisites:
- *   1. Create a dedicated EOA wallet and set it as "manager" on both ENS names
- *   2. Fund the wallet with a small amount of ETH for gas
- *   3. Create ~/coding/admin/cloud-accounts/ens-deployer.json:
+ *   1. Create a dedicated EOA wallet for deployments
+ *   2. From your main wallet, approve the deploy wallet as an operator:
+ *      Call setApprovalForAll(deployerAddress, true) on the ENS Registry
+ *      (0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e)
+ *      This lets the deploy wallet update records without being the manager.
+ *      Your main wallet retains full ownership and can revoke anytime.
+ *   3. Fund the deploy wallet with a small amount of ETH for gas
+ *   4. Create ~/coding/admin/cloud-accounts/ens-deployer.json:
  *      {
  *        "privateKey": "0x...",
  *        "names": ["logrex.eth", "rexkirshner.eth"],
  *        "rpcUrl": "https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY"
  *      }
- *   4. Ensure `gh` CLI is installed and authenticated (for auto-fetching CID)
+ *   5. Ensure `gh` CLI is installed and authenticated (for auto-fetching CID)
  *
  * How it works:
  *   1. Reads config from ~/coding/admin/cloud-accounts/ens-deployer.json
@@ -234,7 +239,8 @@ async function main() {
     } catch (err) {
       console.error(`  Transaction failed: ${err.message}`);
       if (err.message.includes('not authorised') || err.message.includes('not authorized')) {
-        console.error('  → The wallet may not be set as manager for this name.');
+        console.error('  → The wallet may not be approved as an operator. From your main wallet, call');
+        console.error('    setApprovalForAll(deployerAddress, true) on the ENS Registry.');
       }
       console.error();
     }
