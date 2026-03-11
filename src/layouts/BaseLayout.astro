@@ -27,6 +27,11 @@ const {
 // Import site metadata
 import siteMetadata from '../../content/site/meta.json';
 
+// Detect homepage to make nav links context-aware:
+// On homepage, use #anchor links. On other pages, use /#anchor links.
+const isHomepage = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html';
+const sectionLink = (anchor: string) => isHomepage ? `#${anchor}` : `/#${anchor}`;
+
 // Construct full URLs for SEO
 const canonicalURL = canonical || new URL(Astro.url.pathname, 'https://rexkirshner.com').toString();
 const ogImageURL = ogImage || siteMetadata.ogImage;
@@ -155,16 +160,17 @@ const fullOgImageURL = ogImageURL.startsWith('http') ? ogImageURL : `https://rex
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
           <!-- Logo/Name -->
-          <a id="nav-logo" href="#home" class="text-xl font-bold hover:text-gray-600 transition-opacity duration-300" style="opacity: 0">
+          <a id="nav-logo" href={sectionLink('home')} class="text-xl font-bold hover:text-gray-600 transition-opacity duration-300" style="opacity: 0">
             {siteMetadata.title}
           </a>
 
           <!-- Navigation Links -->
           <div class="hidden md:flex space-x-8">
-            <a href="#consulting" class="hover:text-gray-600 transition-colors">Consulting</a>
-            <a href="#ethereum" class="hover:text-gray-600 transition-colors">Blockchain</a>
-            <a href="#creative" class="hover:text-gray-600 transition-colors">Creative</a>
-            <a href="#running" class="hover:text-gray-600 transition-colors">Running</a>
+            <a href={sectionLink('consulting')} class="hover:text-gray-600 transition-colors">Consulting</a>
+            <a href={sectionLink('ethereum')} class="hover:text-gray-600 transition-colors">Blockchain</a>
+            <a href={isHomepage ? '#blog' : '/blog'} class="hover:text-gray-600 transition-colors">Blog</a>
+            <a href={sectionLink('creative')} class="hover:text-gray-600 transition-colors">Creative</a>
+            <a href={sectionLink('running')} class="hover:text-gray-600 transition-colors">Running</a>
           </div>
 
           <!-- Mobile Menu Button -->
@@ -178,10 +184,11 @@ const fullOgImageURL = ogImageURL.startsWith('http') ? ogImageURL : `https://rex
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden pb-4">
           <div class="flex flex-col space-y-2">
-            <a href="#consulting" class="py-2 hover:text-gray-600 transition-colors">Consulting</a>
-            <a href="#ethereum" class="py-2 hover:text-gray-600 transition-colors">Blockchain</a>
-            <a href="#creative" class="py-2 hover:text-gray-600 transition-colors">Creative</a>
-            <a href="#running" class="py-2 hover:text-gray-600 transition-colors">Running</a>
+            <a href={sectionLink('consulting')} class="py-2 hover:text-gray-600 transition-colors">Consulting</a>
+            <a href={sectionLink('ethereum')} class="py-2 hover:text-gray-600 transition-colors">Blockchain</a>
+            <a href={isHomepage ? '#blog' : '/blog'} class="py-2 hover:text-gray-600 transition-colors">Blog</a>
+            <a href={sectionLink('creative')} class="py-2 hover:text-gray-600 transition-colors">Creative</a>
+            <a href={sectionLink('running')} class="py-2 hover:text-gray-600 transition-colors">Running</a>
           </div>
         </div>
       </div>
