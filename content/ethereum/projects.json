@@ -9,31 +9,31 @@
     "creator": "Rex Kirshner"
   },
   {
-    "id": "strange-water",
-    "title": "Strange Water Podcast",
+    "id": "signaling-theory",
+    "title": "Signaling Theory Podcast",
     "type": "Podcast",
-    "tagline": "Survival is the ability to swim in strange water",
-    "quoteSource": "Frank Herbert (Dune)",
-    "description": "Conversations about Ethereum. No structure, no script, just whatever is interesting.",
-    "platform": "Spotify/Anchor",
-    "link": "https://strangewater.xyz",
-    "image": "/images/ethereum/strange water podcast cover.webp"
+    "description": "A podcast focused on the bleeding edge of technology, from blockchain to AI, and all things future tech.",
+    "link": "https://sigtheory.com",
+    "image": "/images/ethereum/signaling theory podcast cover.webp"
   },
   {
     "id": "expansion-podcast",
     "title": "Expansion Podcast",
     "type": "Podcast",
-    "description": "I co-hosted the first 35 episodes of Expansion, exploring crypto's modular future and scaling solutions. View all my episodes.",
+    "description": "I launched Expansion and hosted the first 35 episodes exploring crypto's modular future and scaling solutions.",
     "platform": "YouTube/Apple/Spotify",
     "link": "/expansion",
     "image": "/images/ethereum/expansion podcast cover.webp"
   },
   {
-    "id": "signaling-theory",
-    "title": "Signaling Theory Podcast",
+    "id": "strange-water",
+    "title": "Strange Water Podcast",
     "type": "Podcast",
-    "description": "A new podcast, coming soon.",
-    "link": "https://sigtheory.com",
-    "image": "/images/ethereum/signaling theory podcast cover.webp"
+    "tagline": "Survival is the ability to swim in strange water",
+    "quoteSource": "Frank Herbert (Dune)",
+    "description": "Conversations about Ethereum. No structure, no script, just whatever is interesting. Acquired and no longer active.",
+    "platform": "Spotify/Anchor",
+    "link": "https://strangewater.xyz",
+    "image": "/images/ethereum/strange water podcast cover.webp"
   }
 ]
