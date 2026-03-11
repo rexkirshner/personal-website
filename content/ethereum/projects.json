@@ -20,7 +20,7 @@
     "id": "expansion-podcast",
     "title": "Expansion Podcast",
     "type": "Podcast",
-    "description": "Expansion explored crypto's modular ecosystem and scaling solutions. No longer active.",
+    "description": "Expansion explored crypto's modular ecosystem & scaling solutions. Inactive.",
     "platform": "YouTube/Apple/Spotify",
     "link": "/expansion",
     "image": "/images/ethereum/expansion podcast cover.webp"
@@ -31,7 +31,7 @@
     "type": "Podcast",
     "tagline": "Survival is the ability to swim in strange water",
     "quoteSource": "Frank Herbert (Dune)",
-    "description": "Unscripted conversations about Ethereum. Acquired by Blockworks; no longer active.",
+    "description": "Unscripted conversations about Ethereum. Acquired by Blockworks; inactive.",
     "platform": "Spotify/Anchor",
     "link": "https://strangewater.xyz",
     "image": "/images/ethereum/strange water podcast cover.webp"

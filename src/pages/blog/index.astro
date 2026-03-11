@@ -37,30 +37,39 @@ const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
         />
       </div>
 
-      {/* Tag filters */}
+      {/* Tag filter dropdown (multi-select) */}
       {allTags.length > 0 && (
-        <div class="mb-8 flex flex-wrap gap-2" id="tag-filters">
+        <div class="mb-8 relative" id="tag-filter-wrapper">
           <button
-            class="tag-filter text-sm px-3 py-1 rounded-full border border-gray-300 bg-gray-900 text-white transition-colors"
-            data-tag="all"
-            aria-pressed="true"
+            id="tag-filter-toggle"
+            type="button"
+            aria-haspopup="listbox"
+            aria-expanded="false"
+            class="inline-flex items-center gap-2 px-3 py-2 border border-gray-200 rounded-lg text-sm text-gray-600 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-transparent cursor-pointer"
           >
-            All
+            <span id="tag-filter-label">All topics</span>
+            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
           </button>
-          {allTags.map((tag) => (
-            <button
-              class="tag-filter text-sm px-3 py-1 rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 transition-colors"
-              data-tag={tag}
-              aria-pressed="false"
-            >
-              {tag}
-            </button>
-          ))}
+          <div
+            id="tag-filter-dropdown"
+            role="listbox"
+            aria-multiselectable="true"
+            class="hidden absolute left-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-md py-1 z-10 min-w-[180px] max-h-60 overflow-y-auto"
+          >
+            {allTags.map((tag) => (
+              <label class="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-50 cursor-pointer">
+                <input type="checkbox" value={tag} class="tag-checkbox rounded border-gray-300" />
+                {tag}
+              </label>
+            ))}
+          </div>
         </div>
       )}
 
       {/* Post list */}
-      <ul id="post-list" class="space-y-4">
+      <ul id="post-list" class="space-y-6">
         {posts.map((post) => {
           // Use UTC to prevent timezone shifts during build
           const formattedDate = post.data.date.toLocaleDateString('en-US', {
@@ -71,23 +80,26 @@ const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
           });
           return (
             <li
-              class="blog-post-item flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4"
+              class="blog-post-item"
               data-tags={post.data.tags.join(',')}
               data-title={post.data.title.toLowerCase()}
               data-description={post.data.description.toLowerCase()}
             >
               <time
                 datetime={post.data.date.toISOString()}
-                class="text-sm text-gray-500 shrink-0 tabular-nums"
+                class="text-sm text-gray-400 tabular-nums"
               >
                 {formattedDate}
               </time>
               <a
                 href={`/blog/${post.id}`}
-                class="text-gray-900 hover:text-blue-600 transition-colors"
+                class="block text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors mt-0.5"
               >
                 {post.data.title}
               </a>
+              <p class="text-sm text-gray-500 mt-1 line-clamp-2">
+                {post.data.description}
+              </p>
             </li>
           );
         })}
@@ -103,26 +115,60 @@ const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
   {/* Client-side filtering and search */}
   <script>
     const searchInput = document.getElementById('blog-search') as HTMLInputElement;
-    const tagButtons = document.querySelectorAll('.tag-filter');
+    const toggleBtn = document.getElementById('tag-filter-toggle');
+    const dropdown = document.getElementById('tag-filter-dropdown');
+    const label = document.getElementById('tag-filter-label');
+    const checkboxes = document.querySelectorAll('.tag-checkbox') as NodeListOf<HTMLInputElement>;
     const postItems = document.querySelectorAll('.blog-post-item');
     const noResults = document.getElementById('no-results');
 
-    let activeTag = 'all';
+    // Toggle dropdown
+    toggleBtn?.addEventListener('click', () => {
+      const isOpen = !dropdown?.classList.contains('hidden');
+      dropdown?.classList.toggle('hidden');
+      toggleBtn.setAttribute('aria-expanded', String(!isOpen));
+    });
+
+    // Close dropdown on click outside
+    document.addEventListener('click', (e) => {
+      const wrapper = document.getElementById('tag-filter-wrapper');
+      if (wrapper && !wrapper.contains(e.target as Node)) {
+        dropdown?.classList.add('hidden');
+        toggleBtn?.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    function getActiveTags(): string[] {
+      return Array.from(checkboxes)
+        .filter((cb) => cb.checked)
+        .map((cb) => cb.value);
+    }
+
+    function updateLabel() {
+      const active = getActiveTags();
+      if (!label) return;
+      if (active.length === 0) {
+        label.textContent = 'All topics';
+      } else if (active.length === 1) {
+        label.textContent = active[0];
+      } else {
+        label.textContent = `${active.length} topics`;
+      }
+    }
 
     function filterPosts() {
       const searchTerm = searchInput?.value.toLowerCase() ?? '';
+      const activeTags = getActiveTags();
       let visibleCount = 0;
 
       postItems.forEach((item) => {
         const el = item as HTMLElement;
-        const tags = el.dataset.tags ?? '';
+        const tags = (el.dataset.tags ?? '').split(',');
         const title = el.dataset.title ?? '';
         const description = el.dataset.description ?? '';
 
-        // Tag filter
-        const matchesTag = activeTag === 'all' || tags.split(',').includes(activeTag);
-
-        // Search filter (matches title or description)
+        const matchesTag = activeTags.length === 0
+          || activeTags.some((t) => tags.includes(t));
         const matchesSearch = !searchTerm
           || title.includes(searchTerm)
           || description.includes(searchTerm);
@@ -135,30 +181,15 @@ const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
         }
       });
 
-      // Show/hide empty state
       if (noResults) {
         noResults.classList.toggle('hidden', visibleCount > 0);
       }
     }
 
-    // Search handler
     searchInput?.addEventListener('input', filterPosts);
-
-    // Tag filter handlers
-    tagButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        activeTag = (button as HTMLElement).dataset.tag ?? 'all';
-
-        // Update active button styles and aria state
-        tagButtons.forEach((btn) => {
-          btn.classList.remove('bg-gray-900', 'text-white');
-          btn.classList.add('text-gray-600');
-          btn.setAttribute('aria-pressed', 'false');
-        });
-        button.classList.add('bg-gray-900', 'text-white');
-        button.classList.remove('text-gray-600');
-        button.setAttribute('aria-pressed', 'true');
-
+    checkboxes.forEach((cb) => {
+      cb.addEventListener('change', () => {
+        updateLabel();
         filterPosts();
       });
     });
