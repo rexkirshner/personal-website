@@ -8,13 +8,13 @@ image: "https://cdn.rexkirshner.com/blog/age-of-zero-knowledge-banner.webp"
 
 *Original Appearance: <a href="https://www.thepond.wtf/posts/the-age-of-zero-knowledge" target="_blank" rel="noopener noreferrer">The Pond</a>*
 
-For the last year or so we've been witnessing a particularly desperate scramble to be "the First ZK-Rollup." The first time I can remember noticing it was when Steve Newcomb went on Bankless to describe the implications of the zk-EVM. Since then it's been clear that AT LEAST 3 different teams were racing to deploy first.
+For the last year or so we've been witnessing a particularly desperate scramble to be "the First ZK-Rollup." The first time I can remember noticing it was when [Steve Newcomb went on Bankless to describe the implications of the zk-EVM](https://www.youtube.com/live/QkZUlqetTRA?feature=share). Since then it's been clear that AT LEAST 3 different teams were racing to deploy first.
 
-From then until now I've only been interested in the concept, not the implementation. During that time I've worked to develop a good understanding of what a ZK-Rollup is and how the technology is being incorporated into the core design of the Ethereum protocol. Suffice to say, I believe that ZK-Rollups will not only scale Ethereum, but will also usher in a new era of distributed computing.
+From then until now I've only been interested in the concept, not the implementation. During that time I've worked to develop a good understanding of [what a ZK-Rollup is](https://inevitableeth.com/home/ethereum/upgrades/scaling/execution/zk-rollup) and how the technology is being [incorporated into the core design of the Ethereum protocol](https://inevitableeth.com/en/home/ethereum/upgrades/scaling). Suffice to say, I believe that ZK-Rollups will not only scale Ethereum, but will also usher in a new era of distributed computing.
 
-So as the builders raced, I rested easy knowing that we were well on our way to the Ethereum that will change everything: the World Computer. Even as my attention drifted towards other parts of the Ethereum roadmap, the signs were impossible to ignore. For example, at the end of 2022 Vitalik mentioned that the thing that surprised him most was that we are so far ahead of schedule on the zkEVM, we might see a ZK-Rollup before we finish implementing optimistic rollups.
+So as the builders raced, I rested easy knowing that we were well on our way to the Ethereum that will change everything: [the World Computer](https://inevitableeth.com/home/ethereum/world-computer). Even as my attention drifted towards other parts of the Ethereum roadmap, the signs were impossible to ignore. For example, at the end of 2022 [Vitalik mentioned that the thing that surprised him most was that we are so far ahead of schedule on the zkEVM, we might see a ZK-Rollup before we finish implementing optimistic rollups](https://youtu.be/QXKqIIf6_AE).
 
-We all knew it was coming, but when I heard "soon" I really heard "soonTM." So I have to admit, I was caught off guard the weekend of March 24th when, not one but TWO, ZK-rollups announced open beta. First, on Friday, zkSync launched zkSync Era for open beta. And then, on Monday March 27th, Polygon opened up the zkEVM for public beta.
+We all knew it was coming, but when I heard "soon" I really heard "soonTM." So I have to admit, I was caught off guard the weekend of March 24th when, not one but TWO, ZK-rollups announced open beta. First, on Friday, [zkSync launched zkSync Era for open beta](https://blog.matter-labs.io/gm-zkevm-171b12a26b36). And then, on Monday [March 27th, Polygon opened up the zkEVM for public beta](https://polygon.technology/blog/polygon-zkevm-mainnet-beta-is-live).
 
 ## A Moment Worth Celebrating
 
@@ -26,9 +26,9 @@ And incredibly bullish for Ethereum.
 
 This moment marks the beginning of the ZK-rollup era — a moment that I believe will gain significance with hindsight. But, at least for me, the action that signaled the beginning of this new age was not the launch of public betas. In fact, it wasn't a launch at all.
 
-It was when Polygon made their second announcement, one that often finds itself left out of the Crypto-Twitter mania: the zkEVM (and infrastructure needed to run it) would launch as a fully open sourced project.
+It was when Polygon made their second announcement, one that often finds itself left out of the Crypto-Twitter mania: [the zkEVM (and infrastructure needed to run it) would launch as a fully open sourced project](https://polygon.technology/blog/polygon-zkevm-is-now-fully-open-source).
 
-Open source is a term that describes a project with publicly available code that anyone can audit, distribute, modify, or use in any way they want. There are many reasons open source has become such an incredibly important method of development, but we'll focus on one: open source facilitates open collaboration.
+[Open source](https://www.redhat.com/en/topics/open-source/what-is-open-source) is a term that describes a project with publicly available code that anyone can audit, distribute, modify, or use in any way they want. There are many reasons open source has become such an incredibly important method of development, but we'll focus on one: open source facilitates [open collaboration](https://en.wikipedia.org/wiki/Open_collaboration).
 
 At the risk of completely derailing this discussion, let us ask "what makes humans different from all other life?" Infinite answers are equally correct, but for me one stands above all others: humans collaborating together can solve (nearly) any problem. The history of mankind is the process of collaborating across larger and larger groups of humans, eventually resulting in the internet. And the internet allows us to express perfect collaboration: "look at what I built; make it better, build it into something bigger, use it to change the world."
 
@@ -48,7 +48,7 @@ For a while now, we've gotten hints that (eventually) we will see Frax launch a 
 
 ## The Dawn of the World Computer
 
-But this isn't really about Polygon's technology or even really about their decision to open source it. Polygon did it first, and they deserve recognition (and will probably reap first-mover advantage), but they are not unique. All of the zkEVM projects I'm aware of plan to open source and support a roadmap of shared sequencers — zkSync's Steve Newcomb explicitly laid out those plans last March.
+But this isn't really about Polygon's technology or even really about their decision to open source it. Polygon did it first, and they deserve recognition (and will probably reap first-mover advantage), but they are not unique. All of the zkEVM projects I'm aware of plan to open source and support a roadmap of shared sequencers — [zkSync's Steve Newcomb explicitly laid out those plans last March](https://www.youtube.com/live/QkZUlqetTRA?feature=share).
 
 So while Polygon rings the bell that begins a new chapter, all ZK-rollup teams will build this new future and all users will benefit. Frax is one example but there are countless others. Any protocol that offers vertically integrated financial services (and therefore subjects their users to consider MEV risk) will benefit from this kind of strategy. As will more niche applications, like gaming or scientific applications. And assuming all applications use the same (or compatible) underlying zkEVM technology, all of these app chains will seamlessly integrate, removing any concerns about liquidity or bridging.
 
