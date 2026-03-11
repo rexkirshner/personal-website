@@ -234,64 +234,18 @@ const blogPosts = (await getCollection('blog', ({ data }) => !data.draft))
     </div>
   </section>
 
-  <!-- Technology Section -->
+  <!-- Writing & Research Section -->
   <section id="technology" class="py-20 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-4xl font-bold mb-12 text-center">Technology</h2>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" style="grid-auto-rows: 1fr;">
-        {ethereumProjects.map((project) => (
-          <div class="ethereum-project border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
-            <!-- Header with chevron - button for mobile accessibility -->
-            <button
-              type="button"
-              class="ethereum-toggle w-full text-left flex justify-between items-start mb-4 md:cursor-default focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 md:focus:ring-0 md:focus:ring-offset-0 rounded"
-              aria-expanded="false"
-            >
-              <div class="flex-1">
-                <h3 class="text-2xl font-bold mb-2">{project.title}</h3>
-                <p class="text-sm text-gray-500">{project.type}</p>
-              </div>
-              <!-- Chevron icon (mobile only) -->
-              <svg class="ethereum-chevron md:hidden w-6 h-6 flex-shrink-0 transition-transform ml-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
+      <h2 class="text-4xl font-bold mb-12 text-center">Writing & Research</h2>
+      <div class="grid md:grid-cols-3 gap-8">
 
-            <!-- Collapsible content (hidden on mobile by default, always visible on desktop) -->
-            <div class="ethereum-content hidden md:block">
-              {project.image && (
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  class="w-full aspect-square object-cover rounded-lg mb-4"
-                  loading="lazy"
-                  decoding="async"
-                />
-              )}
-              {project.tagline && (
-                <p class="text-sm italic text-gray-600 mb-3">"{project.tagline}"</p>
-              )}
-              <p class="text-gray-700 mb-4">{project.description}</p>
-              {project.link && (
-                <a
-                  href={project.link}
-                  target={project.link.startsWith('/') ? undefined : "_blank"}
-                  rel={project.link.startsWith('/') ? undefined : "noopener noreferrer"}
-                  class="text-blue-600 hover:text-blue-800 font-semibold inline-flex items-center"
-                >
-                  Learn More →
-                </a>
-              )}
-            </div>
-          </div>
-        ))}
-
-        {/* Blog card */}
-        {blogPosts.length > 0 && (
-          <div class="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
-            <h3 class="text-2xl font-bold mb-2">Blog</h3>
-            <p class="text-sm text-gray-500 mb-4">Writing</p>
-            <ul class="space-y-2">
+        {/* Blog */}
+        <div class="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
+          <h3 class="text-2xl font-bold mb-2">Blog</h3>
+          <p class="text-gray-700 mb-4">Essays on AI agents, Ethereum, decentralization, and the tools we use to build.</p>
+          {blogPosts.length > 0 && (
+            <ul class="space-y-2 mb-4">
               {blogPosts.slice(0, 5).map((post) => {
                 const formattedDate = post.data.date.toLocaleDateString('en-US', {
                   year: 'numeric',
@@ -317,46 +271,78 @@ const blogPosts = (await getCollection('blog', ({ data }) => !data.draft))
                 );
               })}
             </ul>
+          )}
+          <a
+            href="/blog"
+            class="text-blue-600 hover:text-blue-800 font-semibold inline-flex items-center"
+          >
+            View all posts →
+          </a>
+        </div>
+
+        {/* Podcasts */}
+        <div class="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
+          <h3 class="text-2xl font-bold mb-2">Podcasts</h3>
+          <p class="text-gray-700 mb-4">Conversations about Ethereum, crypto, and the future of decentralized technology.</p>
+          <div class="space-y-4">
+            {ethereumProjects.filter(p => p.type === 'Podcast').map((podcast) => (
+              <div class="flex items-center gap-3">
+                {podcast.image && (
+                  <img
+                    src={podcast.image}
+                    alt={podcast.title}
+                    class="w-14 h-14 rounded-lg object-cover flex-shrink-0"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+                <div>
+                  <a
+                    href={podcast.link}
+                    target={podcast.link.startsWith('/') ? undefined : "_blank"}
+                    rel={podcast.link.startsWith('/') ? undefined : "noopener noreferrer"}
+                    class="text-sm font-semibold text-gray-900 hover:text-blue-600 transition-colors"
+                  >
+                    {podcast.title}
+                  </a>
+                  <p class="text-xs text-gray-500">{podcast.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Wiki */}
+        {ethereumProjects.filter(p => p.id === 'inevitable-ethereum').map((wiki) => (
+          <div class="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
+            <h3 class="text-2xl font-bold mb-2">{wiki.title}</h3>
+            <p class="text-gray-700 mb-4">{wiki.description}</p>
+            {wiki.image && (
+              <img
+                src={wiki.image}
+                alt={wiki.title}
+                class="w-full rounded-lg mb-4"
+                loading="lazy"
+                decoding="async"
+              />
+            )}
+            {wiki.creator && (
+              <p class="text-sm text-gray-500 mb-4">By {wiki.creator}</p>
+            )}
             <a
-              href="/blog"
-              class="text-blue-600 hover:text-blue-800 font-semibold inline-flex items-center mt-4"
+              href={wiki.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-blue-600 hover:text-blue-800 font-semibold inline-flex items-center"
             >
-              View all posts →
+              Visit Wiki →
             </a>
           </div>
-        )}
+        ))}
+
       </div>
     </div>
   </section>
-
-  <script>
-    // Ethereum project accordion toggle (mobile only)
-    const ethereumToggles = document.querySelectorAll('.ethereum-toggle');
-
-    ethereumToggles.forEach((toggle) => {
-      toggle.addEventListener('click', () => {
-        // Only work on mobile (when chevron is visible)
-        const chevron = toggle.querySelector('.ethereum-chevron');
-        if (!chevron || window.getComputedStyle(chevron).display === 'none') {
-          return; // Desktop view, do nothing
-        }
-
-        const project = toggle.closest('.ethereum-project');
-        const content = project?.querySelector('.ethereum-content');
-        const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
-
-        if (isExpanded) {
-          toggle.setAttribute('aria-expanded', 'false');
-          content?.classList.add('hidden');
-          chevron?.classList.remove('rotate-180');
-        } else {
-          toggle.setAttribute('aria-expanded', 'true');
-          content?.classList.remove('hidden');
-          chevron?.classList.add('rotate-180');
-        }
-      });
-    });
-  </script>
 
   <!-- Creative Section -->
   <section id="creative" class="py-20 bg-white">
