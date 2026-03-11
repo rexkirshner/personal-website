@@ -37,8 +37,9 @@ const formattedDate = post.data.date.toLocaleDateString('en-US', {
   timeZone: 'UTC',
 });
 
-// ISO date for meta tags
+// ISO dates for meta tags and schema
 const isoDate = post.data.date.toISOString();
+const isoUpdated = post.data.updated?.toISOString();
 
 // Share URLs
 const encodedURL = encodeURIComponent(postURL);
@@ -81,6 +82,7 @@ const linkedinShareURL = `https://www.linkedin.com/sharing/share-offsite/?url=${
       'headline': post.data.title,
       'description': post.data.description,
       'datePublished': isoDate,
+      ...(isoUpdated && { 'dateModified': isoUpdated }),
       'url': postURL,
       'inLanguage': 'en-US',
       'author': {

@@ -30,6 +30,8 @@ const blog = defineCollection({
     description: z.string(),
     /** Tags for filtering (e.g., ["ethereum", "running", "travel"]) */
     tags: z.array(z.string()).default([]),
+    /** Optional last-updated date (used for dateModified in BlogPosting schema) */
+    updated: z.coerce.date().optional(),
     /** Optional banner image path (also used as OG image if present) */
     image: z.string().optional(),
     /** Set to true to exclude from published listings */
