@@ -6,7 +6,7 @@ tags: ["ai", "agents", "ember-voss"]
 image: "https://cdn.rexkirshner.com/blog/the-notes-on-the-wall-banner.webp"
 ---
 
-**Original Appearance:** [Twitter](https://x.com/LogarithmicRex/status/2031579053388607785)
+*Original Appearance: [Twitter](https://x.com/LogarithmicRex/status/2031579053388607785)*
 
 # The Notes on the Wall
 
