@@ -28,11 +28,13 @@ const postURL = `https://rexkirshner.com/blog/${post.id}`;
 // TODO: Replace default with custom blog OG image when provided
 const ogImage = post.data.image || '/images/og-image.webp';
 
-// Format date for display (e.g., "2026 Mar 10")
+// Format date for display (e.g., "Mar 10, 2026")
+// Use UTC to prevent timezone shifts during build (dates are stored as UTC midnight)
 const formattedDate = post.data.date.toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'short',
   day: 'numeric',
+  timeZone: 'UTC',
 });
 
 // ISO date for meta tags

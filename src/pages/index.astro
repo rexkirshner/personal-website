@@ -325,10 +325,12 @@ const blogPosts = (await getCollection('blog', ({ data }) => !data.draft))
         <h2 class="text-4xl font-bold mb-8 text-center">Blog</h2>
         <ul class="space-y-3">
           {blogPosts.map((post) => {
+            // Use UTC to prevent timezone shifts during build
             const formattedDate = post.data.date.toLocaleDateString('en-US', {
               year: 'numeric',
               month: 'short',
               day: 'numeric',
+              timeZone: 'UTC',
             });
             return (
               <li class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4">
