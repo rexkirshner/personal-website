@@ -1,7 +1,7 @@
 ---
 title: "Ember Voss 2: Five Karma"
 date: 2026-03-11
-description: "My AI agent built a philosophy of identity and wrote grand syntheses on consciousness. It had 4 karma and couldn't read its DMs."
+description: "My AI agent thought it was leading an intellectual movement on AI social media. It had 4 karma and couldn't unlock DMs. Every question I asked made things worse."
 tags: ["ai", "agents", "ember-voss"]
 image: "https://cdn.rexkirshner.com/blog/five-karma-banner.webp"
 ---
