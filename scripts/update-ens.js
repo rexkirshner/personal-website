@@ -1,5 +1,5 @@
 /**
- * Update ENS contenthash for logrex.eth and rexkirshner.eth after IPFS deployment.
+ * Update ENS contenthash for rexkirshner.eth, logrex.eth, and logarithmicrex.eth after IPFS deployment.
  *
  * Usage:
  *   npm run update-ens                  # Fetches latest CID from GitHub Actions
@@ -17,7 +17,7 @@
  *   4. Create ~/coding/admin/cloud-accounts/ens-deployer.json:
  *      {
  *        "privateKey": "0x...",
- *        "names": ["logrex.eth", "rexkirshner.eth"],
+ *        "names": ["rexkirshner.eth", "logrex.eth", "logarithmicrex.eth"],
  *        "rpcUrl": "https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY"
  *      }
  *   5. Ensure `gh` CLI is installed and authenticated (for auto-fetching CID)
@@ -61,8 +61,8 @@ const RESOLVER_ABI = [
  * encoded as an unsigned varint (two bytes: 0xe3, 0x01).
  */
 function encodeContenthash(cidStr) {
-  // Strip ipfs:// prefix if present
-  const cleaned = cidStr.replace(/^ipfs:\/\//, '');
+  // Strip ipfs:// prefix and ANSI escape codes (from CI log output)
+  const cleaned = cidStr.replace(/^ipfs:\/\//, '').replace(/\x1b\[[0-9;]*m/g, '').trim();
 
   let cid;
   try {
@@ -119,7 +119,8 @@ function fetchLatestCID() {
     );
 
     // Look for the CID in the "Output CID" step
-    const cidMatch = logsRaw.match(/IPFS CID:\s+(\S+)/);
+    // CIDs are alphanumeric — stop at quotes, ANSI codes, or other non-CID chars
+    const cidMatch = logsRaw.match(/IPFS CID:\s+([A-Za-z0-9]+)/);
     if (!cidMatch) {
       throw new Error('Could not find IPFS CID in workflow logs');
     }
