@@ -170,7 +170,13 @@ Content files are strongly structured:
 - image (string, optional) — banner image path (also used as OG image)
 - draft (boolean, default false) — if true, excluded from all listings
 
-**Adding a new blog post:** Create a `.md` file in `/content/blog/`. Filename becomes the URL slug (e.g., `my-post.md` → `/blog/my-post`). Use lowercase with hyphens. Place banner images in `/public/images/blog/` as WebP. See `/doc/planning/blog-content-guide.md` for full details.
+**Adding a new blog post:** Create a `.md` file in `/content/blog/`. Filename becomes the URL slug (e.g., `my-post.md` → `/blog/my-post`). Use lowercase with hyphens. **Blog images must be hosted on Cloudflare R2** (`cdn.rexkirshner.com/blog/`) — never in the local build (IPFS compatibility). Upload via `npx wrangler r2 object put`. See `/doc/planning/blog-content-guide.md` for full authoring conventions.
+
+**Blog content conventions:**
+- Do NOT include a `# Title` in the markdown body — the template renders the title from frontmatter
+- `@handles` are auto-linked to X/Twitter profiles by the remark plugin (no manual linking needed)
+- Blockquotes don't need wrapping double quotes — the `>` formatting is sufficient
+- Cross-posted content uses italic attribution: `*Original Appearance: [Twitter](url)*`
 
 **Blog architecture notes:**
 - Content collection uses glob loader pointing to `/content/blog/` (project root, not `src/`)
@@ -215,7 +221,12 @@ This site uses minimal JavaScript with performance optimizations:
    - Shared `switchTab()` function handles both interactions
    - Select changes update button states and vice versa
 
-9. **Project Card Accordions (Ethereum & Programming)**: Collapsible cards on mobile to save vertical space:
+9. **Share Button (blog/[slug].astro)**: Single "Share" button in top-right of post header with dropdown menu (Twitter, LinkedIn, Copy Link). Click-outside-to-close. Copy URL uses Clipboard API with fallback for IPFS gateways.
+
+10. **Remark Plugins (astro.config.mjs)**: Custom remark plugins in `/src/plugins/` registered globally in `markdown.remarkPlugins`. Currently:
+    - `remarkTwitterHandles`: Transforms `@handle` text nodes into `<a href="https://x.com/handle">handle</a>` links. Skips handles inside links, code blocks, and inline code. Uses `unist-util-visit` (transitive dependency of Astro).
+
+11. **Project Card Accordions (Ethereum & Programming)**: Collapsible cards on mobile to save vertical space:
    - Mobile (< 768px): Cards show title + type only, click to expand/collapse
    - Desktop (≥ 768px): All content visible in grid layout
    - Chevron icon rotates on toggle (mobile only)
@@ -410,6 +421,7 @@ The travel map is built from KML export and converted to GeoJSON:
 
 **Active Development:**
 - `/src`: All Astro components, pages, layouts
+  - `/src/plugins`: Custom remark plugins for markdown processing
 - `/content`: All content JSON/Markdown files
   - `/content/site`: Site metadata and profile pics
   - `/content/ethereum`: Ethereum projects
@@ -419,8 +431,10 @@ The travel map is built from KML export and converted to GeoJSON:
   - `/content/running`: Running stats and narrative
   - `/content/travel`: Travel map data
   - `/content/expansion`: Expansion Podcast episodes
+  - `/content/blog`: Blog posts as Markdown with YAML frontmatter
 - `/public`: Static assets (images, favicons, robots.txt)
 - `/scripts`: Content management automation scripts
+- `/doc/planning`: Implementation plans and content guides
 - `.github/workflows`: GitHub Actions for IPFS deployment
 
 **Archived (excluded from builds):**
