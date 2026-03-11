@@ -238,7 +238,7 @@ const blogPosts = (await getCollection('blog', ({ data }) => !data.draft))
   <section id="technology" class="py-20 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <h2 class="text-4xl font-bold mb-12 text-center">Technology</h2>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" style="grid-auto-rows: 1fr;">
         {ethereumProjects.map((project) => (
           <div class="ethereum-project border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
             <!-- Header with chevron - button for mobile accessibility -->
