@@ -257,7 +257,7 @@ const fullOgImageURL = ogImageURL.startsWith('http') ? ogImageURL : `https://rex
         <!-- Back to Top Button -->
         <div class="mt-8 text-center">
           <a
-            href="#home"
+            href={isHomepage ? '#home' : '#main-content'}
             class="inline-block px-4 py-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
           >
             ↑ Back to Top
@@ -289,6 +289,11 @@ const fullOgImageURL = ogImageURL.startsWith('http') ? ogImageURL : `https://rex
       const navLogo = document.getElementById('nav-logo');
       const homeSection = document.getElementById('home');
 
+      // On non-homepage pages (no #home section), show the logo immediately
+      if (!homeSection && navLogo) {
+        navLogo.style.opacity = '1';
+      }
+
       function updateNavLogoOpacity() {
         if (!navLogo || !homeSection) return;
 
@@ -315,11 +320,11 @@ const fullOgImageURL = ogImageURL.startsWith('http') ? ogImageURL : `https://rex
         navLogo.style.opacity = opacity.toString();
       }
 
-      // Update on scroll
-      window.addEventListener('scroll', updateNavLogoOpacity);
-
-      // Update on page load
-      updateNavLogoOpacity();
+      // Only attach scroll listener on homepage where fade effect applies
+      if (homeSection) {
+        window.addEventListener('scroll', updateNavLogoOpacity);
+        updateNavLogoOpacity();
+      }
     </script>
 
     <!-- Smooth Scroll -->
