@@ -23,6 +23,7 @@ Content is managed through JSON and Markdown files—no code changes are require
 - **Cloudflare Pages**: Primary hosting with automatic GitHub deployments
 - **@astrojs/partytown**: Web worker-based script loading for Google Analytics
 - **@astrojs/sitemap**: Automatic sitemap generation for SEO
+- **@tailwindcss/typography**: Prose styling for rendered Markdown (blog posts)
 
 ## Development Commands
 
@@ -113,10 +114,13 @@ All tab-based components (RunningStats, VideoGallery, PhotoGallery) implement mo
 **Pages:**
 - `index.astro`: Single-page site with all sections:
   - Home/About with profile carousel (3 photos, auto-rotating, deferred script)
-  - Creative section (videos and photography with carousels and tabbed galleries)
+  - Consulting & Services
   - Ethereum projects (collapsible accordion on mobile)
-  - Programming projects (collapsible accordion on mobile)
+  - Blog preview (all published posts, date + title)
+  - Creative section (videos and photography with carousels and tabbed galleries)
   - Running (narrative, stats with tabs, heatmap, travel map toggle)
+- `blog/index.astro`: Blog listing with tag filtering and search
+- `blog/[slug].astro`: Individual blog post with share links and article SEO
 
 ### Content Schema
 
@@ -157,6 +161,24 @@ Content files are strongly structured:
 - defaultZoom (1.2) and defaultCenter ([-70, 30] - Atlantic Ocean view)
 - locations array with id, name, lat, lng, date, year, country
 - paths array for flight routes (currently not displayed)
+
+**`/content/blog/*.md`**: Blog posts as Markdown files with YAML frontmatter. This is the **only content using Astro Content Collections** (all other content uses raw JSON imports). Schema defined in `/src/content.config.ts` with Zod validation. Frontmatter fields:
+- title (string, required) — post title and h1
+- date (date, required) — publication date (YYYY-MM-DD)
+- description (string, required) — for listings, search, and OG tags
+- tags (string array, default []) — for client-side filtering on /blog
+- image (string, optional) — banner image path (also used as OG image)
+- draft (boolean, default false) — if true, excluded from all listings
+
+**Adding a new blog post:** Create a `.md` file in `/content/blog/`. Filename becomes the URL slug (e.g., `my-post.md` → `/blog/my-post`). Use lowercase with hyphens. Place banner images in `/public/images/blog/` as WebP. See `/doc/planning/blog-content-guide.md` for full details.
+
+**Blog architecture notes:**
+- Content collection uses glob loader pointing to `/content/blog/` (project root, not `src/`)
+- `@tailwindcss/typography` provides prose styling via `@plugin` directive in `global.css`
+- BaseLayout accepts `ogType` prop ("website" | "article") for blog post SEO
+- Blog listing (`/blog`) has client-side tag filtering and text search — no server-side filtering
+- Homepage blog preview shows all posts; should be capped to ~10 with "View all" link when post count grows significantly
+- Nav links are context-aware: `#anchor` on homepage, `/#anchor` on other pages
 
 ### JavaScript Patterns
 
