@@ -9,8 +9,8 @@
  * Prerequisites:
  *   1. Create a dedicated EOA wallet for deployments
  *   2. From your main wallet, approve the deploy wallet as an operator:
- *      Call setApprovalForAll(deployerAddress, true) on the ENS Registry
- *      (0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e)
+ *      Call setApprovalForAll(deployerAddress, true) on each name's resolver contract.
+ *      (Find the resolver address in the ENS Manager app or via this script's output.)
  *      This lets the deploy wallet update records without being the manager.
  *      Your main wallet retains full ownership and can revoke anytime.
  *   3. Fund the deploy wallet with a small amount of ETH for gas
@@ -240,8 +240,8 @@ async function main() {
     } catch (err) {
       console.error(`  Transaction failed: ${err.message}`);
       if (err.message.includes('not authorised') || err.message.includes('not authorized')) {
-        console.error('  → The wallet may not be approved as an operator. From your main wallet, call');
-        console.error('    setApprovalForAll(deployerAddress, true) on the ENS Registry.');
+        console.error(`  → The wallet may not be approved as an operator on the resolver (${resolverAddr}).`);
+        console.error('    From your main wallet, call setApprovalForAll(deployerAddress, true) on it.');
       }
       console.error();
     }

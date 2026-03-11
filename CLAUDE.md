@@ -334,33 +334,28 @@ Comprehensive SEO setup for multi-domain deployment:
    - Deploys `/dist` to global CDN
 3. Site live at rexkirshner.com within 1-3 minutes
 
-**IPFS (Automatic via GitHub Actions):**
-1. Push to `main` branch triggers `.github/workflows/deploy.yml`
-2. GitHub Action:
-   - Builds site (`npm run build`)
-   - Pins `/dist` to Pinata using `aquiladev/ipfs-action`
-   - Outputs CID in GitHub Actions logs and summary
-3. Manual step: Update ENS contenthash with new CID
-4. Site accessible via .eth.limo gateways
-
-**ENS Update (via script):**
-1. Run `npm run update-ens` (auto-fetches latest CID from GitHub Actions)
+**IPFS + ENS (Automatic build, scripted ENS update):**
+1. Push to `main` triggers `.github/workflows/deploy.yml`
+2. GitHub Action builds the site and pins to Pinata (IPFS)
+3. After push, run `npm run update-ens` to update ENS contenthash
+   - Auto-fetches the latest CID from GitHub Actions logs
+   - Updates all three ENS names on Ethereum mainnet
    - Or provide CID manually: `npm run update-ens -- <CID>`
    - Use `--dry-run` to preview without sending transactions
-2. Script updates contenthash for logrex.eth and rexkirshner.eth
-3. Wait for ENS propagation (~5-15 minutes)
-4. Test via https://logrex.eth.limo and https://rexkirshner.eth.limo
+4. Wait for ENS propagation (~5-15 minutes)
+5. Test via https://rexkirshner.eth.limo and https://logrex.eth.limo
 
-**ENS Script Setup (one-time):**
-1. Create a dedicated EOA wallet (e.g., via MetaMask "Create Account")
-2. From your main wallet, approve the deploy wallet as an operator:
-   Call `setApprovalForAll(deployerAddress, true)` on the ENS Registry
-   (`0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e`).
-   This grants record-update permissions without transferring manager role.
-   Revoke anytime with `setApprovalForAll(deployerAddress, false)`.
-3. Fund deploy wallet with ~0.005 ETH for gas
-4. Create `~/coding/admin/cloud-accounts/ens-deployer.json` with privateKey, names, and Alchemy rpcUrl
-5. Ensure `gh` CLI is installed for auto CID fetching
+**IMPORTANT: Pushing to GitHub triggers IPFS deployment and requires an ENS update,
+which spends real ETH on gas. This is an additional reason to NEVER push without
+explicit user permission.**
+
+**ENS Deploy Wallet Setup (one-time, already complete):**
+- Dedicated EOA wallet approved as operator on each ENS name's resolver
+  (via `setApprovalForAll` on the resolver contract, NOT the ENS Registry)
+- The wallet can update records but cannot transfer names or change ownership
+- Config stored at `~/coding/admin/cloud-accounts/ens-deployer.json`
+- Revoke access anytime by calling `setApprovalForAll(deployerAddress, false)`
+  on each resolver from the main wallet
 
 ## Performance Requirements
 
