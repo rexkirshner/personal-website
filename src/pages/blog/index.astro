@@ -75,7 +75,7 @@ const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
           <button
             id="tag-filter-toggle"
             type="button"
-            aria-haspopup="listbox"
+            aria-haspopup="true"
             aria-expanded="false"
             class="inline-flex items-center gap-2 px-3 py-2 border border-gray-200 rounded-lg text-sm text-gray-600 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-transparent cursor-pointer"
           >
@@ -86,8 +86,8 @@ const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
           </button>
           <div
             id="tag-filter-dropdown"
-            role="listbox"
-            aria-multiselectable="true"
+            role="group"
+            aria-label="Filter by topic"
             class="hidden absolute left-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-md py-1 z-10 min-w-[180px] max-h-60 overflow-y-auto"
           >
             {allTags.map((tag) => (
