@@ -21,6 +21,38 @@ const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
   title="Blog — Rex Kirshner"
   description="Writing about Ethereum, technology, running, travel, and whatever else is on my mind."
 >
+  <!-- BreadcrumbList Schema -->
+  <script
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      'itemListElement': [
+        { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://rexkirshner.com' },
+        { '@type': 'ListItem', 'position': 2, 'name': 'Blog', 'item': 'https://rexkirshner.com/blog' },
+      ],
+    })}
+  />
+
+  <!-- CollectionPage Schema -->
+  <script
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      'name': 'Blog — Rex Kirshner',
+      'description': 'Writing about Ethereum, technology, running, travel, and whatever else is on my mind.',
+      'url': 'https://rexkirshner.com/blog',
+      'isPartOf': {
+        '@type': 'WebSite',
+        'name': 'Rex Kirshner',
+        'url': 'https://rexkirshner.com',
+      },
+    })}
+  />
+
   <section class="py-12 md:py-20">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
       <h1 class="text-4xl font-bold mb-8">Blog</h1>

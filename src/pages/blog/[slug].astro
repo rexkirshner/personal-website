@@ -56,6 +56,21 @@ const linkedinShareURL = `https://www.linkedin.com/sharing/share-offsite/?url=${
   articleDate={isoDate}
   articleTags={post.data.tags}
 >
+  <!-- BreadcrumbList Schema -->
+  <script
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      'itemListElement': [
+        { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://rexkirshner.com' },
+        { '@type': 'ListItem', 'position': 2, 'name': 'Blog', 'item': 'https://rexkirshner.com/blog' },
+        { '@type': 'ListItem', 'position': 3, 'name': post.data.title, 'item': postURL },
+      ],
+    })}
+  />
+
   <!-- BlogPosting Schema.org JSON-LD -->
   <script
     slot="head"
@@ -67,6 +82,7 @@ const linkedinShareURL = `https://www.linkedin.com/sharing/share-offsite/?url=${
       'description': post.data.description,
       'datePublished': isoDate,
       'url': postURL,
+      'inLanguage': 'en-US',
       'author': {
         '@type': 'Person',
         'name': 'Rex Kirshner',
