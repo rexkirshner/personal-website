@@ -15,6 +15,7 @@
     "process-strava": "node scripts/process-strava-data.js",
     "update-travel-map": "node scripts/parse-travel-kml.js",
     "update-travel-map:verbose": "node scripts/parse-travel-kml.js --verbose",
+    "update-ens": "node scripts/update-ens.js",
     "download-video-thumbnails": "node scripts/download-video-thumbnails.js",
     "update-video-thumbnails": "node scripts/update-video-thumbnails.js"
   },
@@ -25,8 +26,10 @@
     "@turf/turf": "^7.2.0",
     "@xmldom/xmldom": "^0.8.11",
     "astro": "^5.14.1",
+    "ethers": "^6.16.0",
     "form-data": "^4.0.4",
     "maplibre-gl": "^5.8.0",
+    "multiformats": "^13.4.2",
     "pmtiles": "^4.3.0",
     "sharp": "^0.34.4",
     "supercluster": "^8.0.1",

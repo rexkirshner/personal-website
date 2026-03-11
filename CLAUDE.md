@@ -49,6 +49,9 @@ npm run add-photo-metadata         # Add EXIF metadata to photos.json
 npm run process-strava             # Process Strava data exports
 npm run update-travel-map          # Parse KML and update travel map data
 npm run update-travel-map:verbose  # Verbose output for debugging
+npm run update-ens                 # Update ENS contenthash after IPFS deploy
+npm run update-ens -- <CID>        # Update ENS with specific CID
+npm run update-ens -- --dry-run    # Preview without sending transactions
 ```
 
 ## Architecture
@@ -340,11 +343,20 @@ Comprehensive SEO setup for multi-domain deployment:
 3. Manual step: Update ENS contenthash with new CID
 4. Site accessible via .eth.limo gateways
 
-**ENS Update (Manual):**
-1. Get CID from GitHub Actions output (format: `ipfs://[CID]`)
-2. Update ENS contenthash for logrex.eth and rexkirshner.eth
+**ENS Update (via script):**
+1. Run `npm run update-ens` (auto-fetches latest CID from GitHub Actions)
+   - Or provide CID manually: `npm run update-ens -- <CID>`
+   - Use `--dry-run` to preview without sending transactions
+2. Script updates contenthash for logrex.eth and rexkirshner.eth
 3. Wait for ENS propagation (~5-15 minutes)
 4. Test via https://logrex.eth.limo and https://rexkirshner.eth.limo
+
+**ENS Script Setup (one-time):**
+1. Create a dedicated EOA wallet (e.g., via MetaMask "Create Account")
+2. In the ENS app, set this wallet as **manager** (not owner) on both names
+3. Fund wallet with ~0.005 ETH for gas
+4. Create `~/coding/admin/cloud-accounts/ens-deployer.json` with privateKey, names, and Alchemy rpcUrl
+5. Ensure `gh` CLI is installed for auto CID fetching
 
 ## Performance Requirements
 
@@ -365,9 +377,8 @@ Comprehensive SEO setup for multi-domain deployment:
 1. Edit JSON/Markdown files in `/content`
 2. Commit and push to GitHub
 3. GitHub Action auto-pins to IPFS
-4. Get CID from GitHub Actions logs
-5. Update ENS contenthash manually
-6. Test via .eth.limo gateway
+4. Run `npm run update-ens` to update ENS contenthash
+5. Test via .eth.limo gateway
 
 ## Photo Management Workflow
 
