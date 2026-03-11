@@ -29,8 +29,10 @@ const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
       <div class="mb-6">
         <input
           id="blog-search"
+          name="blog-search"
           type="text"
           placeholder="Search posts..."
+          aria-label="Search blog posts"
           class="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-transparent"
         />
       </div>
@@ -41,6 +43,7 @@ const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
           <button
             class="tag-filter text-sm px-3 py-1 rounded-full border border-gray-300 bg-gray-900 text-white transition-colors"
             data-tag="all"
+            aria-pressed="true"
           >
             All
           </button>
@@ -48,6 +51,7 @@ const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
             <button
               class="tag-filter text-sm px-3 py-1 rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 transition-colors"
               data-tag={tag}
+              aria-pressed="false"
             >
               {tag}
             </button>
@@ -145,13 +149,15 @@ const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
       button.addEventListener('click', () => {
         activeTag = (button as HTMLElement).dataset.tag ?? 'all';
 
-        // Update active button styles
+        // Update active button styles and aria state
         tagButtons.forEach((btn) => {
           btn.classList.remove('bg-gray-900', 'text-white');
           btn.classList.add('text-gray-600');
+          btn.setAttribute('aria-pressed', 'false');
         });
         button.classList.add('bg-gray-900', 'text-white');
         button.classList.remove('text-gray-600');
+        button.setAttribute('aria-pressed', 'true');
 
         filterPosts();
       });
