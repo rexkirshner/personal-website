@@ -13,6 +13,7 @@ title: "Your Post Title"
 date: 2026-03-10
 description: "A short description for listings and social sharing."
 tags: ["ethereum", "travel"]
+updated: 2026-03-15                                           # optional, for dateModified schema
 image: "https://cdn.rexkirshner.com/blog/your-banner.webp"  # optional, must be R2 URL
 draft: false                                                  # optional, defaults to false
 ---
@@ -30,11 +31,12 @@ Your markdown content here...
 
 ## Optional Fields
 
-| Field   | Type     | Default | Description                                |
-|---------|----------|---------|--------------------------------------------|
-| `tags`  | string[] | `[]`    | Tags for filtering on /blog                |
-| `image` | string   | —       | Banner image R2 URL (also used as OG image)|
-| `draft` | boolean  | `false` | If true, excluded from published listings  |
+| Field     | Type     | Default | Description                                           |
+|-----------|----------|---------|-------------------------------------------------------|
+| `tags`    | string[] | `[]`    | Tags for filtering on /blog                           |
+| `updated` | date     | —       | Last-modified date (YYYY-MM-DD); populates dateModified in BlogPosting schema |
+| `image`   | string   | —       | Banner image R2 URL (also used as OG image)           |
+| `draft`   | boolean  | `false` | If true, excluded from published listings             |
 
 ## File Naming
 

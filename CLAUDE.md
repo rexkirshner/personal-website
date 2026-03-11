@@ -114,12 +114,12 @@ All tab-based components (RunningStats, VideoGallery, PhotoGallery) implement mo
 **Pages:**
 - `index.astro`: Single-page site with all sections:
   - Home/About with profile carousel (3 photos, auto-rotating, deferred script)
-  - Consulting & Services
-  - Ethereum projects (collapsible accordion on mobile)
-  - Blog preview (all published posts, date + title)
+  - Consulting & Services (RBK Strategies + Scratch Space)
+  - Publications: 3-column grid (xl breakpoint) with Blog, Podcasts, and Inevitable Ethereum Wiki
   - Creative section (videos and photography with carousels and tabbed galleries)
   - Running (narrative, stats with tabs, heatmap, travel map toggle)
-- `blog/index.astro`: Blog listing with tag filtering and search
+- `blog/index.astro`: Blog listing with multi-select tag filtering and search
+- `blog/[slug].astro`: Individual blog post with share widget, BlogPosting schema, breadcrumbs
 - `blog/[slug].astro`: Individual blog post with share links and article SEO
 
 ### Content Schema
@@ -167,6 +167,7 @@ Content files are strongly structured:
 - date (date, required) — publication date (YYYY-MM-DD)
 - description (string, required) — for listings, search, and OG tags
 - tags (string array, default []) — for client-side filtering on /blog
+- updated (date, optional) — last-modified date (populates dateModified in BlogPosting schema)
 - image (string, optional) — banner image path (also used as OG image)
 - draft (boolean, default false) — if true, excluded from all listings
 
@@ -182,7 +183,7 @@ Content files are strongly structured:
 - Content collection uses glob loader pointing to `/content/blog/` (project root, not `src/`)
 - `@tailwindcss/typography` provides prose styling via `@plugin` directive in `global.css`
 - BaseLayout accepts `ogType` prop ("website" | "article") for blog post SEO
-- Blog listing (`/blog`) has client-side tag filtering and text search — no server-side filtering
+- Blog listing (`/blog`) has client-side multi-select tag filtering (checkbox dropdown) and text search — no server-side filtering
 - Homepage blog preview shows all posts; should be capped to ~10 with "View all" link when post count grows significantly
 - Nav links are context-aware: `#anchor` on homepage, `/#anchor` on other pages
 
@@ -286,24 +287,28 @@ Comprehensive SEO setup for multi-domain deployment:
    - Full Open Graph tags (og:title, og:description, og:image, og:url, etc.)
    - Twitter Cards with @LogarithmicRex handle
    - Author, robots, theme-color meta tags
+   - Article-specific meta: `article:published_time`, `article:tag` (for blog posts)
 
 2. **Alternate Links**:
-   - All three domains listed as alternates with hreflang="en"
+   - Primary domain only with hreflang="en" and hreflang="x-default"
+   - ENS gateways are NOT listed (they serve identical IPFS content, not language variants)
 
-3. **Schema.org Structured Data**:
-   - JSON-LD Person markup with:
-     - Name, URL, image, jobTitle, description
-     - knowsAbout array (Ethereum, Blockchain, Photography, Running, Content Creation)
-     - sameAs array with social profile URLs
-     - Email contact
+3. **Schema.org Structured Data (JSON-LD)**:
+   - **Person** (BaseLayout): name, jobTitle, knowsAbout (12 topics), sameAs (social links), email
+   - **WebSite** (BaseLayout): site metadata with inLanguage
+   - **BlogPosting** (blog/[slug]): headline, datePublished, dateModified (optional), author, image, keywords, inLanguage
+   - **BreadcrumbList** (blog index + blog posts): Home > Blog > Post Title hierarchy for rich snippets
+   - **CollectionPage** (blog index): marks /blog as a collection page
+   - **ProfessionalService** (homepage): RBK Strategies and Scratch Space as business entities
+   - **PodcastSeries** (expansion page): podcast metadata with breadcrumbs
 
 4. **Sitemap**:
    - Generated automatically via @astrojs/sitemap
-   - Includes all three domains via `customPages` config
+   - Only includes canonical domain (rexkirshner.com) — ENS domains excluded
 
 5. **robots.txt**:
    - Allow all crawlers
-   - References sitemap for all three domains
+   - References only canonical domain sitemap
 
 6. **OG Image**:
    - Optimized to 1200x630px
