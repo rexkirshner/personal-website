@@ -70,8 +70,10 @@ Use standard markdown blockquotes (`>`). Do **not** wrap the text in double quot
 If the post originally appeared elsewhere, add an italic attribution line at the top of the body (after frontmatter, before content):
 
 ```markdown
-*Original Appearance: [Twitter](https://x.com/your/status/url)*
+*Original Appearance: <a href="https://x.com/your/status/url" target="_blank" rel="noopener noreferrer">Twitter</a>*
 ```
+
+Uses inline HTML so the link opens in a new tab (markdown links don't support `target="_blank"`).
 
 ## Images
 
