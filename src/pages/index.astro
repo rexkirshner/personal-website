@@ -1,4 +1,5 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PhotoGallery from '../components/PhotoGallery.astro';
 import VideoGallery from '../components/VideoGallery.astro';
@@ -10,6 +11,10 @@ import videos from '../../content/videos/videos.json';
 import photos from '../../content/photography/photos.json';
 import runningStats from '../../content/running/stats.json';
 import profilePics from '../../content/site/profile-pics.json';
+
+// Blog posts for preview section (all published, newest first)
+const blogPosts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
 <BaseLayout title={siteMetadata.title} description={siteMetadata.description}>
@@ -312,6 +317,45 @@ import profilePics from '../../content/site/profile-pics.json';
       });
     });
   </script>
+
+  <!-- Blog Preview Section -->
+  {blogPosts.length > 0 && (
+    <section id="blog" class="py-20 bg-white">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-4xl font-bold mb-8 text-center">Blog</h2>
+        <ul class="space-y-3">
+          {blogPosts.map((post) => {
+            const formattedDate = post.data.date.toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+            });
+            return (
+              <li class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4">
+                <time
+                  datetime={post.data.date.toISOString()}
+                  class="text-sm text-gray-500 shrink-0 tabular-nums"
+                >
+                  {formattedDate}
+                </time>
+                <a
+                  href={`/blog/${post.id}`}
+                  class="text-gray-900 hover:text-blue-600 transition-colors"
+                >
+                  {post.data.title}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+        <div class="mt-6 text-center">
+          <a href="/blog" class="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+            View all posts →
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
 
   <!-- Creative Section -->
   <section id="creative" class="py-20 bg-white">
