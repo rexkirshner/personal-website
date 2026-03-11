@@ -1,7 +1,7 @@
 ---
 title: "If I Were King of Ethereum"
 date: 2025-02-24
-description: "My Ethereum node went offline for three weeks. Every missed attestation forced me to ask: do I still believe in this? A home staker's crisis of faith."
+description: "My Ethereum node went offline and every missed attestation forced me to ask: do I still believe in this? A solo staker's case for decentralization."
 tags: ["ethereum", "staking", "decentralization"]
 ---
 
