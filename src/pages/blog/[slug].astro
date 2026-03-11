@@ -114,6 +114,8 @@ const linkedinShareURL = `https://www.linkedin.com/sharing/share-offsite/?url=${
           <div class="relative" id="share-widget">
             <button
               id="share-toggle"
+              aria-haspopup="true"
+              aria-expanded="false"
               class="inline-flex items-center gap-1.5 text-gray-400 hover:text-gray-700 transition-colors cursor-pointer"
             >
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -194,13 +196,16 @@ const linkedinShareURL = `https://www.linkedin.com/sharing/share-offsite/?url=${
 
     // Toggle dropdown
     toggle?.addEventListener('click', () => {
+      const isOpen = !dropdown?.classList.contains('hidden');
       dropdown?.classList.toggle('hidden');
+      toggle.setAttribute('aria-expanded', String(!isOpen));
     });
 
     // Close on click outside
     document.addEventListener('click', (e) => {
       if (!widget?.contains(e.target as Node)) {
         dropdown?.classList.add('hidden');
+        toggle?.setAttribute('aria-expanded', 'false');
       }
     });
 
