@@ -7,7 +7,7 @@ tags: ["ethereum", "staking", "decentralization"]
 
 *Original Appearance: <a href="https://x.com/LogarithmicRex/status/1893852899408761192" target="_blank" rel="noopener noreferrer">Twitter</a>*
 
-*A story of a home staker's crisis of faith*
+## A Home Staker's Crisis of Faith
 
 A couple of weeks ago, I noticed my @beaconcha_in home-screen widget wasn't working. And so, on Jan 21st, I realized my @Ethereum node had been offline since Dec 31st. Crap.
 
@@ -25,6 +25,8 @@ As I started thinking, "Wait… if I messed up the hardware, I don't know if I'm
 
 The next few hours were spent opening up the computer, pulling out the SSD, putting it back in, wishing really hard, and getting nowhere. Eventually, I gave up. And because the node was completely offline, I couldn't call on Rescue Node. I was bleeding.
 
+## Attestation Missed
+
 This happened last Sunday. Frankly, I just didn't have the bandwidth to deal with it during the week. So I spent all last week ignoring notifications from my beaconcha.in app. Every six-ish minutes: **bzzzz** attestation missed.
 
 But, if I'm being honest, these notifications weren't ignorable. Every six minutes, my phone forced me to think about Ethereum. At first, the notification said, "this is something you care about." But eventually, it started asking, "Is this something you care about?"
@@ -35,11 +37,15 @@ Maybe I'm not capturing the sentiment quite right — feel free to critique. But
 
 I just think that consensus is completely wrong.
 
+## The Wrong Consensus
+
 To me, Ethereum is ideological. It goes back to Satoshi Nakamoto's words: "What is needed is a system based on cryptographic proof instead of trust, allowing any two willing parties to transact directly with each other without the need for a trusted third party." We are here to build a better financial system — one where everyone plays by the same rules. Credible neutrality means a system that treats every participant fairly, using the same deterministic, transparent rules — one that cannot be corrupted by a single actor for their own gain.
 
 Here's how I understand the history of crypto. First, in 2008 Satoshi Nakamoto gave us Bitcoin, an application-specific prototype of a blockchain computer. Then in 2015, @vitalikbuterin delivered on Satoshi's promise and gave us Ethereum: the first credibly neutral, general purpose blockchain computer. The first trustless computing environment. The World Computer.
 
 Every six minutes, my phone buzzed. And every notification brought me one step closer to my crisis of faith.
+
+## Do I Even Believe in This Anymore?
 
 During the week, I started thinking about alternatives. First thought: Buy a new computer. @dappnode had options, but everything was $1,500+. The Rocket Pool guides had builds as low as $700, but they required hardware-level technical skills. I've read thousands of times that you can run an Ethereum node on the computational equivalent of a toaster. I had no idea that was the starting point.
 
@@ -52,6 +58,8 @@ And then the thought morphed into: Do I even believe in this anymore?
 The moment it all crystallized was when I was searching through the Rocket Pool Discord for cloud options. Someone said they were shutting down their node after three years — they'd lost too much money on $RPL. Someone responded: "Rip. Sorry for your losses, fren. We're all in the same (sinking) boat." Seeing my own doubts reflected back at me hit differently. I realized: That's not why I'm disappointed.
 
 I'm disappointed because I worry that Ethereum is losing its way.
+
+## The Missing Word
 
 You know what's missing from every conversation about what Ethereum is doing wrong? Decentralization.
 
@@ -76,6 +84,8 @@ We would leverage Moore's Law to reduce the barriers to staking, not increasing 
 I still believe in Ethereum. If anything, I'm more convinced the world will embrace a financial system that isn't controlled by billionaires and politicians.
 
 But I can't ignore the creeping doubt… that we're walking down the wrong path.
+
+## Back Online
 
 Yesterday, I finally sat down to fix my node. Long story short: one of my RAM sticks had fried when I replaced the SSD. I removed it, booted up Linux, and was back online. Tonight or tomorrow, I'll be securing the World Computer again.
 
