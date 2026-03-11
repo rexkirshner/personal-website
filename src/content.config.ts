@@ -9,13 +9,18 @@
  * - Type-safe data access
  * - Automatic slug generation from filenames
  *
+ * Blog content lives at /content/blog/ (project root, not src/) for
+ * consistency with all other content directories. The glob loader is
+ * configured with an explicit base path to support this.
+ *
  * To add a new blog post, create a .md file in /content/blog/ with the
- * required frontmatter fields. See /content/blog/README.md for details.
+ * required frontmatter fields. See /doc/planning/blog-content-guide.md for details.
  */
 import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
 
 const blog = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './content/blog' }),
   schema: z.object({
     /** Post title displayed as h1 and in meta tags */
     title: z.string(),

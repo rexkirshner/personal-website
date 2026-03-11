@@ -1,0 +1,184 @@
+---
+/**
+ * Individual blog post page.
+ *
+ * Renders a single blog post from the content collection at /blog/<slug>.
+ * Includes: date, title, optional banner image, rendered markdown body,
+ * share links (Twitter, LinkedIn, copy URL), and full SEO metadata
+ * (og:type=article, article:published_time, article:tag, BlogPosting schema).
+ */
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+// Build canonical URL for this post
+const postURL = `https://rexkirshner.com/blog/${post.id}`;
+
+// OG image: use post banner if available, otherwise default blog OG image
+// TODO: Replace default with custom blog OG image when provided
+const ogImage = post.data.image || '/images/og-image.webp';
+
+// Format date for display (e.g., "2026 Mar 10")
+const formattedDate = post.data.date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+
+// ISO date for meta tags
+const isoDate = post.data.date.toISOString();
+
+// Share URLs
+const encodedURL = encodeURIComponent(postURL);
+const encodedTitle = encodeURIComponent(post.data.title);
+const twitterShareURL = `https://twitter.com/intent/tweet?url=${encodedURL}&text=${encodedTitle}`;
+const linkedinShareURL = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedURL}`;
+---
+
+<BaseLayout
+  title={`${post.data.title} — Rex Kirshner`}
+  description={post.data.description}
+  ogImage={ogImage}
+  canonical={postURL}
+  ogType="article"
+  articleDate={isoDate}
+  articleTags={post.data.tags}
+>
+  <!-- BlogPosting Schema.org JSON-LD -->
+  <script
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      'headline': post.data.title,
+      'description': post.data.description,
+      'datePublished': isoDate,
+      'url': postURL,
+      'author': {
+        '@type': 'Person',
+        'name': 'Rex Kirshner',
+        'url': 'https://rexkirshner.com',
+      },
+      ...(post.data.image && {
+        'image': post.data.image.startsWith('http')
+          ? post.data.image
+          : `https://rexkirshner.com${post.data.image}`,
+      }),
+      'keywords': post.data.tags.join(', '),
+    })}
+  />
+
+  <article class="py-12 md:py-20">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Post header -->
+      <header class="mb-10">
+        <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
+          <time datetime={isoDate}>{formattedDate}</time>
+          <span>·</span>
+          <a href="/blog" class="hover:text-gray-900 transition-colors">See all posts</a>
+        </div>
+
+        <h1 class="text-3xl md:text-4xl font-bold mb-4">{post.data.title}</h1>
+
+        {post.data.tags.length > 0 && (
+          <div class="flex flex-wrap gap-2">
+            {post.data.tags.map((tag) => (
+              <span class="text-sm text-gray-500">#{tag}</span>
+            ))}
+          </div>
+        )}
+      </header>
+
+      {/* Banner image */}
+      {post.data.image && (
+        <img
+          src={post.data.image}
+          alt={post.data.title}
+          class="w-full rounded-lg mb-10"
+          loading="eager"
+        />
+      )}
+
+      {/* Rendered markdown body */}
+      <div class="prose prose-lg max-w-none
+        prose-headings:font-bold
+        prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline
+        prose-blockquote:border-l-gray-300 prose-blockquote:text-gray-600
+        prose-code:text-sm
+        prose-img:rounded-lg">
+        <Content />
+      </div>
+
+      {/* Share links */}
+      <footer class="mt-12 pt-8 border-t border-gray-200">
+        <div class="flex items-center gap-6">
+          <span class="text-sm text-gray-500">Share:</span>
+          <a
+            href={twitterShareURL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-gray-500 hover:text-gray-900 transition-colors text-sm"
+          >
+            Twitter
+          </a>
+          <a
+            href={linkedinShareURL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-gray-500 hover:text-gray-900 transition-colors text-sm"
+          >
+            LinkedIn
+          </a>
+          <button
+            id="copy-url-button"
+            class="text-gray-500 hover:text-gray-900 transition-colors text-sm cursor-pointer"
+            data-url={postURL}
+          >
+            Copy Link
+          </button>
+        </div>
+      </footer>
+    </div>
+  </article>
+
+  {/* Copy URL script — only JS on post pages */}
+  <script>
+    const copyButton = document.getElementById('copy-url-button');
+    copyButton?.addEventListener('click', async () => {
+      const url = copyButton.getAttribute('data-url');
+      if (!url) return;
+      try {
+        await navigator.clipboard.writeText(url);
+        const original = copyButton.textContent;
+        copyButton.textContent = 'Copied!';
+        setTimeout(() => {
+          copyButton.textContent = original;
+        }, 2000);
+      } catch {
+        // Fallback: select from a temporary input (for IPFS/older browsers)
+        const input = document.createElement('input');
+        input.value = url;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        document.body.removeChild(input);
+        const original = copyButton.textContent;
+        copyButton.textContent = 'Copied!';
+        setTimeout(() => {
+          copyButton.textContent = original;
+        }, 2000);
+      }
+    });
+  </script>
+</BaseLayout>

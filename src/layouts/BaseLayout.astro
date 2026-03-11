@@ -140,6 +140,9 @@ const fullOgImageURL = ogImageURL.startsWith('http') ? ogImageURL : `https://rex
         'cookie_flags': 'SameSite=None;Secure'
       });
     </script>
+
+    <!-- Additional head content from child pages (e.g., BlogPosting schema) -->
+    <slot name="head" />
   </head>
   <body class="min-h-screen bg-white text-gray-900">
     <!-- Skip Link for Accessibility -->
