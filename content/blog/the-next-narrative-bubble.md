@@ -3,6 +3,7 @@ title: "The Next Narrative Bubble"
 date: 2023-12-03
 description: "Every crypto cycle takes us 100x higher and plummets us 90% down — but we end 10x ahead. Why zero-knowledge cryptography is the next narrative bubble."
 tags: ["ethereum", "zk-rollups", "defi"]
+image: "https://cdn.rexkirshner.com/blog/next-narrative-bubble-banner.webp"
 ---
 
 Spend enough time in crypto and you'll hear a common refrain: "in De-Fi, we are speed running the history of finance." These days, I wonder if it's the history of finance that we are speed running… but we'll get back to that. For now, let's focus on the "speed-running" part.
