@@ -94,12 +94,40 @@ const linkedinShareURL = `https://www.linkedin.com/sharing/share-offsite/?url=${
         <h1 class="text-3xl md:text-4xl font-bold mb-4">{post.data.title}</h1>
 
         {post.data.tags.length > 0 && (
-          <div class="flex flex-wrap gap-2">
+          <div class="flex flex-wrap gap-2 mb-4">
             {post.data.tags.map((tag) => (
               <span class="text-sm text-gray-500">#{tag}</span>
             ))}
           </div>
         )}
+
+        {/* Share widget */}
+        <div class="flex items-center gap-4 text-sm text-gray-400">
+          <span>Share:</span>
+          <a
+            href={twitterShareURL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-gray-700 transition-colors"
+          >
+            Twitter
+          </a>
+          <a
+            href={linkedinShareURL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-gray-700 transition-colors"
+          >
+            LinkedIn
+          </a>
+          <button
+            id="copy-url-button"
+            class="hover:text-gray-700 transition-colors cursor-pointer"
+            data-url={postURL}
+          >
+            Copy Link
+          </button>
+        </div>
       </header>
 
       {/* Banner image */}
@@ -122,35 +150,6 @@ const linkedinShareURL = `https://www.linkedin.com/sharing/share-offsite/?url=${
         <Content />
       </div>
 
-      {/* Share links */}
-      <footer class="mt-12 pt-8 border-t border-gray-200">
-        <div class="flex items-center gap-6">
-          <span class="text-sm text-gray-500">Share:</span>
-          <a
-            href={twitterShareURL}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-gray-500 hover:text-gray-900 transition-colors text-sm"
-          >
-            Twitter
-          </a>
-          <a
-            href={linkedinShareURL}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-gray-500 hover:text-gray-900 transition-colors text-sm"
-          >
-            LinkedIn
-          </a>
-          <button
-            id="copy-url-button"
-            class="text-gray-500 hover:text-gray-900 transition-colors text-sm cursor-pointer"
-            data-url={postURL}
-          >
-            Copy Link
-          </button>
-        </div>
-      </footer>
     </div>
   </article>
 
