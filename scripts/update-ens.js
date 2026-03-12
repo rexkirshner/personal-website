@@ -233,9 +233,14 @@ async function main() {
     try {
       const tx = await resolver.setContenthash(node, contenthash);
       console.log(`  TX hash:    ${tx.hash}`);
-      console.log('  Waiting for confirmation...');
+      console.log('  Waiting for confirmation (timeout: 5 min)...');
 
-      const receipt = await tx.wait();
+      const receipt = await Promise.race([
+        tx.wait(),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('Transaction not confirmed within 5 minutes — it may have been dropped')), 5 * 60 * 1000)
+        ),
+      ]);
       console.log(`  Confirmed in block ${receipt.blockNumber} (gas: ${receipt.gasUsed.toString()})\n`);
     } catch (err) {
       console.error(`  Transaction failed: ${err.message}`);
