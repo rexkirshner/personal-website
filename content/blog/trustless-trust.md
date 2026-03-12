@@ -24,6 +24,8 @@ Without credible neutrality, we might as well be using FB-dollaroos in Farmville
 
 ![](https://inevitableeth.com/images/access-ethereum-1.jpeg)
 
+[Deep Dive: Accessing Ethereum](https://inevitableeth.com/ethereum/accessing-ethereum)
+
 Today, Ethereum is decently decentralized and super not scalable... by design. Raising the minimum requirements of a node increases scalability at the cost of decentralization.
 
 Put another way, if we want to increase decentralization, we need to sacrifice execution\*.
@@ -52,6 +54,8 @@ In order to get there we need to develop two big concepts: statelessness and the
 
 ### Stateless Ethereum
 
+[Deep Dive: The Road to Stateless Ethereum](https://inevitableeth.com/ethereum/statelessness)
+
 Today, the [internal state](https://inevitableeth.com/ethereum/state-machine) of Ethereum requires ~500 GB to store locally.
 
 A stateless Ethereum will allow anyone to access its state without actually storing it, instead allowing users to directly and independently prove they are securely interacting with it.
@@ -61,6 +65,8 @@ Light clients need statelessness, but statelessness isn't enough.
 ### The Portal Network
 
 ![](https://inevitableeth.com/images/light-client-1.jpeg)
+
+[Deep Dive: Portal Network](https://inevitableeth.com/ethereum/light-clients)
 
 In order to directly interact with Ethereum, users need data to verify the cryptographic proofs.
 
@@ -78,6 +84,8 @@ All possible with minimal hardware and a mediocre internet connection.
 
 ![](https://inevitableeth.com/images/trustless-trust-2.png)
 
+[Deep Dive: Internet Native Settlement](https://inevitableeth.com/ethereum/internet-settlement)
+
 Light clients are really, really big. Ever thought about why De-Fi/NFTs are like the only things being built? It's because accessing the EVM is so hard that once you're within you need to stay there.
 
 A world where trustless access is trivial has infinite possibility.
@@ -91,6 +99,8 @@ Trustless is a strange concept; it's the idea that if you can independently veri
 The entire project is about creating this trustless trust.
 
 ## The Collateral of Trustless Trust
+
+[Deep Dive: Proof of Stake](https://inevitableeth.com/ethereum/pos)
 
 Trusting in Ethereum ultimately means trusting the Ethereum node operators... and node operators are real people with human motivations.
 
@@ -111,6 +121,8 @@ In the Ethereum endgame, ETH isn't just the most decentralized monetary asset, i
 ETH is the currency of trustless trust.
 
 ## The Middleware Goldrush
+
+[Deep Dive: Ethereum Middleware](https://inevitableeth.com/ethereum/middleware)
 
 The path forward is already clear, the Middleware Gold Rush is inevitable.
 
@@ -158,6 +170,8 @@ In a light client, re-staked world, trustless secure logistics becomes trivial.
 
 ![](https://inevitableeth.com/images/scaling-1.jpeg)
 
+[Deep Dive: Scaling Ethereum Execution](https://inevitableeth.com/ethereum/scaling)
+
 This is the endgame for Ethereum.
 
 Everything we are doing is to transform ETH into the most pristine asset a human could ever ask for: the currency of trustless trust.
@@ -166,6 +180,8 @@ Need some more convincing? Let's go back to the old way we used to talk about Et
 
 ### Scaling Transaction Throughput
 
+[Deep Dive: Rollups](https://inevitableeth.com/ethereum/execution)
+
 Previously, the most important way we talked about scaling Ethereum was by increasing the number of transactions we could execute through the EVM.
 
 Rollups are a paradigm change; instead of using the EVM to execute, we execute elsewhere and simply settle on Ethereum.
@@ -173,6 +189,8 @@ Rollups are a paradigm change; instead of using the EVM to execute, we execute e
 Settlement is the point where ownership is decided, and so the rollup paradigm works by posting the final result of any transaction to mainnet.
 
 ### Scaling Data Availability
+
+[Deep Dive: Danksharding](https://inevitableeth.com/ethereum/data)
 
 Danksharding will introduce data blobs that DRASTICALLY increase the capacity for these receipts (and therefore Ethereum's throughput).
 

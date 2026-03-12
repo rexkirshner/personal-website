@@ -8,9 +8,13 @@ image: "https://cdn.rexkirshner.com/blog/background-and-context-banner.webp"
 
 *Original Appearance: [Inevitable Ethereum](https://inevitableeth.com/background/background)*
 
-## The Dawn of Modern Finance
+## The World of Modern Finance
 
 To understand generational changes, you need to have a generational perspective. So, let's start from the beginning...
+
+### The Dawn of Modern Finance
+
+[Deep Dive: The History of Modern Finance 1492-2008](https://inevitableeth.com/background/history-finance)
 
 There was a time before modern finance shaped this planet and a time after. We can trace that moment to a few decades before and after 1500.
 
@@ -61,6 +65,8 @@ And so, the Americans entered the 21st century the uncontested superpower on pla
 
 ## The Global Financial Crisis
 
+[Deep Dive: The Global Financial Crisis](https://inevitableeth.com/background/gfc)
+
 The seeds had been sown in the 1980s, but the rocket fuel was added in the 2000s.
 
 Fueled by unmitigated greed, the American financial class sold as much junk as they possibly could, first to the working class and then to each other. The particular product: [Mortgage-Backed Securities](https://en.wikipedia.org/wiki/Mortgage-backed_security) (MBS), but the details weren't really important.
@@ -91,6 +97,8 @@ But the West has been abusing its control of the global financial system for age
 
 ### Sanctions
 
+[Deep Dive: Western Sanctions](https://inevitableeth.com/background/sanctions)
+
 Those outside the bubble?
 
 Some have never left the apocalypse of post-WWII.
@@ -98,6 +106,8 @@ Some have never left the apocalypse of post-WWII.
 Others were forced to renter.
 
 #### Afghanistan
+
+[Deep Dive: Afghanistan](https://inevitableeth.com/background/afghanistan)
 
 Afghanistan is a particularly heinous example.
 

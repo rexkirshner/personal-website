@@ -32,6 +32,8 @@ In Europe, the turn of the 16th century was a step change.
 
 ![](https://inevitableeth.com/images/background-banner.jpg)
 
+[Deep Dive: Modern Finance, the Rise and Collapse](https://inevitableeth.com/background/background)
+
 We can trace the dawn of modern finance to a few decades between 1490-1540. The crucible of history forged a system built around capital investment, concentration and executive control.
 
 [This proto-capitalism would supercharge Europe and propel the West to world domination](https://inevitableeth.com/background/history-finance).
@@ -74,6 +76,8 @@ The World Computer is made of up 3 parts:
 
 ![](https://inevitableeth.com/images/evm-banner2.png)
 
+[Deep Dive: Ethereum Virtual Machine](https://inevitableeth.com/ethereum/evm)
+
 At the core of Ethereum is the EVM, the computing platform of the World Computer.
 
 Technically speaking, is a [Turing-complete](https://inevitableeth.com/concepts/turing-complete) distributed [state machine](https://inevitableeth.com/ethereum/state-machine) - but don't worry about this specific classification.
@@ -83,6 +87,8 @@ The purpose of the greater Ethereum apparatus is to offer a single shared comput
 Anyone with an internet connection (and [gas](https://inevitableeth.com/concepts/gas) money) can interact with the World Computer.
 
 ### Ethereum Blockchain
+
+[Deep Dive: Ethereum Blockchain](https://inevitableeth.com/ethereum/blockchain)
 
 The blockchain acts as the memory & storage of The World Computer.
 
@@ -98,6 +104,8 @@ The EVM accesses data from the chain and records all changes (by necessity) to n
 
 ![](https://inevitableeth.com/images/network-banner.png)
 
+[Deep Dive: Ethereum Network](https://inevitableeth.com/ethereum/network)
+
 The EVM is the computing platform of the World Computer, the blockchain its history. The implicit question? What actually IS Ethereum?
 
 How does it exist in the real world?
@@ -110,6 +118,8 @@ The Ethereum network is made up of a group of people and institutions who decide
 
 ![](https://inevitableeth.com/images/node-banner.jpeg)
 
+[Deep Dive: Ethereum Nodes](https://inevitableeth.com/ethereum/node)
+
 A node is a real computer in the world that runs the specific software that makes Ethereum possible. A single node runs two pieces of software: a consensus client and an execution client (responsible for operating the EVM).
 
 Although each node's copy is independent, every EVM is sync; the state of any local copy IS the state of the globally shared EVM.
@@ -119,6 +129,8 @@ The method by which all these independent and untrusted computers keep their loc
 #### Proof of Stake
 
 ![](https://inevitableeth.com/images/merge-banner.jpeg)
+
+[Deep Dive: Proof of Stake](https://inevitableeth.com/ethereum/pos)
 
 Ethereum was launched in 2015 using Proof of Work as it's consensus system. In September 2022, Ethereum successfully complete the Merge, and switched to Proof of Stake.
 
@@ -150,6 +162,8 @@ Trustless trust comes from credible neutrality.
 Credible neutrality comes from decentralization.
 
 ## The Ethereum Ecosystem: De-Fi
+
+[Deep Dive: Decentralized-Finance](https://inevitableeth.com/ethereum/de-fi)
 
 Ethereum offers all the same features and capabilities of a normal ([virtual](https://inevitableeth.com/concepts/virtual-machine)) computer, but with one critical difference: [internet native property rights](https://inevitableeth.com/ethereum/property-rights).
 
@@ -223,6 +237,8 @@ We need to think "how many transaction can Ethereum settle."
 
 ![](https://inevitableeth.com/images/scaling-1.jpeg)
 
+[Deep Dive: Scaling Ethereum Execution](https://inevitableeth.com/ethereum/scaling)
+
 This is the idea behind Ethereum transaction scaling. Move execution off-chain while retaining settlement on-chain.
 
 [Rollups](https://inevitableeth.com/ethereum/execution) will offer a spectrum of centralization/trust assumptions and performance trade-offs, but all will post a record back to Ethereum.
@@ -241,6 +257,8 @@ We need a different set of upgrades improve network decentralization.
 
 ![](https://inevitableeth.com/images/access-ethereum-1.jpeg)
 
+[Deep Dive: Accessing Ethereum](https://inevitableeth.com/ethereum/accessing-ethereum)
+
 Currently, there are 2 ways to access Ethereum: operate your own node or use a Node-as-a-Service provider (like [Alchemy](https://www.alchemy.com/) or [Infura](https://www.infura.io/)).
 
 The former is a big ([but totally doable](https://rocketpool.net/node-operators)!) ask; the later is a great service, but is actively working against decentralization.
@@ -257,6 +275,8 @@ Before we can support light clients, we first need to upgrade Ethereum to be sta
 
 #### Statelessness
 
+[Deep Dive: The Road to Stateless Ethereum](https://inevitableeth.com/ethereum/statelessness)
+
 Statelessness is a nuanced topic worth reading more about, but the idea can be summarized as "using cryptography to trustlessly access the EVM without having to store it locally."
 
 But statelessness is not enough to support light clients - the EVM is not the only component of the World Computer.
@@ -264,6 +284,8 @@ But statelessness is not enough to support light clients - the EVM is not the on
 #### The Portal Network
 
 ![](https://inevitableeth.com/images/light-client-1.jpeg)
+
+[Deep Dive: The Portal Network](https://inevitableeth.com/ethereum/light-clients)
 
 Light clients also need trustless access to consensus (PoS), the mempool, etc.
 
@@ -274,6 +296,8 @@ The Portal Network is (will be) an independent network of computers dedicated to
 Light clients will query the Portal Network for proofs, mempools anything a its needs to verify the hashes created by Ethereum.
 
 ## Generalizing Decentralized Trustlessness
+
+[Deep Dive: Trustless Trust](https://inevitableeth.com/ethereum/trustless-trust)
 
 Yes, there is (a lot) of work to do before we are ready for light clients, but once we are there we've reached the Ethereum endgame.
 

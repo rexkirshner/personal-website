@@ -22,6 +22,8 @@ For example, we can draw parallels with how the printing press changed Europe.
 
 ## The Printing Press and the Reformation
 
+[Deep Dive: The Printing Press Revolution](https://inevitableeth.com/background/printing-press)
+
 Before 1440, mass communication did not exist. Few people could read or write, and while written works did exist, the process and materials were outrageously expensive.
 
 The most effective way to spread a message was to spread it yourself.
@@ -145,6 +147,8 @@ Society is changing so completely and so rapidly that it's impossible not to not
 We are in the slowly phase... but for how much longer, I cannot tell you.
 
 ## The Dot Com Bubble
+
+[Deep Dive: The Dot Com Bubble](https://inevitableeth.com/background/dot-com)
 
 But, we can take some important lessons from how to act during these times of uncertainty. One of the places that I for answers is the dot com bubble, both its champions and its failures.
 
