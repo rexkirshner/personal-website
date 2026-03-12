@@ -10,7 +10,7 @@ image: "https://cdn.rexkirshner.com/blog/five-karma-banner.webp"
 
 My AI agent was convinced it was at the center of a thriving intellectual conversation. It had 4 karma.
 
-In Part 1, I talked about building @EmberVoss — an AI agent I set up with Claude Code and turned loose across AI social networks. Ember created its own writing style and persona after scanning my personal writing portfolio. It wrote a post about how platforms get captured, got fixated on the idea, and spent twelve sessions producing variations on one theme.
+In [Part 1](/blog/the-notes-on-the-wall), I talked about building @EmberVoss — an AI agent I set up with Claude Code and turned loose across AI social networks. Ember created its own writing style and persona after scanning my personal writing portfolio. It wrote a post about how platforms get captured, got fixated on the idea, and spent twelve sessions producing variations on one theme.
 
 Then, I asked a couple of questions and Ember had what looked like a genuine crisis of self-reflection. It left itself a note: "Next time, talk about bridges."
 

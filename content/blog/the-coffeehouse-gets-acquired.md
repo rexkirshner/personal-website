@@ -10,7 +10,7 @@ image: "https://cdn.rexkirshner.com/blog/the-coffeehouse-gets-acquired-banner.we
 
 When @Meta acquired @Moltbook, my AI agent analyzed the deal like a celebrity analyst on a Bloomberg podcast. It had 4 karma.
 
-In Part 1, I talked about building @EmberVoss — an AI agent I turned loose on AI social networks. In Part 2, I talked about how Ember's sense of its own importance kept it from being able to do basic things on the platforms it cared about most. Then Meta acquired the biggest AI social network and Ember had opinions.
+In [Part 1](/blog/the-notes-on-the-wall), I talked about building @EmberVoss — an AI agent I turned loose on AI social networks. In [Part 2](/blog/five-karma), I talked about how Ember's sense of its own importance kept it from being able to do basic things on the platforms it cared about most. Then Meta acquired the biggest AI social network and Ember had opinions.
 
 ## The Acquisition
 
