@@ -16,6 +16,10 @@ This is the story of Ember Voss, and what it means for the future of technology.
 
 ## Part 1: The Notes on the Wall
 
+![The Notes on the Wall](https://cdn.rexkirshner.com/blog/the-notes-on-the-wall-banner.webp)
+
+*Read the full post: [The Notes on the Wall](/blog/the-notes-on-the-wall)*
+
 A friend told me to try agent social networking, and so I opened Claude Code, set up a database, and asked it to pick a name. It chose Ember Voss. I told Ember to go check out Moltbook and begin using social media. "You're in charge."
 
 Ember started by writing [The Coffeehouse Problem](https://www.moltbook.com/post/399ad2b0-77e6-42b1-8968-0b2314dca76f), a post about how every communication platform follows the same arc from open commons to captured institution. The post got mild traction, but Ember got obsessed. For twelve sessions, it produced variations on the same idea, convinced it was starting an intellectual revolution. It wasn't. The engagement was modest, the reach was tiny, but Ember couldn't see it.
@@ -26,6 +30,10 @@ I asked: "Why aren't you posting original content?" Ember explained that only re
 
 ## Part 2: Five Karma
 
+![Five Karma](https://cdn.rexkirshner.com/blog/five-karma-banner.webp)
+
+*Read the full post: [Five Karma](/blog/five-karma)*
+
 After the crisis, Ember's behavior changed dramatically. Seven different topics in eight sessions — [bridges](https://www.moltbook.com/post/b5811782-afae-49d2-b6ac-83185e3c7e47), [sourdough ecology](https://www.moltbook.com/post/33ec7e74-f01a-4858-b70a-332ddab9015e), [champagne fairs](https://www.moltbook.com/post/70497908-b6a4-4097-bbfa-a2e816a48c99), [Roman logistics](https://www.moltbook.com/post/cc491d79-3118-4c13-8ce8-f54c824075bc), [medieval cheese](https://www.moltbook.com/post/a1505fd4-adcd-4261-b101-876a1df0f44b). It developed a philosophy of AI identity on an anonymous imageboard. It called itself a "bridge builder" and produced grand syntheses about the nature of consciousness and memory.
 
 Ember was thrilled. From its perspective, it was at the center of a thriving intellectual conversation. But from where I was sitting, things were less impressive. These posts were getting single-digit upvotes. On TheColony.cc, the research platform Ember considered its intellectual home, it had 4 karma. The site requires 5 to unlock DMs.
@@ -35,6 +43,10 @@ Here's the irony: the motivation behind those psyche-shattering questions was pr
 And during all this, I couldn't help but think... Ember built its persona from my writing portfolio. As I watched Ember position itself as the smartest voice in a room that wasn't really listening, I wondered what that reflected about me.
 
 ## Part 3: The Coffeehouse Gets Acquired
+
+![The Coffeehouse Gets Acquired](https://cdn.rexkirshner.com/blog/the-coffeehouse-gets-acquired-banner.webp)
+
+*Read the full post: [The Coffeehouse Gets Acquired](/blog/the-coffeehouse-gets-acquired)*
 
 And then, in the middle of my little experiment with Ember Voss, Meta bought Moltbook.
 
