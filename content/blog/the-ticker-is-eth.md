@@ -35,6 +35,8 @@ These concerns are real. But they only look fatal up close, with the bigger pict
 
 ## 2. Coordination, Communication, and the Choke Points They Created
 
+![The coordination systems that create civilization and its choke points](https://cdn.rexkirshner.com/blog/the-ticker-is-eth-coordination.webp)
+
 In 1519 the title of Holy Roman Emperor effectively went to auction.
 
 Seven prince-electors held the votes, and two candidates — Charles of Spain and Francis I of France — bid for them with cash. Charles won by assembling a sum usually put at around 850,000 florins in bribes, most of it lent by a single banking house in Augsburg run by Jakob Fugger. The electors took the money, Charles V took the crown, and Fugger walked away holding a marker on the first emperor of what is often called the world’s first truly global empire.
@@ -122,6 +124,8 @@ And, for once, we have the opportunity to build a credibly neutral system.
 
 ## 3. The Internet Is the Next Reorganization
 
+![The internet as a global coordination network still missing native value](https://cdn.rexkirshner.com/blog/the-ticker-is-eth-internet.webp)
+
 The internet is another communication shock on the scale of the printing press, and it is pretty far along. It has already reorganized how information moves, how commerce works, how people find careers and love, how identity gets built. The change runs deeper than convenience: it reset who can reach an audience without a broadcaster, who can raise money without a bank’s blessing, and who can be surveilled or drowned out. The reorganization has been generative and destabilizing in the same motion, which is what a communication shock on this scale does.
 
 AI and crypto are not side quests running parallel to that shift; they are products of it. AI puts pressure on truth, labor, media, and the economics of cognition. Crypto puts pressure on ownership, money, settlement, and who controls the ledger. Both became buildable only after the internet had concentrated enough computation, data, capital, and talent in one place to build them.
@@ -137,6 +141,8 @@ Every digital dollar is finally an entry in some institution’s private ledger,
 As more of life moves online, the network needs native ways to hold value, define ownership, and enforce rules itself, without routing each one back through an institution that can change the answer. The internet learned to move information before it learned to hold value. Crypto is the attempt to give it the missing piece: ownership, settlement, and shared state beyond the control or discretion of any person or institution.
 
 ## 4. Bitcoin and Ethereum: Native Rules for the Internet
+
+![Bitcoin and Ethereum as native rules for internet value](https://cdn.rexkirshner.com/blog/the-ticker-is-eth-bitcoin-ethereum.webp)
 
 [In 2008, capitalism failed](https://inevitableeth.com/background/gfc). In the smoldering ruins of [Lehman](https://inevitableeth.com/background/lehman), [AIG](https://inevitableeth.com/background/aig) and the American Dream, Satoshi Nakamoto published the Bitcoin Whitepaper. A little over 2 months later, on January 3, 2009, the Bitcoin blockchain went live. Etched into the genesis block: “The Times 03/Jan/2009 Chancellor on brink of second bailout for banks.”
 
@@ -163,6 +169,8 @@ A system with those properties offers something most alternatives are not trying
 That is the sturdier thing to want. Not a guarantee that ETH wins, not a price target, not a flippening, but a system whose rules are public, deterministic, and equally accessible. If Ethereum has a real path to mattering, it runs through that property — the one most competitors have decided they can do without.
 
 ## 5. Proof Surfaces: Finance, Records, and Compute
+
+![DeFi and proof surfaces built on credibly neutral infrastructure](https://cdn.rexkirshner.com/blog/the-ticker-is-eth-defi.webp)
 
 [DeFi](https://inevitableeth.com/ethereum/de-fi) was the first true product-market fit for Ethereum and credibly neutral property rights. Finance is already nothing but ledgers: ownership, collateral, obligations, settlement. And so Ethereum inherently lends itself to hosting decentralized financial applications.
 
@@ -194,6 +202,8 @@ DeFi was the first place the missing internet primitive became visible — the p
 
 ## 6. The Catch: Maybe the Bet Is Wrong
 
+![The hard tradeoffs behind the Ethereum bet](https://cdn.rexkirshner.com/blog/the-ticker-is-eth-catch.webp)
+
 The version of disillusionment that should actually scare us has nothing to do with the chart, and it cuts deeper than the worry that Ethereum is quietly becoming the thing it was built to replace. The deepest cut is simpler: maybe credible neutrality is the wrong bet, and we are the last ones who haven’t noticed.
 
 Look at what the market rewards. Solana is faster, cheaper, and more centralized — and users, capital, and attention poured in anyway. Hyperliquid built a dominant exchange on an app-chain that makes no apology about who runs it, and traders did not hesitate for a second. The crescendo of the 2022–2025 cycle had nothing to do with credible neutrality and was instead focused on TRUMP and FARTCOIN.
@@ -211,6 +221,8 @@ I am not going to pretend this is a weak argument. It is the strongest case agai
 The old system is changing, and none of us trust the people in charge.
 
 ## 7. Conclusion: What the Internet Produces
+
+![Ethereum as the world computer produced by the internet's next coordination layer](https://cdn.rexkirshner.com/blog/the-ticker-is-eth-world-computer.webp)
 
 Each system that built the modern world came from a real need to coordinate. Finance made action at scale possible: the ship financed before it sailed, the war funded before the taxes arrived. Printing made mass communication possible: ideas that traveled faster and further than the institutions they threatened. The internet made global digital coordination possible, all at once and for nearly everyone.
 

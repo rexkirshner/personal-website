@@ -10,8 +10,6 @@ image: "https://cdn.rexkirshner.com/blog/the-world-computer-banner.webp"
 
 ## The Coordination Miracle
 
-![A classical civic assembly representing human coordination](https://cdn.rexkirshner.com/blog/the-world-computer-coordination.webp)
-
 ~500k years ago a few apes climbed down out of the trees and humanity was born. This made many people very angry and has been widely regarded as a bad move.
 
 Nevertheless, from that day forward humans got to work.
@@ -32,7 +30,7 @@ In Europe, the turn of the 16th century was a step change.
 
 ## The Momentum of History
 
-![Bitcoin and Ethereum as milestones in the evolution of digital coordination](https://cdn.rexkirshner.com/blog/the-world-computer-bitcoin-ethereum.webp)
+![](https://inevitableeth.com/images/background-banner.jpg)
 
 [Deep Dive: Modern Finance, the Rise and Collapse](https://inevitableeth.com/background/background)
 
@@ -66,7 +64,7 @@ Ethereum is the World Computer.
 
 ## The World Computer
 
-![Ethereum visualized as a shared world computer](https://cdn.rexkirshner.com/blog/the-world-computer-world-computer.webp)
+![](https://inevitableeth.com/images/world-computer-banner.jpeg)
 
 The World Computer is made of up 3 parts:
 
@@ -165,8 +163,6 @@ Credible neutrality comes from decentralization.
 
 ## The Ethereum Ecosystem: De-Fi
 
-![DeFi applications represented as an internet-native financial network](https://cdn.rexkirshner.com/blog/the-world-computer-defi.webp)
-
 [Deep Dive: Decentralized-Finance](https://inevitableeth.com/ethereum/de-fi)
 
 Ethereum offers all the same features and capabilities of a normal ([virtual](https://inevitableeth.com/concepts/virtual-machine)) computer, but with one critical difference: [internet native property rights](https://inevitableeth.com/ethereum/property-rights).
@@ -200,8 +196,6 @@ No one can tell you what the future holds, but the internet is [not the first ti
 [We can look to the past for understanding... and for guidance.](https://inevitableeth.com/background/dot-com)
 
 ## A Maturing Protocol
-
-![The catch facing Ethereum as it matures into global infrastructure](https://cdn.rexkirshner.com/blog/the-world-computer-catch.webp)
 
 [The Ethereum we have today is still young and evolving](https://inevitableeth.com/ethereum/history).
 
@@ -302,8 +296,6 @@ The Portal Network is (will be) an independent network of computers dedicated to
 Light clients will query the Portal Network for proofs, mempools anything a its needs to verify the hashes created by Ethereum.
 
 ## Generalizing Decentralized Trustlessness
-
-![The internet as a global coordination network](https://cdn.rexkirshner.com/blog/the-world-computer-internet.webp)
 
 [Deep Dive: Trustless Trust](https://inevitableeth.com/ethereum/trustless-trust)
 
