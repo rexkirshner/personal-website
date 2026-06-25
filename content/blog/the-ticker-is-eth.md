@@ -138,7 +138,7 @@ As more of life moves online, the network needs native ways to hold value, defin
 
 ## 4. Bitcoin and Ethereum: Native Rules for the Internet
 
-In 2008, capitalism failed. In the smoldering ruins of [Lehman](https://inevitableeth.com/background/lehman), AIG and the American Dream, Satoshi Nakamoto published the Bitcoin Whitepaper. A little over 2 months later, on January 3, 2009, the Bitcoin blockchain went live. Etched into the genesis block: “The Times 03/Jan/2009 Chancellor on brink of second bailout for banks.”
+[In 2008, capitalism failed](https://inevitableeth.com/background/gfc). In the smoldering ruins of [Lehman](https://inevitableeth.com/background/lehman), [AIG](https://inevitableeth.com/background/aig) and the American Dream, Satoshi Nakamoto published the Bitcoin Whitepaper. A little over 2 months later, on January 3, 2009, the Bitcoin blockchain went live. Etched into the genesis block: “The Times 03/Jan/2009 Chancellor on brink of second bailout for banks.”
 
 To understand crypto, you must understand the context it was born from. Bitcoin was created at a moment where the financial system was in meltdown and Henry Paulson and Ben Bernanke were deciding winners and losers. Satoshi’s gift was an idea of a new, fairer system.
 
@@ -174,7 +174,7 @@ However, Ethereum is not just for DeFi. Ethereum provides internet-native [prope
 
 Provenance is the cleanest non-financial example. As synthetic media gets cheaper and more convincing, proving that a given image or document existed at a certain time and has not been altered becomes load-bearing. A public timestamp that anyone can verify and no one can backdate is hard to provide any other way, since a centralized timestamp is only as trustworthy as whoever keeps the clock.
 
-The same dynamic shows up in [rollups](https://inevitableeth.com/ethereum/execution), zero-knowledge proofs, and verifiable computation. The value of Ethereum is not cheap blockspace, but valuable blockspace. And that blockspace has value as a neutral place where systems running elsewhere can settle, prove they ran correctly, or let users exit if the operator misbehaves. It becomes the court of final appeal for those systems rather than the place all the work happens.
+The same dynamic shows up in [rollups](https://inevitableeth.com/ethereum/execution), [zero-knowledge proofs](https://inevitableeth.com/concepts/zk-proof), and verifiable computation. The value of Ethereum is not cheap blockspace, but valuable blockspace. And that blockspace has value as a neutral place where systems running elsewhere can settle, prove they ran correctly, or let users exit if the operator misbehaves. It becomes the court of final appeal for those systems rather than the place all the work happens.
 
 It also points at a need that is only just beginning to take shape. As software agents begin to transact on people’s behalf, they will need bounded permissions, escrow, audit trails, and verifiable commitments. The pattern repeats: wherever distrusting parties must coordinate around rules none of them controls, the missing piece is the same.
 
