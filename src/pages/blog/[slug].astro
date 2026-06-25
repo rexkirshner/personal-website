@@ -234,4 +234,70 @@ const linkedinShareURL = `https://www.linkedin.com/sharing/share-offsite/?url=${
       }, 1500);
     });
   </script>
+
+  <style is:global>
+    .essay-lead {
+      font-size: 1.2rem;
+      line-height: 1.65;
+      color: #4b5563;
+      font-style: italic;
+      margin: 0 0 1.9em;
+    }
+
+    details.essay-collapse {
+      border: 1px solid #e5e7eb;
+      border-radius: 0.6rem;
+      background: #fafafa;
+      margin: 1.9em 0;
+      overflow: hidden;
+    }
+
+    details.essay-collapse > summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 0.9rem 1.15rem;
+      font-weight: 600;
+      color: #1f2937;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      user-select: none;
+      -webkit-user-select: none;
+      transition: background 0.15s;
+    }
+
+    details.essay-collapse > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details.essay-collapse > summary:hover {
+      background: #f3f4f6;
+    }
+
+    details.essay-collapse > summary::before {
+      content: "\25B6";
+      color: #2563eb;
+      font-size: 0.72em;
+      line-height: 1;
+      transition: transform 0.15s ease;
+      flex: 0 0 auto;
+    }
+
+    details.essay-collapse[open] > summary::before {
+      transform: rotate(90deg);
+    }
+
+    details.essay-collapse > summary .essay-collapse-hint {
+      margin-left: auto;
+      font-weight: 600;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #9ca3af;
+    }
+
+    details.essay-collapse .essay-collapse-body {
+      padding: 0.4rem 1.15rem 0.55rem;
+    }
+  </style>
 </BaseLayout>
