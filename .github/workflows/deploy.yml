@@ -37,13 +37,12 @@ jobs:
 
       - name: Deploy to IPFS
         id: ipfs
-        uses: aquiladev/ipfs-action@v0.3.1
-        with:
-          path: './dist'
-          service: pinata
-          pinataKey: ${{ secrets.PINATA_API_KEY }}
-          pinataSecret: ${{ secrets.PINATA_SECRET_KEY }}
-          pinataPinName: 'rexkirshner.com-${{ github.sha }}'
+        run: |
+          node scripts/pin-to-ipfs.cjs
+          echo "hash=$(cat LATEST_CID.txt)" >> "$GITHUB_OUTPUT"
+        env:
+          PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
+          PINATA_SECRET_KEY: ${{ secrets.PINATA_SECRET_KEY }}
 
       - name: Output CID
         run: |
