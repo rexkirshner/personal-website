@@ -11,16 +11,7 @@ image: "https://cdn.rexkirshner.com/blog/decentralization-theater-banner.webp"
 
 DegenSpartan, on who actually decides:
 
-<blockquote>
-protocol governance explained<br>
-snapshot vote: which color lambo should the founder buy?<br>
-11% Yellow<br>
-89% Black<br>
-founder: but i like yellow<br>
-<em>votes yellow</em><br>
-96% Yellow<br>
-4% Black
-</blockquote>
+![A snapshot poll that flips the instant the founder votes, because a handful of wallets hold the power](https://cdn.rexkirshner.com/blog/decentralization-theater-poll.webp)
 
 Be in this industry long enough and eventually someone will send you this tweet. In June of 2026, it is almost certainly pinging around group chats as people try to come to consensus on the ENS fight.
 
@@ -45,8 +36,6 @@ Was any of it real?
 </details>
 
 ## 2. The Poll Was Right
-
-![A snapshot poll that flips the instant the founder votes, because a handful of wallets hold the power](https://cdn.rexkirshner.com/blog/decentralization-theater-poll.webp)
 
 DegenSpartan's poll runs 89 to 11 against the founder, then 96 to 4 with him the moment he weighs in. Nothing was rigged in any technical sense, and yet it is hard to call the result credibly decentralized. Were the voters just following the leader? Does the founder have influence over the whales who voted with him? Is there even enough voting power to vote down the founder?
 
