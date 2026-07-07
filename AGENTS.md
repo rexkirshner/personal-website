@@ -1,6 +1,7 @@
 # AGENTS.md
 
 This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
+`CLAUDE.md` mirrors this guide for Claude Code; keep both files in sync when changing project context.
 
 ## Project Overview
 
@@ -10,7 +11,7 @@ This is a personal portfolio website for Rex Kirshner built with Astro as a stat
   - https://logrex.eth.limo (ENS gateway)
   - https://rexkirshner.eth.limo (ENS gateway)
 
-Content is managed through JSON and Markdown files—no code changes are required to update site content.
+Most structured content is managed through JSON and Markdown files. Some homepage copy still lives inline in Astro components.
 
 ## Key Technologies
 
@@ -46,7 +47,8 @@ npm run generate-photos-json       # Generate photos.json from directory
 npm run generate-thumbnails        # Create WebP thumbnails
 npm run update-photos-json         # Update photos.json with R2 URLs
 npm run add-photo-metadata         # Add EXIF metadata to photos.json
-npm run process-strava             # Process Strava data exports
+npm run update-running-stats       # Regenerate running stats from activity-data API
+npm run process-strava             # Alias for update-running-stats
 npm run update-travel-map          # Parse KML and update travel map data
 npm run update-travel-map:verbose  # Verbose output for debugging
 npm run update-ens                 # Update ENS contenthash after IPFS deploy
@@ -79,9 +81,9 @@ npm run update-ens -- --dry-run    # Preview without sending transactions
 
 ### Content-Driven Static Site
 
-All site content lives in `/content` as JSON or Markdown files. The site compiles these into static HTML with minimal JavaScript. This architecture enables:
+Most structured content lives in `/content` as JSON or Markdown files. The site compiles these into static HTML with minimal JavaScript. This architecture enables:
 - Zero-JS by default (JS only loads for interactive features: lightbox, video modal, travel map, carousel)
-- Content updates without code changes
+- Many content updates without code changes
 - Optimal performance for both traditional CDN and IPFS deployment
 - Fast builds and deterministic output
 
@@ -91,9 +93,9 @@ All site content lives in `/content` as JSON or Markdown files. The site compile
 - `PhotoGallery.astro`: Carousel + tabbed filtering + native `<dialog>` lightbox with keyboard navigation
 - `VideoGallery.astro`: Vimeo video grid with tabbed filtering and modal player
 - `VimeoEmbed.astro`: Responsive 16:9 Vimeo iframe wrapper (no Vimeo API script)
-- `StravaHeatmap.astro`: Embedded Strava heatmap with placeholder fallback
 - `TravelMap.astro`: Lazy-loaded interactive map using MapLibre GL with OpenStreetMap tiles
 - `RunningStats.astro`: Display running statistics with tabbed data views
+- `StravaHeatmap.astro`: Legacy embedded Strava heatmap component; not currently rendered on the homepage
 
 **Responsive Tab Patterns:**
 All tab-based components (RunningStats, VideoGallery, PhotoGallery) implement mobile-responsive tab selectors:
@@ -120,10 +122,9 @@ All tab-based components (RunningStats, VideoGallery, PhotoGallery) implement mo
   - Consulting & Services (RBK Strategies + Scratch Space)
   - Publications: 3-column grid (xl breakpoint) with Blog, Podcasts, and Inevitable Ethereum Wiki
   - Creative section (videos and photography with carousels and tabbed galleries)
-  - Running (narrative, stats with tabs, heatmap, travel map toggle)
+  - Running (featured video, hardcoded narrative, API-backed stats with tabs)
 - `blog/index.astro`: Blog listing with multi-select tag filtering and search
 - `blog/[slug].astro`: Individual blog post with share widget, BlogPosting schema, breadcrumbs
-- `blog/[slug].astro`: Individual blog post with share links and article SEO
 
 ### Content Schema
 
@@ -135,35 +136,35 @@ Content files are strongly structured:
 
 **`/content/ethereum/projects.json`**: Array of Ethereum projects with id, title, type, tagline (optional), description, link, and image. Projects include Inevitable Ethereum Wiki, Strange Water Podcast, Expansion Podcast, and Signaling Theory Podcast.
 
-**`/content/programming/projects.json`**: Array of programming projects with id, title, type, tagline, description, and link. Projects include AI Context System and Podcast Framework. Images optional.
-
-**`/content/videos/videos.json`**: Array of videos with id, title, year, vimeoId, description, thumbnail path, and categories (featured, stories, year-reviews, running, all)
+**`/content/videos/videos.json`**: Array of videos with id, title, year, order, vimeoId, description, and thumbnail path. `VideoGallery.astro` currently derives display categories from titles.
 
 **`/content/photography/photos.json`**: Array of photos with:
 - id, title, location, date
 - thumbnailUrl (R2 URL for WebP thumbnail)
 - originalUrl (R2 URL for original)
-- categories (all, landscapes, cities, underwater, nature)
+- categories (currently all, animals, cities, landscapes, nature)
 - alt, width, height
 - Photos are hosted on Cloudflare R2; thumbnails are WebP format
 
 **`/content/running/stats.json`**: Running statistics including:
-- metadata (totalLocations, lastUpdated, dateRange)
-- totals (totalMiles, totalRuns, totalCountries, homeStatesRan, travelStatesRan)
-- byCountry array with country, miles, runs
-- byState array with state, miles, runs, type (home/travel)
-- homeVsTravel breakdown
-- timeline data (yearly/monthly statistics)
+- timePeriod (start, end)
+- totals (miles, runs, countries, avgDistance, longestRun, homeMiles, travelMiles, outdoorMiles, treadmillMiles)
+- byCountry array with country and miles
+- byState array with state and miles
+- byYear array with year and miles
+- homeLocations array with location and miles
 - stravaLinks (profile URL, heatmap embed URL)
 
-**`/content/running/narrative.md`**: Markdown narrative for running journey (displayed above stats)
+Running stats should be regenerated with `npm run update-running-stats`, which fetches from the activity-data API and rewrites `/content/running/stats.json`. `npm run process-strava` is kept as an alias for the same pipeline.
+
+**`/content/running/narrative.md`**: Legacy markdown narrative. The homepage running copy currently lives inline in `src/pages/index.astro`.
 
 **`/content/travel/map-data.json`**: Travel map data with:
 - metadata (totalLocations, countries, lastUpdated, dateRange)
 - bbox (bounding box)
-- defaultZoom (1.2) and defaultCenter ([-70, 30] - Atlantic Ocean view)
+- defaultZoom and defaultCenter used by `TravelMap.astro`
 - locations array with id, name, lat, lng, date, year, country
-- paths array for flight routes (currently not displayed)
+- paths array for flight routes displayed by `TravelMap.astro`
 
 **`/content/blog/*.md`**: Blog posts as Markdown files with YAML frontmatter. This is the **only content using Astro Content Collections** (all other content uses raw JSON imports). Schema defined in `/src/content.config.ts` with Zod validation. Frontmatter fields:
 - title (string, required) — post title and h1
@@ -210,14 +211,13 @@ This site uses minimal JavaScript with performance optimizations:
 
 6. **Profile Carousel (index.astro)**: 3-photo carousel with auto-rotate and manual controls. **Script is deferred to `window.load` event** to avoid blocking page load. Uses responsive WebP images with srcset (filenames use dashes, not spaces).
 
-7. **Travel Map (TravelMap.astro)**: **Lazy-loaded** using dynamic imports. The map (1.5MB+ with dependencies) only loads when user clicks the "Show My Travel Map" toggle. Pattern:
+7. **Travel Map (TravelMap.astro)**: **Lazy-loaded** using dynamic imports. The map (1.5MB+ with dependencies) only loads when user clicks the "View Travel Map" toggle. Pattern:
    - Component exports `initMap()` async function
    - Function dynamically imports MapLibre GL and map data
    - Called from index.astro when toggle is clicked
    - Uses OpenStreetMap raster tiles
-   - Centers on Atlantic Ocean ([-70, 30]) at zoom 1.2
-   - Does NOT auto-fit to bounds - maintains fixed view showing US and Europe
-   - Shows location markers with popups (name only)
+   - Uses `defaultCenter` and `defaultZoom` from `/content/travel/map-data.json`
+   - Shows flight paths and location markers with popups
 
 8. **Responsive Tab Selectors**: All tabbed components implement a dual pattern:
    - Desktop: Tab buttons with active state styling
@@ -229,14 +229,6 @@ This site uses minimal JavaScript with performance optimizations:
 
 10. **Remark Plugins (astro.config.mjs)**: Custom remark plugins in `/src/plugins/` registered globally in `markdown.remarkPlugins`. Currently:
     - `remarkTwitterHandles`: Transforms `@handle` text nodes into `<a href="https://x.com/handle">handle</a>` links. Skips handles inside links, code blocks, and inline code. Uses `unist-util-visit` (transitive dependency of Astro).
-
-11. **Project Card Accordions (Ethereum & Programming)**: Collapsible cards on mobile to save vertical space:
-   - Mobile (< 768px): Cards show title + type only, click to expand/collapse
-   - Desktop (≥ 768px): All content visible in grid layout
-   - Chevron icon rotates on toggle (mobile only)
-   - Prevents link clicks from triggering accordion
-   - Content uses `hidden md:block` pattern for responsive visibility
-   - Separate scripts for `.ethereum-project` and `.programming-project` selectors
 
 **Key Pattern**: Components use `define:vars` to pass Astro data to inline scripts. Scripts are scoped per-component and only execute when the component renders.
 
@@ -260,7 +252,7 @@ The site has been heavily optimized for slow internet connections and IPFS deplo
    - `sizes` attribute for proper responsive loading
    - `fetchpriority="high"` on first profile image (LCP)
    - Filenames use dashes instead of spaces for proper URL handling
-   - Original JPG/PNG files moved to `.archive/` to exclude from build
+   - Original/exported media stays in gitignored `content export/` or `.archive/` to exclude it from builds
 
 2. **Lazy Loading**:
    - Travel map (MapLibre GL + GeoJSON data) only loads on user interaction
@@ -279,7 +271,7 @@ The site has been heavily optimized for slow internet connections and IPFS deplo
    - Google Analytics loaded via Partytown (runs in web worker)
    - Prevents GA from blocking main thread
 
-**Results**: Optimized build size ~2.5MB. Initial JS ~10KB.
+Check `dist/` size after asset-heavy changes instead of relying on a fixed historical number.
 
 ### SEO Implementation
 
@@ -363,9 +355,14 @@ explicit user permission.**
 - Lighthouse Accessibility ≥95
 - Lighthouse Best Practices ≥95
 - Cold load via .eth.limo ≤2.5s on 4G
-- Build size ≤3MB (currently ~2.5MB)
+- Keep build size small; verify `dist/` size after asset-heavy changes
 
 ## Content Update Workflow
+
+**Running stats:**
+1. Run `npm run update-running-stats`
+2. Review the diff in `/content/running/stats.json`
+3. Run `npm run build` before committing
 
 **For rexkirshner.com (automatic):**
 1. Edit JSON/Markdown files in `/content`
@@ -384,13 +381,12 @@ explicit user permission.**
 Photos are hosted on Cloudflare R2 (not IPFS) for cost and performance. The complete workflow is:
 
 1. Export photos from source (Lightroom, phone, etc.)
-2. Place originals in `/public/images/photography/` (temporary)
+2. Place originals in `/content export/photos/` (gitignored)
 3. Run `npm run generate-thumbnails` to create WebP thumbnails at multiple sizes
 4. Run `npm run upload-photos` to upload originals and thumbnails to R2
 5. Run `npm run update-photos-json` to update photos.json with R2 URLs
 6. Optionally run `npm run add-photo-metadata` to add EXIF data
-7. Move originals to `.archive/` to exclude from build
-8. Rebuild site with `npm run build`
+7. Rebuild site with `npm run build`
 
 **Scripts in `/scripts/`**:
 - `generate-thumbnails.js`: Uses Sharp to create WebP thumbnails
@@ -403,18 +399,19 @@ Photos are hosted on Cloudflare R2 (not IPFS) for cost and performance. The comp
 
 The travel map is built from KML export and converted to GeoJSON:
 
-1. Export KML file from Google My Maps
-2. Place in `/content/travel/` directory
+1. Export KML file from TravelersPoint
+2. Save it to `/content export/travel map/trips958306 (1).kml`
 3. Run `npm run update-travel-map` to parse KML and generate map-data.json
 4. Script (`parse-travel-kml.js`) handles:
    - Parsing KML using @mapbox/togeojson
-   - Splitting multi-segment LineStrings at antimeridian (-180/180)
-   - Generating bbox and metadata
-   - Creating location markers (paths currently not rendered)
-   - Setting default view: center [-70, 30], zoom 1.2
+   - Generating great-circle arcs for flight paths
+   - Simplifying paths for performance
+   - Generating metadata
+   - Creating location markers and flight path data
+   - Writing `/content/travel/map-data.json`
 5. Rebuild site
 
-**Important**: The map does NOT auto-fit to bounds. It maintains a fixed view centered on the Atlantic Ocean showing both US and Europe.
+**Important**: The map uses `defaultCenter` and `defaultZoom` from `/content/travel/map-data.json`.
 
 ## Important Notes for Future Development
 
@@ -426,11 +423,11 @@ The travel map is built from KML export and converted to GeoJSON:
 - **Lazy load heavy dependencies**: Follow TravelMap pattern for any large libraries
 - **Defer non-critical scripts**: Follow carousel pattern for scripts that aren't needed immediately
 - **Use WebP for all images**: Better compression than JPG/PNG
-- **Archive original images**: Keep originals in `.archive/` to exclude from build
+- **Archive original images**: Keep originals in gitignored `content export/` or `.archive/` to exclude them from builds
 - **Image filenames**: Use dashes, not spaces (e.g., `profile-pic-1.webp` not `profile pic 1.webp`)
 - **Responsive tabs**: Use dropdown selectors on mobile, tab buttons on desktop (breakpoint: `md`)
 - **Form elements**: Always include `id` and `name` attributes on `<select>` elements for accessibility
-- **Travel map**: Maintains fixed Atlantic Ocean view, does NOT auto-fit to bounds
+- **Travel map**: Uses `defaultCenter` and `defaultZoom` from `/content/travel/map-data.json`
 
 ## File Organization
 
@@ -440,7 +437,6 @@ The travel map is built from KML export and converted to GeoJSON:
 - `/content`: All content JSON/Markdown files
   - `/content/site`: Site metadata and profile pics
   - `/content/ethereum`: Ethereum projects
-  - `/content/programming`: Programming projects
   - `/content/videos`: Vimeo videos
   - `/content/photography`: Photo metadata (images on R2)
   - `/content/running`: Running stats and narrative
@@ -477,19 +473,3 @@ When writing copy for this site, use Rex's voice:
 8. MAKE ALL FIXES AND CODE CHANGES AS SIMPLE AS HUMANLY POSSIBLE. THEY SHOULD ONLY IMPACT NECESSARY CODE RELEVANT TO THE TASK AND NOTHING ELSE. IT SHOULD IMPACT AS LITTLE CODE AS POSSIBLE. YOUR GOAL IS TO NOT INTRODUCE ANY BUGS. IT'S ALL ABOUT SIMPLICITY
 
 CRITICAL: When debugging, you MUST trace through the ENTIRE code flow step by step. No assumptions. No shortcuts.
-
-## AI Context System
-
-This project uses the AI Context System for session continuity. Configuration and preferences are in `context/.context-config.json`.
-
-**Context Files:**
-- `context/STATUS.md` - Current state and active tasks
-- `context/SESSIONS.md` - Session history
-- `context/DECISIONS.md` - Technical decisions with rationale
-- `context/CONTEXT.md` - Project orientation (supplements this file)
-
-**Session Commands:**
-- `/save` - Quick session update (2-3 min)
-- `/save-full` - Comprehensive save before breaks (10-15 min)
-- `/review-context` - Orient at session start
-- `/code-review` - Run code audits

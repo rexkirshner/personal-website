@@ -190,25 +190,18 @@ Change the order of entries in the array.
 
 **File:** `/content/running/stats.json`
 
-Update any of these fields:
-```json
-{
-  "timePeriod": "November 2016 - Present",
-  "totals": {
-    "miles": 5000,
-    "countries": 50,
-    "workMiles": 2500,
-    "pleasureMiles": 2500
-  },
-  "byCountry": [
-    {"country": "USA", "miles": 2000},
-    {"country": "Japan", "miles": 150}
-  ],
-  "stravaLinks": {
-    "profile": "https://strava.com/athletes/...",
-    "heatmapEmbed": "https://..."
-  }
-}
+Running stats are generated from the activity-data API:
+```bash
+npm run update-running-stats
+```
+
+The updater checks API health, refuses invalid snapshots, and writes
+`/content/running/stats.json`. It preserves the existing Strava profile and
+heatmap links from the JSON file.
+
+To point at another API base URL:
+```bash
+ACTIVITY_DATA_API_BASE=https://example.com/datasets/activity-data/v1 npm run update-running-stats
 ```
 
 ### Running Narrative (Story Text)

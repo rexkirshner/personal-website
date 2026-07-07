@@ -170,31 +170,13 @@ Edit `/content/photography/photos.json`:
 
 ### Update Running Stats
 
-Edit `/content/running/stats.json`:
-```json
-{
-  "timePeriod": {
-    "start": "2016-11-02",
-    "end": "2024-09-06"
-  },
-  "totals": {
-    "miles": 15000,
-    "countries": 42,
-    "workMiles": 8000,
-    "pleasureMiles": 7000
-  },
-  "byCountry": [
-    {
-      "country": "Country Name",
-      "miles": 1000
-    }
-  ],
-  "stravaLinks": {
-    "profile": "https://www.strava.com/athletes/your-id",
-    "heatmap": "https://www.strava.com/athletes/your-id/heatmaps/embed"
-  }
-}
+Generate `/content/running/stats.json` from the activity-data API:
+```bash
+npm run update-running-stats
 ```
+
+The updater checks API health, refuses invalid snapshots, and preserves the
+existing Strava profile and heatmap links from the JSON file.
 
 **Getting Strava Heatmap URL:**
 1. Go to your Strava profile
@@ -389,4 +371,3 @@ For issues or questions, check:
 **Built with:** Astro v5 • Tailwind CSS v4 • Sharp • IPFS • ENS
 
 **Last Updated:** October 2025
-
