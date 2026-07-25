@@ -3,7 +3,6 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PhotoGallery from '../components/PhotoGallery.astro';
 import VideoGallery from '../components/VideoGallery.astro';
-import RunningStats from '../components/RunningStats.astro';
 import TravelMap from '../components/TravelMap.astro';
 import siteMetadata from '../../content/site/meta.json';
 import ethereumProjects from '../../content/ethereum/projects.json';
@@ -15,6 +14,17 @@ import profilePics from '../../content/site/profile-pics.json';
 // Blog posts for preview section (all published, newest first)
 const blogPosts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const runningNumberFormatter = new Intl.NumberFormat('en-US');
+const fallbackRunningMiles = runningNumberFormatter.format(Math.round(runningStats.totals.miles));
+const fallbackRunningRuns = runningNumberFormatter.format(runningStats.totals.runs);
+const fallbackRunningCountries = runningNumberFormatter.format(runningStats.totals.countries);
+const fallbackRunningAsOf = new Date(`${runningStats.timePeriod.end}T00:00:00Z`).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC',
+});
 ---
 
 <BaseLayout title={siteMetadata.title} description={siteMetadata.description}>
@@ -447,131 +457,351 @@ const blogPosts = (await getCollection('blog', ({ data }) => !data.draft))
   </script>
 
   <!-- Running Section -->
-  <section id="running" class="py-20 bg-gray-50">
+  <section id="running" class="pt-20 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-4xl font-bold mb-12 text-center">Running Journey</h2>
+      <h2 class="text-4xl font-bold mb-12 text-center">Running</h2>
+    </div>
 
-      <!-- Featured Video -->
-      <div class="max-w-4xl mx-auto mb-12">
-        <div
-          class="relative cursor-pointer group rounded-lg overflow-hidden shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-          id="running-featured-video"
-          tabindex="0"
-          role="button"
-          aria-label="Play 15k Miles video"
-        >
-          <img
-            src="/images/videos/15k-miles-thumbnail.webp"
-            alt=""
-            class="w-full aspect-video object-cover"
-            loading="eager"
-          />
-          <div class="absolute inset-0 bg-transparent group-hover:bg-black/40 group-focus:bg-black/40 transition-all flex items-center justify-center">
-            <div class="w-20 h-20 bg-white/90 rounded-full flex items-center justify-center opacity-50 sm:opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity" aria-hidden="true">
-              <svg class="w-10 h-10 text-gray-900 ml-1" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </div>
-          </div>
+    <div class="running-trailer-section">
+      <picture class="running-trailer-poster" aria-hidden="true">
+        <source
+          media="(max-width: 767px)"
+          srcset="https://cdn.rexkirshner.com/videos/running/trailer/running-trailer-poster-mobile.jpg"
+        />
+        <img
+          src="https://cdn.rexkirshner.com/videos/running/trailer/running-trailer-poster-desktop.jpg"
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
+      </picture>
+
+      <video
+        id="running-trailer-video"
+        class="running-trailer-video"
+        data-desktop-src="https://cdn.rexkirshner.com/videos/running/trailer/running-trailer-desktop.mp4"
+        data-mobile-src="https://cdn.rexkirshner.com/videos/running/trailer/running-trailer-mobile.mp4"
+        muted
+        loop
+        playsinline
+        preload="none"
+        aria-hidden="true"
+      ></video>
+
+      <div class="running-trailer-shade" aria-hidden="true"></div>
+
+      <div class="running-trailer-content">
+        <p class="running-trailer-kicker">Running the world since 2016</p>
+        <h2>
+          <span data-running-stat="miles">{fallbackRunningMiles}</span> miles<br />
+          <em>and counting.</em>
+        </h2>
+
+        <div class="running-trailer-stats" aria-live="polite">
+          <span><b data-running-stat="runs">{fallbackRunningRuns}</b> runs</span>
+          <i aria-hidden="true"></i>
+          <span><b data-running-stat="countries">{fallbackRunningCountries}</b> countries</span>
+          <i aria-hidden="true"></i>
+          <span data-running-stat="as-of">Updated {fallbackRunningAsOf}</span>
         </div>
+
+        <a class="running-trailer-link" href="https://running.rexkirshner.com/">
+          Explore the full journey <span aria-hidden="true">↗</span>
+        </a>
       </div>
-
-      <!-- Narrative -->
-      <div class="prose prose-lg max-w-3xl mx-auto mb-12">
-        <p class="text-lg text-gray-700 leading-relaxed">
-          In November 2016, as I was packing up to head home from work, I downloaded Couch to 5K and resolved to get started that night. Six months later I'd lost 100 pounds and finished a half marathon. Six months after that, I ran the New York Marathon in 3:35.
-        </p>
-        <p class="text-lg text-gray-700 leading-relaxed mt-6">
-          Since that first run in 2016, I've logged thousands of miles across {runningStats.totals.countries} countries. These days I make a point of running long distances wherever I am. I've experienced everywhere in a completely new way.
-        </p>
-        <p class="text-lg text-gray-700 leading-relaxed mt-6">
-          Each mile tells a story.
-        </p>
-      </div>
-
-      <!-- Running Stats Subtitle -->
-      <h3 class="text-2xl font-bold mb-8 text-center">Running Stats</h3>
-
-      <!-- Running Stats Component -->
-      <RunningStats stats={runningStats} />
     </div>
   </section>
 
-  <!-- Running Video Modal -->
-  <dialog id="running-video-modal" class="video-modal-dialog" aria-labelledby="running-video-title">
-    <div class="modal-container">
-      <button
-        id="running-video-close"
-        class="close-button"
-        aria-label="Close video"
-      >
-        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
-
-      <div class="video-content">
-        <h3 id="running-video-title" class="text-2xl font-bold text-white mb-4">15k Miles</h3>
-        <div id="running-video-embed"></div>
-        <p id="running-video-description" class="text-white/80 mt-4">A commemoration of 15k total miles run</p>
-      </div>
-    </div>
-  </dialog>
-
   <script>
-    const runningFeaturedVideo = document.getElementById('running-featured-video');
-    const runningModal = document.getElementById('running-video-modal');
-    const runningCloseButton = document.getElementById('running-video-close');
-    const runningEmbedContainer = document.getElementById('running-video-embed');
-
-    function openRunningVideo() {
-      if (runningEmbedContainer) {
-        runningEmbedContainer.innerHTML = `
-          <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #000; border-radius: 0.5rem;">
-            <iframe
-              src="https://player.vimeo.com/video/1014193043?autoplay=1&badge=0&autopause=0"
-              frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
-              title="15k Miles"
-              style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
-            ></iframe>
-          </div>
-        `;
-      }
-      runningModal?.showModal();
+    interface LiveRunningStats {
+      schema: string;
+      asOf?: string;
+      miles: number;
+      runs: number;
+      countries: number;
     }
 
-    function closeRunningVideo() {
-      if (runningEmbedContainer) {
-        runningEmbedContainer.innerHTML = '';
-      }
-      runningModal?.close();
+    const runningSection = document.getElementById('running');
+    const runningTrailer = document.getElementById('running-trailer-video') as HTMLVideoElement | null;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const runningNumberFormatter = new Intl.NumberFormat('en-US');
+    let runningTrailerLoaded = false;
+    let runningStatsLoaded = false;
+
+    function loadRunningTrailer() {
+      if (!runningTrailer || runningTrailerLoaded || reducedMotion.matches) return;
+
+      const source = window.matchMedia('(max-width: 767px)').matches
+        ? runningTrailer.dataset.mobileSrc
+        : runningTrailer.dataset.desktopSrc;
+
+      if (!source) return;
+
+      runningTrailer.src = source;
+      runningTrailerLoaded = true;
+      runningTrailer.load();
     }
 
-    runningFeaturedVideo?.addEventListener('click', openRunningVideo);
-    runningFeaturedVideo?.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        openRunningVideo();
+    async function loadLiveRunningStats() {
+      if (runningStatsLoaded) return;
+      runningStatsLoaded = true;
+
+      try {
+        const response = await fetch('https://running.rexkirshner.com/api/stats.json');
+        if (!response.ok) throw new Error(`Running stats request failed: ${response.status}`);
+
+        const stats = await response.json() as LiveRunningStats;
+        const validStats = stats.schema === 'running-stats/1'
+          && Number.isFinite(stats.miles)
+          && Number.isFinite(stats.runs)
+          && Number.isFinite(stats.countries);
+
+        if (!validStats) throw new Error('Unexpected running stats response');
+
+        (['miles', 'runs', 'countries'] as const).forEach((key) => {
+          document.querySelectorAll(`[data-running-stat="${key}"]`).forEach((element) => {
+            element.textContent = runningNumberFormatter.format(stats[key]);
+          });
+        });
+
+        if (typeof stats.asOf === 'string') {
+          const asOf = new Date(`${stats.asOf}T00:00:00Z`).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            timeZone: 'UTC',
+          });
+
+          document.querySelectorAll('[data-running-stat="as-of"]').forEach((element) => {
+            element.textContent = `Updated ${asOf}`;
+          });
+        }
+
+        runningSection?.setAttribute('data-stats-source', 'live');
+      } catch {
+        // Keep the bundled values visible if the live endpoint is unavailable.
+      }
+    }
+
+    function activateRunningSection() {
+      loadLiveRunningStats();
+      loadRunningTrailer();
+
+      if (!reducedMotion.matches) {
+        runningTrailer?.play().catch(() => {
+          runningTrailer?.classList.remove('is-playing');
+        });
+      }
+    }
+
+    runningTrailer?.addEventListener('playing', () => {
+      runningTrailer.classList.add('is-playing');
+    });
+
+    reducedMotion.addEventListener('change', (event) => {
+      if (event.matches) {
+        runningTrailer?.pause();
+        runningTrailer?.classList.remove('is-playing');
+      } else if (runningSection && runningSection.getBoundingClientRect().top < window.innerHeight) {
+        activateRunningSection();
       }
     });
-    runningCloseButton?.addEventListener('click', closeRunningVideo);
 
-    runningModal?.addEventListener('click', (e) => {
-      if (e.target === runningModal) {
-        closeRunningVideo();
-      }
-    });
+    if (runningSection && 'IntersectionObserver' in window) {
+      const runningObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            activateRunningSection();
+          } else {
+            runningTrailer?.pause();
+          }
+        });
+      }, { rootMargin: '400px 0px' });
 
-    runningModal?.addEventListener('cancel', (e) => {
-      e.preventDefault();
-      closeRunningVideo();
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (runningModal?.open && e.key === 'Escape') {
-        closeRunningVideo();
-      }
-    });
+      runningObserver.observe(runningSection);
+    } else {
+      activateRunningSection();
+    }
   </script>
+
+  <style>
+    .running-trailer-section {
+      position: relative;
+      min-height: clamp(620px, 78vh, 820px);
+      overflow: hidden;
+      isolation: isolate;
+      background: #07070c;
+      color: #e9e6df;
+    }
+
+    .running-trailer-poster,
+    .running-trailer-poster img,
+    .running-trailer-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .running-trailer-poster img,
+    .running-trailer-video {
+      object-fit: cover;
+    }
+
+    .running-trailer-video {
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 600ms ease;
+    }
+
+    .running-trailer-video.is-playing {
+      opacity: 1;
+    }
+
+    .running-trailer-shade {
+      position: absolute;
+      z-index: 2;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(5, 5, 9, 0.97) 0%, rgba(5, 5, 9, 0.74) 36%, rgba(5, 5, 9, 0.1) 69%),
+        linear-gradient(0deg, rgba(5, 5, 9, 0.55), transparent 54%);
+      pointer-events: none;
+    }
+
+    .running-trailer-content {
+      position: relative;
+      z-index: 3;
+      width: min(1280px, 100%);
+      min-height: inherit;
+      margin: 0 auto;
+      padding: 7rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .running-trailer-kicker {
+      margin: 0 0 1.25rem;
+      color: #b55f43;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+    }
+
+    .running-trailer-content h2 {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      font-size: clamp(4rem, 7vw, 7rem);
+      font-weight: 400;
+      letter-spacing: -0.055em;
+      line-height: 0.88;
+    }
+
+    .running-trailer-content h2 > span {
+      color: #e8d6a9;
+    }
+
+    .running-trailer-content h2 em {
+      font-weight: 400;
+    }
+
+    .running-trailer-stats {
+      margin: 2rem 0 1.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      color: #827d82;
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      font-size: 0.95rem;
+    }
+
+    .running-trailer-stats b {
+      color: #d8d1c4;
+      font-weight: 400;
+    }
+
+    .running-trailer-stats i {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: #b55f43;
+    }
+
+    .running-trailer-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.9rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(209, 173, 98, 0.38);
+      color: #dcd6ca;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: border-color 180ms ease, color 180ms ease;
+    }
+
+    .running-trailer-link span {
+      color: #d1ad62;
+    }
+
+    .running-trailer-link:hover,
+    .running-trailer-link:focus-visible {
+      border-color: #d1ad62;
+      color: #fffaf0;
+      outline: none;
+    }
+
+    .running-trailer-link:focus-visible {
+      box-shadow: 0 3px 0 #07070c, 0 5px 0 #d1ad62;
+    }
+
+    @media (max-width: 767px) {
+      .running-trailer-section {
+        min-height: min(820px, calc(100svh - 4rem));
+      }
+
+      .running-trailer-shade {
+        background:
+          linear-gradient(180deg, rgba(5, 5, 9, 0.98) 0%, rgba(5, 5, 9, 0.78) 39%, rgba(5, 5, 9, 0.12) 68%),
+          linear-gradient(0deg, rgba(5, 5, 9, 0.4), transparent 50%);
+      }
+
+      .running-trailer-content {
+        padding: 4.5rem 1.5rem 3rem;
+        justify-content: flex-start;
+      }
+
+      .running-trailer-content h2 {
+        max-width: 21rem;
+        font-size: clamp(3.5rem, 15vw, 5rem);
+      }
+
+      .running-trailer-stats {
+        max-width: 19rem;
+        margin: 1.5rem 0;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 0.5rem 0.75rem;
+        font-size: 0.85rem;
+      }
+
+      .running-trailer-stats i:last-of-type {
+        display: none;
+      }
+
+      .running-trailer-stats [data-running-stat="as-of"] {
+        flex-basis: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .running-trailer-video {
+        display: none;
+      }
+    }
+  </style>
 </BaseLayout>
