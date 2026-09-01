@@ -1,0 +1,347 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import siteMetadata from '../../content/site/meta.json';
+
+const contactMethods = [
+  {
+    label: 'Email',
+    detail: siteMetadata.social.email,
+    href: `mailto:${siteMetadata.social.email}`,
+    accent: '#b55f43',
+    accentSoft: '#f3e2db',
+    path: 'M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z',
+  },
+  {
+    label: 'Twitter',
+    detail: '@LogarithmicRex',
+    href: siteMetadata.social.twitter,
+    accent: '#20242d',
+    accentSoft: '#e5e7eb',
+    path: 'M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z',
+  },
+  {
+    label: 'LinkedIn',
+    detail: 'Rex Kirshner',
+    href: siteMetadata.social.linkedin,
+    accent: '#0a66c2',
+    accentSoft: '#dcecf9',
+    path: 'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z',
+  },
+  {
+    label: 'Telegram',
+    detail: '@LogarithmicRex',
+    href: siteMetadata.social.telegram,
+    accent: '#229ed9',
+    accentSoft: '#dff2fa',
+    path: 'M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z',
+  },
+  {
+    label: 'Discord',
+    detail: 'LogarithmicRex',
+    href: siteMetadata.social.discord,
+    accent: '#5865f2',
+    accentSoft: '#e4e6fd',
+    path: 'M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z',
+  },
+];
+---
+
+<BaseLayout
+  title="Contact — Rex Kirshner"
+  description="Connect with Rex Kirshner by email, Twitter, LinkedIn, Telegram, or Discord."
+>
+  <section class="contact-page">
+    <div class="contact-orb contact-orb--warm" aria-hidden="true"></div>
+    <div class="contact-orb contact-orb--cool" aria-hidden="true"></div>
+
+    <div class="contact-shell">
+      <header class="contact-header">
+        <p class="contact-kicker">Rex Kirshner / Contact</p>
+        <h1>Let's <em>connect.</em></h1>
+      </header>
+
+      <ul class="contact-list">
+        {contactMethods.map((method, index) => (
+          <li
+            class="contact-item"
+            style={`--accent: ${method.accent}; --accent-soft: ${method.accentSoft}; --delay: ${index * 70}ms;`}
+          >
+            <a
+              href={method.href}
+              target={method.label === 'Email' ? undefined : '_blank'}
+              rel={method.label === 'Email' ? undefined : 'noopener noreferrer'}
+              class="contact-link"
+            >
+              <span class="contact-icon" aria-hidden="true">
+                <svg fill="currentColor" viewBox="0 0 24 24">
+                  <path d={method.path} />
+                </svg>
+              </span>
+              <span class="contact-label">{method.label}</span>
+              <span class="contact-detail">{method.detail}</span>
+              <span class="contact-arrow" aria-hidden="true">↗</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-page {
+    --ink: #17202c;
+    position: relative;
+    min-height: calc(100svh - 4rem);
+    overflow: hidden;
+    padding: clamp(4rem, 8vw, 7rem) 1.5rem;
+    color: var(--ink);
+    background:
+      linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)),
+      repeating-linear-gradient(0deg, rgba(23, 32, 44, 0.018) 0 1px, transparent 1px 5px),
+      #f4f1ea;
+    isolation: isolate;
+  }
+
+  .contact-orb {
+    position: absolute;
+    z-index: -1;
+    width: 34rem;
+    height: 34rem;
+    border-radius: 999px;
+    filter: blur(2px);
+    pointer-events: none;
+  }
+
+  .contact-orb--warm {
+    top: -20rem;
+    left: -12rem;
+    background: radial-gradient(circle, rgba(181, 95, 67, 0.17), transparent 70%);
+  }
+
+  .contact-orb--cool {
+    right: -15rem;
+    bottom: -20rem;
+    background: radial-gradient(circle, rgba(63, 103, 121, 0.14), transparent 70%);
+  }
+
+  .contact-shell {
+    width: min(72rem, 100%);
+    margin: 0 auto;
+  }
+
+  .contact-header {
+    max-width: 48rem;
+  }
+
+  .contact-kicker {
+    margin: 0 0 1rem;
+    color: #8b5845;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .contact-header h1 {
+    margin: 0;
+    font-size: clamp(3.5rem, 7vw, 6.8rem);
+    font-weight: 750;
+    letter-spacing: -0.065em;
+    line-height: 0.9;
+  }
+
+  .contact-header h1 em {
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    font-weight: 400;
+  }
+
+  .contact-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.85rem;
+    margin: clamp(3.5rem, 8vw, 6.5rem) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .contact-item {
+    flex: 1 1 10.5rem;
+    max-width: 13rem;
+    opacity: 0;
+    transform: translateY(14px);
+    animation: contact-arrive 600ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: var(--delay);
+  }
+
+  .contact-link {
+    position: relative;
+    display: flex;
+    min-height: 14.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.25rem;
+    overflow: hidden;
+    border: 1px solid rgba(23, 32, 44, 0.12);
+    border-radius: 1rem;
+    color: var(--ink);
+    background: rgba(255, 255, 255, 0.55);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset;
+    text-decoration: none;
+    transition:
+      transform 220ms ease,
+      border-color 220ms ease,
+      background-color 220ms ease,
+      box-shadow 220ms ease;
+  }
+
+  .contact-link::before {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: var(--accent);
+    content: "";
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 220ms ease;
+  }
+
+  .contact-link:hover,
+  .contact-link:focus-visible {
+    border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: 0 1rem 2.25rem rgba(23, 32, 44, 0.09);
+    transform: translateY(-5px);
+  }
+
+  .contact-link:hover::before,
+  .contact-link:focus-visible::before {
+    transform: scaleX(1);
+  }
+
+  .contact-link:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .contact-icon {
+    display: grid;
+    width: 3.75rem;
+    height: 3.75rem;
+    place-items: center;
+    border-radius: 999px;
+    color: var(--ink);
+    background: var(--accent-soft);
+    transition: color 220ms ease, transform 220ms ease;
+  }
+
+  .contact-icon svg {
+    width: 1.85rem;
+    height: 1.85rem;
+  }
+
+  .contact-link:hover .contact-icon,
+  .contact-link:focus-visible .contact-icon {
+    color: var(--accent);
+    transform: rotate(-4deg) scale(1.05);
+  }
+
+  .contact-label {
+    margin-top: auto;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+
+  .contact-detail {
+    width: 100%;
+    margin-top: 0.2rem;
+    overflow: hidden;
+    color: #6d7279;
+    font-size: 0.76rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .contact-arrow {
+    position: absolute;
+    right: 1.1rem;
+    bottom: 1.15rem;
+    color: var(--accent);
+    font-size: 1.1rem;
+    opacity: 0;
+    transform: translate(-4px, 4px);
+    transition: opacity 220ms ease, transform 220ms ease;
+  }
+
+  .contact-link:hover .contact-arrow,
+  .contact-link:focus-visible .contact-arrow {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+  @keyframes contact-arrive {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .contact-page {
+      padding-top: 3.5rem;
+    }
+
+    .contact-header h1 {
+      font-size: clamp(3.4rem, 17vw, 4.7rem);
+    }
+
+    .contact-list {
+      gap: 0.7rem;
+      margin-top: 3rem;
+    }
+
+    .contact-item {
+      flex-basis: calc(50% - 0.35rem);
+      max-width: none;
+    }
+
+    .contact-item:last-child {
+      max-width: calc(50% - 0.35rem);
+    }
+
+    .contact-link {
+      min-height: 12.5rem;
+      padding: 1rem;
+    }
+
+    .contact-detail {
+      font-size: 0.68rem;
+    }
+
+    .contact-arrow {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .contact-item {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+
+    .contact-link,
+    .contact-link::before,
+    .contact-icon,
+    .contact-arrow {
+      transition: none;
+    }
+
+    .contact-link:hover,
+    .contact-link:focus-visible {
+      transform: none;
+    }
+  }
+</style>
