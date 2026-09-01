@@ -170,7 +170,6 @@ const contactMethods = [
   .contact-item {
     flex: 1 1 10.5rem;
     max-width: 13rem;
-    opacity: 0;
     transform: translateY(14px);
     animation: contact-arrive 600ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
     animation-delay: var(--delay);
@@ -284,7 +283,6 @@ const contactMethods = [
 
   @keyframes contact-arrive {
     to {
-      opacity: 1;
       transform: translateY(0);
     }
   }
@@ -328,7 +326,6 @@ const contactMethods = [
 
   @media (prefers-reduced-motion: reduce) {
     .contact-item {
-      opacity: 1;
       transform: none;
       animation: none;
     }
