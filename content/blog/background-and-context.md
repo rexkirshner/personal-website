@@ -115,7 +115,7 @@ In 2001, the USA invaded the country to topple a government it had created a gen
 
 ...[leaving Afghanistan in chaos](https://apnews.com/article/afghanistan-taliban-kabul-bagram-e1ed33fe0c665ee67ba132c51b8e32a5) and [keeping all of the country's central bank holdings](https://markets.businessinsider.com/news/currencies/afghanistan-us-freezes-assets-reserves-afghani-economy-taliban-central-bank-2021-8).
 
-![](https://inevitableeth.com/images/afghanistan-fall-of-kabul-4.jpg)
+![Taliban fighters riding in a Humvee on a Kabul street in August 2021](https://cdn.rexkirshner.com/blog/afghanistan-taliban-humvee-kabul-2021.webp)
 
 ### Implications of Abuse
 

@@ -14,7 +14,7 @@
  *      This lets the deploy wallet update records without being the manager.
  *      Your main wallet retains full ownership and can revoke anytime.
  *   3. Fund the deploy wallet with a small amount of ETH for gas
- *   4. Create ~/coding/admin/cloud-accounts/ens-deployer.json:
+ *   4. Create ~/lab/admin/cloud-accounts/ens-deployer.json:
  *      {
  *        "privateKey": "0x...",
  *        "names": ["rexkirshner.eth", "logrex.eth", "logarithmicrex.eth"],
@@ -43,7 +43,7 @@ import { homedir } from 'node:os';
 // --- Constants ---
 
 const ENS_REGISTRY = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
-const CONFIG_PATH = join(homedir(), 'coding/admin/cloud-accounts/ens-deployer.json');
+const CONFIG_PATH = join(homedir(), 'lab/admin/cloud-accounts/ens-deployer.json');
 
 const REGISTRY_ABI = ['function resolver(bytes32 node) view returns (address)'];
 const RESOLVER_ABI = [
