@@ -345,7 +345,7 @@ explicit user permission.**
 - Dedicated EOA wallet approved as operator on each ENS name's resolver
   (via `setApprovalForAll` on the resolver contract, NOT the ENS Registry)
 - The wallet can update records but cannot transfer names or change ownership
-- Config stored at `~/coding/admin/cloud-accounts/ens-deployer.json`
+- Config stored at `~/lab/admin/cloud-accounts/ens-deployer.json`
 - Revoke access anytime by calling `setApprovalForAll(deployerAddress, false)`
   on each resolver from the main wallet
 
